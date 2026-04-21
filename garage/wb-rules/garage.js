@@ -32,7 +32,7 @@
 // ── Load hardware map ──────────────────────────────────────────────
 var hw; // [2]
 try {
-  hw = readConfig("/etc/wb-rules/devices.conf");
+  hw = readConfig("/etc/wb-rules-modules/devices.conf");
 } catch (e) {
   log.error("[GARAGE] FATAL: cannot load devices.conf – " + e);
   return;
@@ -86,6 +86,7 @@ function buildZone(name, def) {
   for (i = 0; i < msw.length; i++) {
     mswLuxTopics.push(msw[i] + "/Illuminance");
   }
+
 
   // Pre-compute all runtime config values – eliminates cfg() calls in hot path [perf]
   var autoOffMin = cfg(def, "autoOffMin");
@@ -565,10 +566,11 @@ function evaluate(zone, idx, trigger) {
     }
 
   } else {
-    // active but bright enough                             // [5]
-    if (st.lightsOn) {
-      cancelAllTimers(idx);
-      setLights(zone, idx, false, "bright-" + lux.toFixed(0) + "lx", lux); // pass lux [perf]
+    // active but lux above threshold – do NOT force off while presence is detected.
+    // The sensor reads reflected artificial light, so lux is only reliable as a
+    // gate for the ON decision; vacancy/auto-off timers handle the OFF path.  [5]
+    if (!st.lightsOn) {
+      scheduleAutoOff(zone, idx); // already on via manual switch – keep auto-off armed
     }
   }
 }
@@ -607,6 +609,14 @@ for (var ci = 0; ci < mswKeys.length; ci++) {
 // ── Build per-slot objects ─────────────────────────────────────────
 var carSlots = hw.carSlots.map(function (slotDef, i) {
   var sk      = "slot" + (i + 1);
+  if (!hw.lidar) {
+    log.error("[GARAGE] devices.conf: секция 'lidar' отсутствует");
+    throw new Error("devices.conf missing 'lidar' section");
+  }
+  if (!hw.lidar[slotDef.lidarSensor]) {
+    log.error("[GARAGE] devices.conf: lidar['" + slotDef.lidarSensor + "'] не найден (слот " + sk + ")");
+    throw new Error("devices.conf missing lidar key: " + slotDef.lidarSensor);
+  }
   var distId  = hw.lidar[slotDef.lidarSensor].id;
   var wSec    = cfg(slotDef, "co2ConfirmWindowSec");
 
@@ -826,9 +836,9 @@ ZONES.forEach(function (zone, idx) {
 ZONES.forEach(function (zone, idx) {
   zone.msw.forEach(function (id) {
     defineRule("msw_pir_" + idx + "_" + id.replace(/\W/g, "_"), {
-      whenChanged: id + "/Motion",
+      whenChanged: id + "/Current Motion",
       then: function (newValue) {
-        if (newValue === true || newValue === 1) {
+        if (newValue > 0) {
           zst[idx].pirLastSeen[id] = Date.now();
           armPirTimer(zone, idx, id);                       // [4]
           evaluate(zone, idx, "pir:" + id);
@@ -890,25 +900,23 @@ carSlots.forEach(function (slot) {
   });
 });
 
-// ── Astronomical clock – sunset / sunrise ──────────────────────────  [16]
-defineRule("astronomical_sunset", {
-  when: function () { return Sunset(GCFG.latitude, GCFG.longitude); },
+// ── Astronomical clock – cron every minute ────────────────────────  [16]
+// Sunrise/Sunset built-ins are unavailable in this wb-rules version;
+// reuse the NOAA initNightState() already used at startup.
+defineRule("astronomical_clock", {
+  when: function () { return cron("0 * * * * *"); },
   then: function () {
-    isNight = true;
-    dev[DEV_IS_NIGHT] = true;
-    logInfo("ASTRO", "sunset", "Night mode ON");
-  },
-});
-
-defineRule("astronomical_sunrise", {
-  when: function () { return Sunrise(GCFG.latitude, GCFG.longitude); },
-  then: function () {
-    isNight = false;
-    dev[DEV_IS_NIGHT] = false;
-    logInfo("ASTRO", "sunrise", "Night mode OFF");
-    // Force-off all astroMode zone lights at dawn
-    for (var i = 0; i < ZONES.length; i++) {
-      if (ZONES[i].astroMode) setLights(ZONES[i], i, false, "sunrise");
+    var nowNight = initNightState(GCFG.latitude, GCFG.longitude);
+    if (nowNight === isNight) return;
+    isNight = nowNight;
+    dev[DEV_IS_NIGHT] = isNight;
+    if (isNight) {
+      logInfo("ASTRO", "cron", "Night mode ON (sunset)");
+    } else {
+      logInfo("ASTRO", "cron", "Night mode OFF (sunrise)");
+      for (var i = 0; i < ZONES.length; i++) {
+        if (ZONES[i].astroMode) setLights(ZONES[i], i, false, "sunrise");
+      }
     }
   },
 });

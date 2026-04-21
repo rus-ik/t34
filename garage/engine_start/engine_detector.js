@@ -26,11 +26,11 @@ var W_TEMP  = 0.10;
 // ТОПИКИ WB-MSW4 (каналы могут отличаться — проверьте)
 // ═══════════════════════════════════════════════════════
 
-var T_CO2   = "/devices/" + DEVICE_ID + "/controls/CO2";
-var T_VOC   = "/devices/" + DEVICE_ID + "/controls/Air Quality (VOC)";
-var T_SOUND = "/devices/" + DEVICE_ID + "/controls/Sound Level";
-var T_TEMP  = "/devices/" + DEVICE_ID + "/controls/Temperature";
-var T_HUM   = "/devices/" + DEVICE_ID + "/controls/Humidity";
+var T_CO2   = DEVICE_ID + "/CO2";
+var T_VOC   = DEVICE_ID + "/Air Quality (VOC)";
+var T_SOUND = DEVICE_ID + "/Sound Level";
+var T_TEMP  = DEVICE_ID + "/Temperature";
+var T_HUM   = DEVICE_ID + "/Humidity";
 
 // ═══════════════════════════════════════════════════════
 // КОЛЬЦЕВОЙ БУФЕР — хранит историю без splice/shift
@@ -103,40 +103,50 @@ defineVirtualDevice("engine_detector", {
 defineRule("engine_detector_co2", {
   whenChanged: T_CO2,
   then: function(newValue) {
-    state.co2.cur = parseFloat(newValue) || 0;
-    dbg("CO2  raw=" + state.co2.cur);
+    throttled("co2", function() {
+      state.co2.cur = parseFloat(newValue) || 0;
+      dbg("CO2  raw=" + state.co2.cur);
+    });
   }
 });
 
 defineRule("engine_detector_voc", {
   whenChanged: T_VOC,
   then: function(newValue) {
-    state.voc.cur = parseFloat(newValue) || 0;
-    dbg("VOC  raw=" + state.voc.cur);
+    throttled("voc", function() {
+      state.voc.cur = parseFloat(newValue) || 0;
+      dbg("VOC  raw=" + state.voc.cur);
+    });
   }
 });
 
 defineRule("engine_detector_sound", {
   whenChanged: T_SOUND,
   then: function(newValue) {
-    state.sound.cur = parseFloat(newValue) || 0;
-    dbg("SND  raw=" + state.sound.cur);
+    throttled("sound", function() {
+      state.sound.cur = parseFloat(newValue) || 0;
+      dbg("SND  raw=" + state.sound.cur);
+    });
   }
 });
 
 defineRule("engine_detector_temp", {
   whenChanged: T_TEMP,
   then: function(newValue) {
-    state.temp.cur = parseFloat(newValue) || 0;
-    dbg("TEMP raw=" + state.temp.cur);
+    throttled("temp", function() {
+      state.temp.cur = parseFloat(newValue) || 0;
+      dbg("TEMP raw=" + state.temp.cur);
+    });
   }
 });
 
 defineRule("engine_detector_hum", {
   whenChanged: T_HUM,
   then: function(newValue) {
-    state.hum = parseFloat(newValue) || 50;
-    dbg("HUM  raw=" + state.hum);
+    throttled("hum", function() {
+      state.hum = parseFloat(newValue) || 50;
+      dbg("HUM  raw=" + state.hum);
+    });
   }
 });
 
@@ -161,8 +171,25 @@ function delta(s) {
 // Округление до 2 знаков
 function round2(v) { return Math.round(v * 100) / 100; }
 
-// Отладочный лог — выводит только при DEBUG_MODE = true
-function dbg(msg) { if (DEBUG_MODE) log("[DEBUG engine_detector] " + msg); }
+// Отладочный лог — не чаще 1 раза в секунду, только при DEBUG_MODE = true
+var _dbgLastMs = 0;
+function dbg(msg) {
+  if (!DEBUG_MODE) return;
+  var now = Date.now();
+  if (now - _dbgLastMs < 1000) return;
+  _dbgLastMs = now;
+  log("[DEBUG engine_detector] " + msg);
+}
+
+// Троттл для whenChanged — пропускает вызов если прошло < THROTTLE_MS
+var THROTTLE_MS = 500; // 2 раза в секунду максимум
+var _tLast = { co2: 0, voc: 0, sound: 0, temp: 0, hum: 0 };
+function throttled(key, fn) {
+  var now = Date.now();
+  if (now - _tLast[key] < THROTTLE_MS) return;
+  _tLast[key] = now;
+  fn();
+}
 
 // ═══════════════════════════════════════════════════════
 // ГЛАВНЫЙ ЦИКЛ — запускается каждые POLL_MS
