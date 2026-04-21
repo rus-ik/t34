@@ -6,12 +6,12 @@
 // НАСТРОЙКИ — изменяйте только этот блок
 // ═══════════════════════════════════════════════════════
 
-var DEVICE_ID    = "wb-msw4_36";   // ID датчика в системе
+var DEVICE_ID    = "wb-msw-v4_36";   // ID датчика в системе
 var POLL_MS      = 3000;           // период опроса, мс (не менее 3000)
 var BASELINE_N   = 200;            // глубина базовой линии (200 × 3с = 10 мин)
 var MIN_SAMPLES  = 20;             // минимум отсчётов перед первой детекцией
 
-var DEBUG_MODE   = false;          // true — подробный лог каждого цикла
+var DEBUG_MODE   = true;          // true — подробный лог каждого цикла
 
 var T_ALERT      = 2.0;            // порог быстрой тревоги (CDS >= 2.0)
 var T_CONFIRM    = 3.5;            // порог подтверждения   (CDS >= 3.5)
@@ -27,7 +27,7 @@ var W_TEMP  = 0.10;
 // ═══════════════════════════════════════════════════════
 
 var T_CO2   = "/devices/" + DEVICE_ID + "/controls/CO2";
-var T_VOC   = "/devices/" + DEVICE_ID + "/controls/VOC";
+var T_VOC   = "/devices/" + DEVICE_ID + "/controls/Air Quality (VOC)";
 var T_SOUND = "/devices/" + DEVICE_ID + "/controls/Sound Level";
 var T_TEMP  = "/devices/" + DEVICE_ID + "/controls/Temperature";
 var T_HUM   = "/devices/" + DEVICE_ID + "/controls/Humidity";
@@ -86,8 +86,8 @@ defineVirtualDevice("engine_detector", {
   title: "Engine Detector (гараж)",
   cells: {
     CDS:          { type: "value",  value: 0,     title: "CDS score"        },
-    Alert:        { type: "switch", value: false,  title: "Тревога (быстро)" },
-    Confirmed:    { type: "switch", value: false,  title: "Подтверждено"     },
+    Alert:        { type: "switch", value: false,  title: "Быстрая детекция"},
+    Confirmed:    { type: "switch", value: false,  title: "Устойчивая детекция"},
     BaseReady:    { type: "switch", value: false,  title: "База готова"      },
     CO2_delta:    { type: "value",  value: 0,      title: "CO2 delta σ"      },
     VOC_delta:    { type: "value",  value: 0,      title: "VOC delta σ"      },
@@ -100,7 +100,7 @@ defineVirtualDevice("engine_detector", {
 // ПОДПИСКИ — обновляем текущие значения по мере прихода
 // ═══════════════════════════════════════════════════════
 
-defineRule("msw4_co2", {
+defineRule("engine_detector_co2", {
   whenChanged: T_CO2,
   then: function(newValue) {
     state.co2.cur = parseFloat(newValue) || 0;
@@ -108,7 +108,7 @@ defineRule("msw4_co2", {
   }
 });
 
-defineRule("msw4_voc", {
+defineRule("engine_detector_voc", {
   whenChanged: T_VOC,
   then: function(newValue) {
     state.voc.cur = parseFloat(newValue) || 0;
@@ -116,7 +116,7 @@ defineRule("msw4_voc", {
   }
 });
 
-defineRule("msw4_sound", {
+defineRule("engine_detector_sound", {
   whenChanged: T_SOUND,
   then: function(newValue) {
     state.sound.cur = parseFloat(newValue) || 0;
@@ -124,7 +124,7 @@ defineRule("msw4_sound", {
   }
 });
 
-defineRule("msw4_temp", {
+defineRule("engine_detector_temp", {
   whenChanged: T_TEMP,
   then: function(newValue) {
     state.temp.cur = parseFloat(newValue) || 0;
@@ -132,7 +132,7 @@ defineRule("msw4_temp", {
   }
 });
 
-defineRule("msw4_hum", {
+defineRule("engine_detector_hum", {
   whenChanged: T_HUM,
   then: function(newValue) {
     state.hum = parseFloat(newValue) || 50;
@@ -162,7 +162,7 @@ function delta(s) {
 function round2(v) { return Math.round(v * 100) / 100; }
 
 // Отладочный лог — выводит только при DEBUG_MODE = true
-function dbg(msg) { if (DEBUG_MODE) log("[DBG] " + msg); }
+function dbg(msg) { if (DEBUG_MODE) log("[DEBUG engine_detector] " + msg); }
 
 // ═══════════════════════════════════════════════════════
 // ГЛАВНЫЙ ЦИКЛ — запускается каждые POLL_MS
