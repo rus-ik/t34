@@ -1,39 +1,49 @@
-// engine_detector.js — wb-rules скрипт
-// Детекция запуска двигателя в гараже через WB-MSW4
+// engine_detector.js — wb-rules (Duktape / ECMAScript 5)
 // Загрузить в: /etc/wb-rules/engine_detector.js
 
 // ═══════════════════════════════════════════════════════
-// НАСТРОЙКИ — изменяйте только этот блок
+// НАСТРОЙКИ
 // ═══════════════════════════════════════════════════════
 
-var DEVICE_ID    = "wb-msw-v4_36";   // ID датчика в системе
-var POLL_MS      = 3000;           // период опроса, мс (не менее 3000)
-var BASELINE_N   = 200;            // глубина базовой линии (200 × 3с = 10 мин)
-var MIN_SAMPLES  = 20;             // минимум отсчётов перед первой детекцией
+var DEVICE_A    = "wb-msw-v4_36";   // правая стена
+var DEVICE_B    = "wb-msw-v4_110";  // задняя стена
 
-var DEBUG_MODE   = true;          // true — подробный лог каждого цикла
+var POLL_MS     = 3000;   // интервал главного цикла, мс
+var BASELINE_N  = 200;    // глубина базовой линии (200 × 3 с = 10 мин)
+var MIN_SAMPLES = 20;     // отсчётов до первой детекции (20 × 3 с = 60 с)
 
-var T_ALERT      = 2.0;            // порог быстрой тревоги (CDS >= 2.0)
-var T_CONFIRM    = 3.5;            // порог подтверждения   (CDS >= 3.5)
+var DEBUG_MODE  = true;
 
-// Веса параметров (сумма должна быть 1.0)
-var W_SOUND = 0.35;
+var T_ALERT         = 2.0;  // CDS ≥ 2.0 → Alert
+var T_CONFIRM       = 3.5;  // CDS ≥ 3.5 × CONFIRM_POLLS подряд → Confirmed
+var T_RESET         = 1.0;  // CDS < 1.0 × RESET_POLLS подряд → сброс (гистерезис)
+var CONFIRM_POLLS   = 3;    // опросов подряд выше T_CONFIRM → Confirmed
+var RESET_POLLS     = 3;    // опросов подряд ниже T_RESET   → сброс тревоги
+
+// Веса (сумма = 1.0)
 var W_CO2   = 0.25;
 var W_VOC   = 0.30;
+var W_SOUND = 0.35;
 var W_TEMP  = 0.10;
 
 // ═══════════════════════════════════════════════════════
-// ТОПИКИ WB-MSW4 (каналы могут отличаться — проверьте)
+// ТОПИКИ (два датчика)
 // ═══════════════════════════════════════════════════════
 
-var T_CO2   = DEVICE_ID + "/CO2";
-var T_VOC   = DEVICE_ID + "/Air Quality (VOC)";
-var T_SOUND = DEVICE_ID + "/Sound Level";
-var T_TEMP  = DEVICE_ID + "/Temperature";
-var T_HUM   = DEVICE_ID + "/Humidity";
+var TA_CO2   = DEVICE_A + "/CO2";
+var TA_VOC   = DEVICE_A + "/Air Quality (VOC)";
+var TA_SOUND = DEVICE_A + "/Sound Level";
+var TA_TEMP  = DEVICE_A + "/Temperature";
+var TA_HUM   = DEVICE_A + "/Humidity";
+
+var TB_CO2   = DEVICE_B + "/CO2";
+var TB_VOC   = DEVICE_B + "/Air Quality (VOC)";
+var TB_SOUND = DEVICE_B + "/Sound Level";
+var TB_TEMP  = DEVICE_B + "/Temperature";
+var TB_HUM   = DEVICE_B + "/Humidity";
 
 // ═══════════════════════════════════════════════════════
-// КОЛЬЦЕВОЙ БУФЕР — хранит историю без splice/shift
+// КОЛЬЦЕВОЙ БУФЕР
 // ═══════════════════════════════════════════════════════
 
 function makeRing(size) {
@@ -54,105 +64,97 @@ function ringMean(r) {
 }
 
 function ringSigma(r, mean) {
-  if (r.count < 5) return 1.0;           // мало данных — не штрафуем
-  var v = 0;
+  if (r.count < 5) return 1.0;
+  var v = 0, d;
   for (var i = 0; i < r.count; i++) {
-    var d = r.buf[i] - mean;
+    d = r.buf[i] - mean;
     v += d * d;
   }
   var sigma = Math.sqrt(v / r.count);
-  return sigma < 0.5 ? 0.5 : sigma;     // нижний клип: не делим на ~0
+  return sigma < 0.5 ? 0.5 : sigma;
 }
 
 // ═══════════════════════════════════════════════════════
 // СОСТОЯНИЕ
 // ═══════════════════════════════════════════════════════
 
-var state = {
-  co2:   { ring: makeRing(BASELINE_N), cur: 0 },
-  voc:   { ring: makeRing(BASELINE_N), cur: 0 },
-  sound: { ring: makeRing(BASELINE_N), cur: 0 },
-  temp:  { ring: makeRing(BASELINE_N), cur: 0 },
-  hum:   0,
+// raw — сырые значения датчиков, обновляются по whenChanged немедленно
+var raw = {
+  co2_a: 0, co2_b: 0,
+  voc_a: 0, voc_b: 0,
+  snd_a: 0, snd_b: 0,
+  tmp_a: 0, tmp_b: 0,
+  hum_a: 50, hum_b: 50
+};
+
+// rings — кольцевые буферы базовой линии; не пишутся пока тревога активна
+var rings = {
+  co2:   makeRing(BASELINE_N),
+  voc:   makeRing(BASELINE_N),
+  sound: makeRing(BASELINE_N),
+  temp:  makeRing(BASELINE_N)
+};
+
+var alarm = {
   alertActive:   false,
-  confirmActive: false
+  confirmActive: false,
+  confirmCount:  0,   // подряд идущих опросов с CDS >= T_CONFIRM
+  resetCount:    0,   // подряд идущих опросов с CDS < T_RESET
+  lastAlertTs:   ""
 };
 
 // ═══════════════════════════════════════════════════════
-// ВИРТУАЛЬНОЕ УСТРОЙСТВО — появится в интерфейсе WB
+// ВИРТУАЛЬНОЕ УСТРОЙСТВО
 // ═══════════════════════════════════════════════════════
 
 defineVirtualDevice("engine_detector", {
   title: "Engine Detector (гараж)",
   cells: {
-    CDS:          { type: "value",  value: 0,     title: "CDS score"        },
-    Alert:        { type: "switch", value: false,  title: "Быстрая детекция"},
-    Confirmed:    { type: "switch", value: false,  title: "Устойчивая детекция"},
-    BaseReady:    { type: "switch", value: false,  title: "База готова"      },
-    CO2_delta:    { type: "value",  value: 0,      title: "CO2 delta σ"      },
-    VOC_delta:    { type: "value",  value: 0,      title: "VOC delta σ"      },
-    Sound_delta:  { type: "value",  value: 0,      title: "Sound delta σ"    },
-    Temp_delta:   { type: "value",  value: 0,      title: "Temp delta σ"     }
+    CDS:         { type: "value",  value: 0,     title: "CDS score"           },
+    Alert:       { type: "switch", value: false,  title: "Быстрая детекция"    },
+    Confirmed:   { type: "switch", value: false,  title: "Устойчивая детекция" },
+    BaseReady:   { type: "switch", value: false,  title: "База готова"         },
+    SampleCount: { type: "value",  value: 0,      title: "Отсчётов в базе"     },
+    LastAlert:   { type: "text",   value: "",     title: "Последняя тревога"   },
+    CO2_delta:   { type: "value",  value: 0,      title: "CO2 delta σ"         },
+    VOC_delta:   { type: "value",  value: 0,      title: "VOC delta σ"         },
+    Sound_delta: { type: "value",  value: 0,      title: "Sound delta σ"       },
+    Temp_delta:  { type: "value",  value: 0,      title: "Temp delta σ"        }
   }
 });
 
 // ═══════════════════════════════════════════════════════
-// ПОДПИСКИ — обновляем текущие значения по мере прихода
+// ПОДПИСКИ — сохраняем сырое значение немедленно, без троттла
 // ═══════════════════════════════════════════════════════
 
-defineRule("engine_detector_co2", {
-  whenChanged: T_CO2,
-  then: function(newValue) {
-    throttled("co2", function() {
-      state.co2.cur = parseFloat(newValue) || 0;
-      dbg("CO2  raw=" + state.co2.cur);
-    });
-  }
-});
-
-defineRule("engine_detector_voc", {
-  whenChanged: T_VOC,
-  then: function(newValue) {
-    throttled("voc", function() {
-      state.voc.cur = parseFloat(newValue) || 0;
-      dbg("VOC  raw=" + state.voc.cur);
-    });
-  }
-});
-
-defineRule("engine_detector_sound", {
-  whenChanged: T_SOUND,
-  then: function(newValue) {
-    throttled("sound", function() {
-      state.sound.cur = parseFloat(newValue) || 0;
-      dbg("SND  raw=" + state.sound.cur);
-    });
-  }
-});
-
-defineRule("engine_detector_temp", {
-  whenChanged: T_TEMP,
-  then: function(newValue) {
-    throttled("temp", function() {
-      state.temp.cur = parseFloat(newValue) || 0;
-      dbg("TEMP raw=" + state.temp.cur);
-    });
-  }
-});
-
-defineRule("engine_detector_hum", {
-  whenChanged: T_HUM,
-  then: function(newValue) {
-    throttled("hum", function() {
-      state.hum = parseFloat(newValue) || 50;
-      dbg("HUM  raw=" + state.hum);
-    });
-  }
-});
+defineRule("ed_co2_a",   { whenChanged: TA_CO2,   then: function(v) { raw.co2_a = +v || 0;  } });
+defineRule("ed_co2_b",   { whenChanged: TB_CO2,   then: function(v) { raw.co2_b = +v || 0;  } });
+defineRule("ed_voc_a",   { whenChanged: TA_VOC,   then: function(v) { raw.voc_a = +v || 0;  } });
+defineRule("ed_voc_b",   { whenChanged: TB_VOC,   then: function(v) { raw.voc_b = +v || 0;  } });
+defineRule("ed_snd_a",   { whenChanged: TA_SOUND, then: function(v) { raw.snd_a = +v || 0;  } });
+defineRule("ed_snd_b",   { whenChanged: TB_SOUND, then: function(v) { raw.snd_b = +v || 0;  } });
+defineRule("ed_tmp_a",   { whenChanged: TA_TEMP,  then: function(v) { raw.tmp_a = +v || 0;  } });
+defineRule("ed_tmp_b",   { whenChanged: TB_TEMP,  then: function(v) { raw.tmp_b = +v || 0;  } });
+defineRule("ed_hum_a",   { whenChanged: TA_HUM,   then: function(v) { raw.hum_a = +v || 50; } });
+defineRule("ed_hum_b",   { whenChanged: TB_HUM,   then: function(v) { raw.hum_b = +v || 50; } });
 
 // ═══════════════════════════════════════════════════════
 // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // ═══════════════════════════════════════════════════════
+
+// Комбинирование двух датчиков:
+//   CO2, VOC, Sound — максимум (выхлоп концентрируется ближе к одному)
+//   Temp, Hum       — среднее
+function maxOf(a, b) { return a > b ? a : b; }
+function avgOf(a, b) { return (a + b) / 2; }
+
+// Нормализованное отклонение текущего значения от кольцевой базы
+function deltaV(ring, cur) {
+  var mean  = ringMean(ring);
+  var sigma = ringSigma(ring, mean);
+  var d = (cur - mean) / sigma;
+  return d > 0 ? d : 0;
+}
 
 // Влажностный корректор: при высокой влажности CO2/VOC завышаются
 function humidityCorrection(rh) {
@@ -160,131 +162,123 @@ function humidityCorrection(rh) {
   return 1.0 / (1.0 + 0.01 * (rh - 50));
 }
 
-// Нормализованное отклонение одного параметра
-function delta(s) {
-  var mean  = ringMean(s.ring);
-  var sigma = ringSigma(s.ring, mean);
-  var d = (s.cur - mean) / sigma;
-  return d > 0 ? d : 0;  // только положительные отклонения
-}
-
-// Округление до 2 знаков
 function round2(v) { return Math.round(v * 100) / 100; }
 
-// Отладочный лог — не чаще 1 раза в секунду, только при DEBUG_MODE = true
+// Отладочный лог — не чаще 1 раза в секунду
 var _dbgLastMs = 0;
 function dbg(msg) {
   if (!DEBUG_MODE) return;
   var now = Date.now();
   if (now - _dbgLastMs < 1000) return;
   _dbgLastMs = now;
-  log("[DEBUG engine_detector] " + msg);
-}
-
-// Троттл для whenChanged — пропускает вызов если прошло < THROTTLE_MS
-var THROTTLE_MS = 500; // 2 раза в секунду максимум
-var _tLast = { co2: 0, voc: 0, sound: 0, temp: 0, hum: 0 };
-function throttled(key, fn) {
-  var now = Date.now();
-  if (now - _tLast[key] < THROTTLE_MS) return;
-  _tLast[key] = now;
-  fn();
+  log("[DBG engine_detector] " + msg);
 }
 
 // ═══════════════════════════════════════════════════════
-// ГЛАВНЫЙ ЦИКЛ — запускается каждые POLL_MS
+// ГЛАВНЫЙ ЦИКЛ
 // ═══════════════════════════════════════════════════════
 
 setInterval(function() {
 
-  // 1. Заталкиваем текущие значения в кольцевые буферы (базовая линия)
-  ringPush(state.co2.ring,   state.co2.cur);
-  ringPush(state.voc.ring,   state.voc.cur);
-  ringPush(state.sound.ring, state.sound.cur);
-  ringPush(state.temp.ring,  state.temp.cur);
+  // 1. Комбинированные значения из двух датчиков
+  var co2   = maxOf(raw.co2_a, raw.co2_b);
+  var voc   = maxOf(raw.voc_a, raw.voc_b);
+  var sound = maxOf(raw.snd_a, raw.snd_b);
+  var temp  = avgOf(raw.tmp_a, raw.tmp_b);
+  var hum   = avgOf(raw.hum_a, raw.hum_b);
 
-  // 2. Ждём достаточного набора базовой линии
+  // 2. Базовая линия обновляется только пока тревога неактивна —
+  //    выхлоп не должен стать новой «нормой»
+  if (!alarm.alertActive) {
+    ringPush(rings.co2,   co2);
+    ringPush(rings.voc,   voc);
+    ringPush(rings.sound, sound);
+    ringPush(rings.temp,  temp);
+  }
+
+  // 3. Прогресс прогрева
   var minCount = Math.min(
-    state.co2.ring.count, state.voc.ring.count,
-    state.sound.ring.count, state.temp.ring.count
+    rings.co2.count, rings.voc.count,
+    rings.sound.count, rings.temp.count
   );
-
   var baseReady = minCount >= MIN_SAMPLES;
-  dev["engine_detector"]["BaseReady"] = baseReady;
+
+  dev["engine_detector/BaseReady"]   = baseReady;
+  dev["engine_detector/SampleCount"] = minCount;
 
   if (!baseReady) {
-    dbg("baseline: " + minCount + "/" + MIN_SAMPLES + " samples");
-    return;  // накапливаем — не детектируем
+    dbg("warmup: " + minCount + "/" + MIN_SAMPLES);
+    return;
   }
 
-  // 3. Вычисляем нормализованные отклонения
-  var d_co2   = delta(state.co2);
-  var d_voc   = delta(state.voc);
-  var d_sound = delta(state.sound);
-  var d_temp  = delta(state.temp);
+  // 4. Нормализованные отклонения
+  var d_co2   = deltaV(rings.co2,   co2);
+  var d_voc   = deltaV(rings.voc,   voc);
+  var d_sound = deltaV(rings.sound, sound);
+  var d_temp  = deltaV(rings.temp,  temp);
 
-  dbg("cur  CO2=" + state.co2.cur +
-      " VOC=" + state.voc.cur +
-      " SND=" + state.sound.cur +
-      " TMP=" + state.temp.cur +
-      " HUM=" + state.hum);
-  dbg("mean CO2=" + round2(ringMean(state.co2.ring)) +
-      " VOC=" + round2(ringMean(state.voc.ring)) +
-      " SND=" + round2(ringMean(state.sound.ring)) +
-      " TMP=" + round2(ringMean(state.temp.ring)));
-  dbg("delta CO2=" + round2(d_co2) +
-      " VOC=" + round2(d_voc) +
-      " SND=" + round2(d_sound) +
-      " TMP=" + round2(d_temp));
+  // 5. Влажностная коррекция + CDS
+  var H   = humidityCorrection(hum);
+  var cds = round2((W_CO2 * d_co2 + W_VOC * d_voc + W_SOUND * d_sound + W_TEMP * d_temp) * H);
 
-  // 4. Влажностная коррекция
-  var H = humidityCorrection(state.hum);
-  dbg("H=" + round2(H));
+  dev["engine_detector/CDS"]         = cds;
+  dev["engine_detector/CO2_delta"]   = round2(d_co2);
+  dev["engine_detector/VOC_delta"]   = round2(d_voc);
+  dev["engine_detector/Sound_delta"] = round2(d_sound);
+  dev["engine_detector/Temp_delta"]  = round2(d_temp);
 
-  // 5. Комбинированное взвешенное отклонение (CDS)
-  var cds = (W_CO2 * d_co2 + W_VOC * d_voc + W_SOUND * d_sound + W_TEMP * d_temp) * H;
-  cds = round2(cds);
-  dbg("CDS=" + cds + " alert=" + state.alertActive + " confirm=" + state.confirmActive);
+  dbg("CDS=" + cds +
+      " co2=" + co2 + "(d=" + round2(d_co2) + ")" +
+      " voc=" + voc + "(d=" + round2(d_voc) + ")" +
+      " snd=" + round2(sound) + "(d=" + round2(d_sound) + ")" +
+      " H=" + round2(H) +
+      " alert=" + alarm.alertActive +
+      " confirmCnt=" + alarm.confirmCount +
+      " resetCnt=" + alarm.resetCount);
 
-  // 6. Публикуем компоненты для диагностики
-  dev["engine_detector"]["CDS"]         = cds;
-  dev["engine_detector"]["CO2_delta"]   = round2(d_co2);
-  dev["engine_detector"]["VOC_delta"]   = round2(d_voc);
-  dev["engine_detector"]["Sound_delta"] = round2(d_sound);
-  dev["engine_detector"]["Temp_delta"]  = round2(d_temp);
-
-  // 7. Пороговая логика
+  // 6. Пороговая логика с гистерезисом
   if (cds >= T_CONFIRM) {
-    if (!state.confirmActive) {
-      state.confirmActive = true;
-      log("ENGINE CONFIRMED: CDS=" + cds +
-          " CO2d=" + round2(d_co2) +
-          " VOCd=" + round2(d_voc) +
-          " Sd=" + round2(d_sound) +
-          " Td=" + round2(d_temp));
-    }
-    dev["engine_detector"]["Confirmed"] = true;
-    dev["engine_detector"]["Alert"]     = true;
-    state.alertActive = true;
-
+    alarm.confirmCount++;
+    alarm.resetCount = 0;
   } else if (cds >= T_ALERT) {
-    if (!state.alertActive) {
-      state.alertActive = true;
-      log("ENGINE ALERT: CDS=" + cds);
-    }
-    dev["engine_detector"]["Alert"]     = true;
-    dev["engine_detector"]["Confirmed"] = false;
-    state.confirmActive = false;
-
+    alarm.confirmCount = 0;
+    alarm.resetCount   = 0;
+  } else if (cds < T_RESET) {
+    alarm.resetCount++;
+    alarm.confirmCount = 0;
   } else {
-    // CDS ниже обоих порогов — сброс тревоги
-    if (state.alertActive) {
-      log("ENGINE alert cleared: CDS=" + cds);
-    }
-    state.alertActive   = false;
-    state.confirmActive = false;
-    dev["engine_detector"]["Alert"]     = false;
-    dev["engine_detector"]["Confirmed"] = false;
+    // T_RESET ≤ CDS < T_ALERT — нейтральная зона, счётчики не меняем
   }
+
+  // Устойчивое подтверждение
+  if (alarm.confirmCount >= CONFIRM_POLLS && !alarm.confirmActive) {
+    alarm.confirmActive = true;
+    log("ENGINE CONFIRMED: CDS=" + cds +
+        " CO2d=" + round2(d_co2) +
+        " VOCd=" + round2(d_voc) +
+        " Sd="   + round2(d_sound) +
+        " Td="   + round2(d_temp));
+  }
+
+  // Быстрая тревога (первое пересечение T_ALERT)
+  if (cds >= T_ALERT && !alarm.alertActive) {
+    alarm.alertActive = true;
+    alarm.lastAlertTs = new Date().toISOString();
+    dev["engine_detector/LastAlert"] = alarm.lastAlertTs;
+    log("ENGINE ALERT: CDS=" + cds + " at " + alarm.lastAlertTs);
+  }
+
+  // Сброс тревоги — только после RESET_POLLS подряд ниже T_RESET
+  if (alarm.alertActive && alarm.resetCount >= RESET_POLLS) {
+    log("ENGINE cleared: CDS=" + cds +
+        " (< T_RESET=" + T_RESET + " за " + RESET_POLLS + " опроса)");
+    alarm.alertActive   = false;
+    alarm.confirmActive = false;
+    alarm.confirmCount  = 0;
+    alarm.resetCount    = 0;
+  }
+
+  dev["engine_detector/Alert"]     = alarm.alertActive;
+  dev["engine_detector/Confirmed"] = alarm.confirmActive;
 
 }, POLL_MS);
