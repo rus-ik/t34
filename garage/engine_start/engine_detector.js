@@ -6,12 +6,12 @@
 // НАСТРОЙКИ — изменяйте только этот блок
 // ═══════════════════════════════════════════════════════
 
-var DEVICE_ID    = "wb-msw4_36";   // ID датчика в системе
+var DEVICE_ID    = "wb-msw-v4_36";   // ID датчика в системе
 var POLL_MS      = 3000;           // период опроса, мс (не менее 3000)
 var BASELINE_N   = 200;            // глубина базовой линии (200 × 3с = 10 мин)
 var MIN_SAMPLES  = 20;             // минимум отсчётов перед первой детекцией
 
-var DEBUG_MODE   = false;          // true — подробный лог каждого цикла
+var DEBUG_MODE   = true;          // true — подробный лог каждого цикла
 
 var T_ALERT      = 2.0;            // порог быстрой тревоги (CDS >= 2.0)
 var T_CONFIRM    = 3.5;            // порог подтверждения   (CDS >= 3.5)
@@ -27,7 +27,7 @@ var W_TEMP  = 0.10;
 // ═══════════════════════════════════════════════════════
 
 var T_CO2   = "/devices/" + DEVICE_ID + "/controls/CO2";
-var T_VOC   = "/devices/" + DEVICE_ID + "/controls/VOC";
+var T_VOC   = "/devices/" + DEVICE_ID + "/controls/Air Quality (VOC)";
 var T_SOUND = "/devices/" + DEVICE_ID + "/controls/Sound Level";
 var T_TEMP  = "/devices/" + DEVICE_ID + "/controls/Temperature";
 var T_HUM   = "/devices/" + DEVICE_ID + "/controls/Humidity";
