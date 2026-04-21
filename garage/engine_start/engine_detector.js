@@ -6,18 +6,20 @@
 // НАСТРОЙКИ — изменяйте только этот блок
 // ═══════════════════════════════════════════════════════
 
-var DEVICE_ID    = "wb-msw4_14";   // ID датчика в системе
+var DEVICE_ID    = "wb-msw4_36";   // ID датчика в системе
 var POLL_MS      = 3000;           // период опроса, мс (не менее 3000)
 var BASELINE_N   = 200;            // глубина базовой линии (200 × 3с = 10 мин)
 var MIN_SAMPLES  = 20;             // минимум отсчётов перед первой детекцией
+
+var DEBUG_MODE   = false;          // true — подробный лог каждого цикла
 
 var T_ALERT      = 2.0;            // порог быстрой тревоги (CDS >= 2.0)
 var T_CONFIRM    = 3.5;            // порог подтверждения   (CDS >= 3.5)
 
 // Веса параметров (сумма должна быть 1.0)
-var W_CO2   = 0.35;
+var W_SOUND = 0.35;
+var W_CO2   = 0.25;
 var W_VOC   = 0.30;
-var W_SOUND = 0.25;
 var W_TEMP  = 0.10;
 
 // ═══════════════════════════════════════════════════════
@@ -100,27 +102,42 @@ defineVirtualDevice("engine_detector", {
 
 defineRule("msw4_co2", {
   whenChanged: T_CO2,
-  then: function(newValue) { state.co2.cur = parseFloat(newValue) || 0; }
+  then: function(newValue) {
+    state.co2.cur = parseFloat(newValue) || 0;
+    dbg("CO2  raw=" + state.co2.cur);
+  }
 });
 
 defineRule("msw4_voc", {
   whenChanged: T_VOC,
-  then: function(newValue) { state.voc.cur = parseFloat(newValue) || 0; }
+  then: function(newValue) {
+    state.voc.cur = parseFloat(newValue) || 0;
+    dbg("VOC  raw=" + state.voc.cur);
+  }
 });
 
 defineRule("msw4_sound", {
   whenChanged: T_SOUND,
-  then: function(newValue) { state.sound.cur = parseFloat(newValue) || 0; }
+  then: function(newValue) {
+    state.sound.cur = parseFloat(newValue) || 0;
+    dbg("SND  raw=" + state.sound.cur);
+  }
 });
 
 defineRule("msw4_temp", {
   whenChanged: T_TEMP,
-  then: function(newValue) { state.temp.cur = parseFloat(newValue) || 0; }
+  then: function(newValue) {
+    state.temp.cur = parseFloat(newValue) || 0;
+    dbg("TEMP raw=" + state.temp.cur);
+  }
 });
 
 defineRule("msw4_hum", {
   whenChanged: T_HUM,
-  then: function(newValue) { state.hum = parseFloat(newValue) || 50; }
+  then: function(newValue) {
+    state.hum = parseFloat(newValue) || 50;
+    dbg("HUM  raw=" + state.hum);
+  }
 });
 
 // ═══════════════════════════════════════════════════════
@@ -144,6 +161,9 @@ function delta(s) {
 // Округление до 2 знаков
 function round2(v) { return Math.round(v * 100) / 100; }
 
+// Отладочный лог — выводит только при DEBUG_MODE = true
+function dbg(msg) { if (DEBUG_MODE) log("[DBG] " + msg); }
+
 // ═══════════════════════════════════════════════════════
 // ГЛАВНЫЙ ЦИКЛ — запускается каждые POLL_MS
 // ═══════════════════════════════════════════════════════
@@ -165,7 +185,10 @@ setInterval(function() {
   var baseReady = minCount >= MIN_SAMPLES;
   dev["engine_detector"]["BaseReady"] = baseReady;
 
-  if (!baseReady) return;  // накапливаем — не детектируем
+  if (!baseReady) {
+    dbg("baseline: " + minCount + "/" + MIN_SAMPLES + " samples");
+    return;  // накапливаем — не детектируем
+  }
 
   // 3. Вычисляем нормализованные отклонения
   var d_co2   = delta(state.co2);
@@ -173,12 +196,28 @@ setInterval(function() {
   var d_sound = delta(state.sound);
   var d_temp  = delta(state.temp);
 
+  dbg("cur  CO2=" + state.co2.cur +
+      " VOC=" + state.voc.cur +
+      " SND=" + state.sound.cur +
+      " TMP=" + state.temp.cur +
+      " HUM=" + state.hum);
+  dbg("mean CO2=" + round2(ringMean(state.co2.ring)) +
+      " VOC=" + round2(ringMean(state.voc.ring)) +
+      " SND=" + round2(ringMean(state.sound.ring)) +
+      " TMP=" + round2(ringMean(state.temp.ring)));
+  dbg("delta CO2=" + round2(d_co2) +
+      " VOC=" + round2(d_voc) +
+      " SND=" + round2(d_sound) +
+      " TMP=" + round2(d_temp));
+
   // 4. Влажностная коррекция
   var H = humidityCorrection(state.hum);
+  dbg("H=" + round2(H));
 
   // 5. Комбинированное взвешенное отклонение (CDS)
   var cds = (W_CO2 * d_co2 + W_VOC * d_voc + W_SOUND * d_sound + W_TEMP * d_temp) * H;
   cds = round2(cds);
+  dbg("CDS=" + cds + " alert=" + state.alertActive + " confirm=" + state.confirmActive);
 
   // 6. Публикуем компоненты для диагностики
   dev["engine_detector"]["CDS"]         = cds;
