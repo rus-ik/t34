@@ -26,11 +26,11 @@ var W_TEMP  = 0.10;
 // ТОПИКИ WB-MSW4 (каналы могут отличаться — проверьте)
 // ═══════════════════════════════════════════════════════
 
-var T_CO2   = "/devices/" + DEVICE_ID + "/controls/CO2";
-var T_VOC   = "/devices/" + DEVICE_ID + "/controls/Air Quality (VOC)";
-var T_SOUND = "/devices/" + DEVICE_ID + "/controls/Sound Level";
-var T_TEMP  = "/devices/" + DEVICE_ID + "/controls/Temperature";
-var T_HUM   = "/devices/" + DEVICE_ID + "/controls/Humidity";
+var T_CO2   = DEVICE_ID + "/CO2";
+var T_VOC   = DEVICE_ID + "/Air Quality (VOC)";
+var T_SOUND = DEVICE_ID + "/Sound Level";
+var T_TEMP  = DEVICE_ID + "/Temperature";
+var T_HUM   = DEVICE_ID + "/Humidity";
 
 // ═══════════════════════════════════════════════════════
 // КОЛЬЦЕВОЙ БУФЕР — хранит историю без splice/shift

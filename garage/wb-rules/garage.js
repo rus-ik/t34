@@ -826,9 +826,9 @@ ZONES.forEach(function (zone, idx) {
 ZONES.forEach(function (zone, idx) {
   zone.msw.forEach(function (id) {
     defineRule("msw_pir_" + idx + "_" + id.replace(/\W/g, "_"), {
-      whenChanged: id + "/Motion",
+      whenChanged: id + "/Current Motion",
       then: function (newValue) {
-        if (newValue === true || newValue === 1) {
+        if (newValue > 0) {
           zst[idx].pirLastSeen[id] = Date.now();
           armPirTimer(zone, idx, id);                       // [4]
           evaluate(zone, idx, "pir:" + id);
