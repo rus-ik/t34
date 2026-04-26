@@ -1,0 +1,1234 @@
+alarms/log	text	/devices/alarms/controls/log	
+OK
+buzzer/enabled	switch	/devices/buzzer/controls/enabled	
+false
+OK
+buzzer/frequency	range	/devices/buzzer/controls/frequency	
+3000
+OK
+buzzer/volume	range	/devices/buzzer/controls/volume	
+100
+OK
+dooya_0x0104/Position	range	/devices/dooya_0x0104/controls/Position	
+100
+OK
+dooya_0x0104/Open	pushbutton	/devices/dooya_0x0104/controls/Open	
+OK
+dooya_0x0104/Close	pushbutton	/devices/dooya_0x0104/controls/Close	
+OK
+dooya_0x0104/Stop	pushbutton	/devices/dooya_0x0104/controls/Stop	
+OK
+dooya_0x0104/Factory Default	pushbutton	/devices/dooya_0x0104/controls/Factory Default	
+OK
+home_lights_c2/r_1g_lights	switch	/devices/home_lights_c2/controls/r_1g_lights	
+false
+OK
+home_lights_c2/r_1g_lux	value	/devices/home_lights_c2/controls/r_1g_lux	
+999
+OK
+home_lights_c2/r_1g_occupied	switch	/devices/home_lights_c2/controls/r_1g_occupied	
+false
+OK
+home_lights_c2/r_1g_trigger	text	/devices/home_lights_c2/controls/r_1g_trigger	
+OK
+home_lights_c2/r_1gd_lights	switch	/devices/home_lights_c2/controls/r_1gd_lights	
+false
+OK
+home_lights_c2/r_1gd_lux	value	/devices/home_lights_c2/controls/r_1gd_lux	
+999
+OK
+home_lights_c2/r_1gd_occupied	switch	/devices/home_lights_c2/controls/r_1gd_occupied	
+false
+OK
+home_lights_c2/r_1gd_trigger	text	/devices/home_lights_c2/controls/r_1gd_trigger	
+OK
+home_lights_c2/r_1gs_lights	switch	/devices/home_lights_c2/controls/r_1gs_lights	
+false
+OK
+home_lights_c2/r_1gs_lux	value	/devices/home_lights_c2/controls/r_1gs_lux	
+999
+OK
+home_lights_c2/r_1gs_occupied	switch	/devices/home_lights_c2/controls/r_1gs_occupied	
+false
+OK
+home_lights_c2/r_1gs_trigger	text	/devices/home_lights_c2/controls/r_1gs_trigger	
+OK
+home_lights_c2/r_1k_lights	switch	/devices/home_lights_c2/controls/r_1k_lights	
+false
+OK
+home_lights_c2/r_1k_lux	value	/devices/home_lights_c2/controls/r_1k_lux	
+999
+OK
+home_lights_c2/r_1k_occupied	switch	/devices/home_lights_c2/controls/r_1k_occupied	
+false
+OK
+home_lights_c2/r_1k_trigger	text	/devices/home_lights_c2/controls/r_1k_trigger	
+OK
+home_lights_c2/r_1kb_lights	switch	/devices/home_lights_c2/controls/r_1kb_lights	
+false
+OK
+home_lights_c2/r_1kb_lux	value	/devices/home_lights_c2/controls/r_1kb_lux	
+999
+OK
+home_lights_c2/r_1kb_occupied	switch	/devices/home_lights_c2/controls/r_1kb_occupied	
+false
+OK
+home_lights_c2/r_1kb_trigger	text	/devices/home_lights_c2/controls/r_1kb_trigger	
+OK
+home_lights_c2/r_1km_lights	switch	/devices/home_lights_c2/controls/r_1km_lights	
+false
+OK
+home_lights_c2/r_1km_lux	value	/devices/home_lights_c2/controls/r_1km_lux	
+999
+OK
+home_lights_c2/r_1km_occupied	switch	/devices/home_lights_c2/controls/r_1km_occupied	
+false
+OK
+home_lights_c2/r_1km_trigger	text	/devices/home_lights_c2/controls/r_1km_trigger	
+OK
+home_lights_c2/r_1p_lights	switch	/devices/home_lights_c2/controls/r_1p_lights	
+false
+OK
+home_lights_c2/r_1p_lux	value	/devices/home_lights_c2/controls/r_1p_lux	
+999
+OK
+home_lights_c2/r_1p_occupied	switch	/devices/home_lights_c2/controls/r_1p_occupied	
+false
+OK
+home_lights_c2/r_1p_trigger	text	/devices/home_lights_c2/controls/r_1p_trigger	
+OK
+home_lights_c2/r_1sa_lights	switch	/devices/home_lights_c2/controls/r_1sa_lights	
+false
+OK
+home_lights_c2/r_1sa_lux	value	/devices/home_lights_c2/controls/r_1sa_lux	
+999
+OK
+home_lights_c2/r_1sa_occupied	switch	/devices/home_lights_c2/controls/r_1sa_occupied	
+false
+OK
+home_lights_c2/r_1sa_trigger	text	/devices/home_lights_c2/controls/r_1sa_trigger	
+OK
+home_lights_c2/r_1t_lights	switch	/devices/home_lights_c2/controls/r_1t_lights	
+false
+OK
+home_lights_c2/r_1t_lux	value	/devices/home_lights_c2/controls/r_1t_lux	
+999
+OK
+home_lights_c2/r_1t_occupied	switch	/devices/home_lights_c2/controls/r_1t_occupied	
+false
+OK
+home_lights_c2/r_1t_trigger	text	/devices/home_lights_c2/controls/r_1t_trigger	
+OK
+home_lights_c2/test_mode	switch	/devices/home_lights_c2/controls/test_mode	
+false
+OK
+hwmon/Board Temperature	temperature	/devices/hwmon/controls/Board Temperature	
+51.375
+OK
+hwmon/CPU Temperature	temperature	/devices/hwmon/controls/CPU Temperature	
+88.14
+OK
+knx/data	text	/devices/knx/controls/data	
+i:0/0/0 i:0/0/0 GroupValueRead 0x00
+OK
+metrics/load_average_1min	value	/devices/metrics/controls/load_average_1min	
+0.73
+OK
+metrics/load_average_5min	value	/devices/metrics/controls/load_average_5min	
+0.92
+OK
+metrics/load_average_15min	value	/devices/metrics/controls/load_average_15min	
+0.99
+OK
+metrics/ram_available	value	/devices/metrics/controls/ram_available	
+707
+OK
+metrics/ram_used	value	/devices/metrics/controls/ram_used	
+256
+OK
+metrics/ram_total	value	/devices/metrics/controls/ram_total	
+997
+OK
+metrics/swap_total	value	/devices/metrics/controls/swap_total	
+255
+OK
+metrics/swap_used	value	/devices/metrics/controls/swap_used	
+0
+OK
+metrics/dev_root_used_space	value	/devices/metrics/controls/dev_root_used_space	
+768
+OK
+metrics/data_used_space	value	/devices/metrics/controls/data_used_space	
+3347
+OK
+metrics/dev_root_total_space	value	/devices/metrics/controls/dev_root_total_space	
+1973
+OK
+metrics/dev_root_linked_on	text	/devices/metrics/controls/dev_root_linked_on	
+/dev/mmcblk0p2
+OK
+metrics/data_total_space	value	/devices/metrics/controls/data_total_space	
+4800
+OK
+mtdx62-mb_10/presence_status	switch	/devices/mtdx62-mb_10/controls/presence_status	
+false
+OK
+mtdx62-mb_10/illuminance	lux	/devices/mtdx62-mb_10/controls/illuminance	
+665.1
+OK
+mtdx62-mb_10/target_distance	value	/devices/mtdx62-mb_10/controls/target_distance	
+0
+OK
+mtdx62-mb_10/detection_distance	value	/devices/mtdx62-mb_10/controls/detection_distance	
+6
+OK
+mtdx62-mb_10/detection_shielding_distance	value	/devices/mtdx62-mb_10/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_10/admission_confirmation_delay	value	/devices/mtdx62-mb_10/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_10/departure_disappearance_delay	value	/devices/mtdx62-mb_10/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_10/trigger_sensitivity	value	/devices/mtdx62-mb_10/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_10/maintain_sensitivity	value	/devices/mtdx62-mb_10/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_10/entrance_distance_reduction	value	/devices/mtdx62-mb_10/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_21/presence_status	switch	/devices/mtdx62-mb_21/controls/presence_status	
+false
+OK
+mtdx62-mb_21/illuminance	lux	/devices/mtdx62-mb_21/controls/illuminance	
+0
+OK
+mtdx62-mb_21/target_distance	value	/devices/mtdx62-mb_21/controls/target_distance	
+0
+OK
+mtdx62-mb_21/detection_distance	value	/devices/mtdx62-mb_21/controls/detection_distance	
+2
+OK
+mtdx62-mb_21/detection_shielding_distance	value	/devices/mtdx62-mb_21/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_21/admission_confirmation_delay	value	/devices/mtdx62-mb_21/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_21/departure_disappearance_delay	value	/devices/mtdx62-mb_21/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_21/trigger_sensitivity	value	/devices/mtdx62-mb_21/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_21/maintain_sensitivity	value	/devices/mtdx62-mb_21/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_21/entrance_distance_reduction	value	/devices/mtdx62-mb_21/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_23/presence_status	switch	/devices/mtdx62-mb_23/controls/presence_status	
+true
+OK
+mtdx62-mb_23/illuminance	lux	/devices/mtdx62-mb_23/controls/illuminance	
+286.7
+OK
+mtdx62-mb_23/target_distance	value	/devices/mtdx62-mb_23/controls/target_distance	
+2.2
+OK
+mtdx62-mb_23/detection_distance	value	/devices/mtdx62-mb_23/controls/detection_distance	
+6
+OK
+mtdx62-mb_23/detection_shielding_distance	value	/devices/mtdx62-mb_23/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_23/admission_confirmation_delay	value	/devices/mtdx62-mb_23/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_23/departure_disappearance_delay	value	/devices/mtdx62-mb_23/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_23/trigger_sensitivity	value	/devices/mtdx62-mb_23/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_23/maintain_sensitivity	value	/devices/mtdx62-mb_23/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_23/entrance_distance_reduction	value	/devices/mtdx62-mb_23/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_24/presence_status	switch	/devices/mtdx62-mb_24/controls/presence_status	
+false
+OK
+mtdx62-mb_24/illuminance	lux	/devices/mtdx62-mb_24/controls/illuminance	
+1135.4
+OK
+mtdx62-mb_24/target_distance	value	/devices/mtdx62-mb_24/controls/target_distance	
+0
+OK
+mtdx62-mb_24/detection_distance	value	/devices/mtdx62-mb_24/controls/detection_distance	
+6
+OK
+mtdx62-mb_24/detection_shielding_distance	value	/devices/mtdx62-mb_24/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_24/admission_confirmation_delay	value	/devices/mtdx62-mb_24/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_24/departure_disappearance_delay	value	/devices/mtdx62-mb_24/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_24/trigger_sensitivity	value	/devices/mtdx62-mb_24/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_24/maintain_sensitivity	value	/devices/mtdx62-mb_24/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_24/entrance_distance_reduction	value	/devices/mtdx62-mb_24/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_25/presence_status	switch	/devices/mtdx62-mb_25/controls/presence_status	
+false
+OK
+mtdx62-mb_25/illuminance	lux	/devices/mtdx62-mb_25/controls/illuminance	
+19.9
+OK
+mtdx62-mb_25/target_distance	value	/devices/mtdx62-mb_25/controls/target_distance	
+0
+OK
+mtdx62-mb_25/detection_distance	value	/devices/mtdx62-mb_25/controls/detection_distance	
+6
+OK
+mtdx62-mb_25/detection_shielding_distance	value	/devices/mtdx62-mb_25/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_25/admission_confirmation_delay	value	/devices/mtdx62-mb_25/controls/admission_confirmation_delay	
+0.1
+OK
+mtdx62-mb_25/departure_disappearance_delay	value	/devices/mtdx62-mb_25/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_25/trigger_sensitivity	value	/devices/mtdx62-mb_25/controls/trigger_sensitivity	
+7
+OK
+mtdx62-mb_25/maintain_sensitivity	value	/devices/mtdx62-mb_25/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_25/entrance_distance_reduction	value	/devices/mtdx62-mb_25/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_26/presence_status	switch	/devices/mtdx62-mb_26/controls/presence_status	
+false
+OK
+mtdx62-mb_26/illuminance	lux	/devices/mtdx62-mb_26/controls/illuminance	
+432.6
+OK
+mtdx62-mb_26/target_distance	value	/devices/mtdx62-mb_26/controls/target_distance	
+0
+OK
+mtdx62-mb_26/detection_distance	value	/devices/mtdx62-mb_26/controls/detection_distance	
+6
+OK
+mtdx62-mb_26/detection_shielding_distance	value	/devices/mtdx62-mb_26/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_26/admission_confirmation_delay	value	/devices/mtdx62-mb_26/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_26/departure_disappearance_delay	value	/devices/mtdx62-mb_26/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_26/trigger_sensitivity	value	/devices/mtdx62-mb_26/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_26/maintain_sensitivity	value	/devices/mtdx62-mb_26/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_26/entrance_distance_reduction	value	/devices/mtdx62-mb_26/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_27/presence_status	switch	/devices/mtdx62-mb_27/controls/presence_status	
+false
+OK
+mtdx62-mb_27/illuminance	lux	/devices/mtdx62-mb_27/controls/illuminance	
+285
+OK
+mtdx62-mb_27/target_distance	value	/devices/mtdx62-mb_27/controls/target_distance	
+0
+OK
+mtdx62-mb_27/detection_distance	value	/devices/mtdx62-mb_27/controls/detection_distance	
+6
+OK
+mtdx62-mb_27/detection_shielding_distance	value	/devices/mtdx62-mb_27/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_27/admission_confirmation_delay	value	/devices/mtdx62-mb_27/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_27/departure_disappearance_delay	value	/devices/mtdx62-mb_27/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_27/trigger_sensitivity	value	/devices/mtdx62-mb_27/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_27/maintain_sensitivity	value	/devices/mtdx62-mb_27/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_27/entrance_distance_reduction	value	/devices/mtdx62-mb_27/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_28/presence_status	switch	/devices/mtdx62-mb_28/controls/presence_status	
+false
+OK
+mtdx62-mb_28/illuminance	lux	/devices/mtdx62-mb_28/controls/illuminance	
+45
+OK
+mtdx62-mb_28/target_distance	value	/devices/mtdx62-mb_28/controls/target_distance	
+0
+OK
+mtdx62-mb_28/detection_distance	value	/devices/mtdx62-mb_28/controls/detection_distance	
+6
+OK
+mtdx62-mb_28/detection_shielding_distance	value	/devices/mtdx62-mb_28/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_28/admission_confirmation_delay	value	/devices/mtdx62-mb_28/controls/admission_confirmation_delay	
+0.1
+OK
+mtdx62-mb_28/departure_disappearance_delay	value	/devices/mtdx62-mb_28/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_28/trigger_sensitivity	value	/devices/mtdx62-mb_28/controls/trigger_sensitivity	
+7
+OK
+mtdx62-mb_28/maintain_sensitivity	value	/devices/mtdx62-mb_28/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_28/entrance_distance_reduction	value	/devices/mtdx62-mb_28/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_32/presence_status	switch	/devices/mtdx62-mb_32/controls/presence_status	
+false
+OK
+mtdx62-mb_32/illuminance	lux	/devices/mtdx62-mb_32/controls/illuminance	
+39.3
+OK
+mtdx62-mb_32/target_distance	value	/devices/mtdx62-mb_32/controls/target_distance	
+0
+OK
+mtdx62-mb_32/detection_distance	value	/devices/mtdx62-mb_32/controls/detection_distance	
+6
+OK
+mtdx62-mb_32/detection_shielding_distance	value	/devices/mtdx62-mb_32/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_32/admission_confirmation_delay	value	/devices/mtdx62-mb_32/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_32/departure_disappearance_delay	value	/devices/mtdx62-mb_32/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_32/trigger_sensitivity	value	/devices/mtdx62-mb_32/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_32/maintain_sensitivity	value	/devices/mtdx62-mb_32/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_32/entrance_distance_reduction	value	/devices/mtdx62-mb_32/controls/entrance_distance_reduction	
+0.6
+OK
+mtdx62-mb_33/presence_status	switch	/devices/mtdx62-mb_33/controls/presence_status	
+false
+OK
+mtdx62-mb_33/illuminance	lux	/devices/mtdx62-mb_33/controls/illuminance	
+55.2
+OK
+mtdx62-mb_33/target_distance	value	/devices/mtdx62-mb_33/controls/target_distance	
+0
+OK
+mtdx62-mb_33/detection_distance	value	/devices/mtdx62-mb_33/controls/detection_distance	
+6
+OK
+mtdx62-mb_33/detection_shielding_distance	value	/devices/mtdx62-mb_33/controls/detection_shielding_distance	
+0.6
+OK
+mtdx62-mb_33/admission_confirmation_delay	value	/devices/mtdx62-mb_33/controls/admission_confirmation_delay	
+0.05
+OK
+mtdx62-mb_33/departure_disappearance_delay	value	/devices/mtdx62-mb_33/controls/departure_disappearance_delay	
+2
+OK
+mtdx62-mb_33/trigger_sensitivity	value	/devices/mtdx62-mb_33/controls/trigger_sensitivity	
+5
+OK
+mtdx62-mb_33/maintain_sensitivity	value	/devices/mtdx62-mb_33/controls/maintain_sensitivity	
+7
+OK
+mtdx62-mb_33/entrance_distance_reduction	value	/devices/mtdx62-mb_33/controls/entrance_distance_reduction	
+0.6
+OK
+network/Active Connections	text	/devices/network/controls/Active Connections	
+["lo","tailscale0","wb-eth1"]
+OK
+network/Default Interface	text	/devices/network/controls/Default Interface	
+eth1
+OK
+network/Internet Connection	text	/devices/network/controls/Internet Connection	
+wb-eth1
+OK
+network/Ethernet IP	text	/devices/network/controls/Ethernet IP	
+OK
+network/Ethernet IP Online Status	switch	/devices/network/controls/Ethernet IP Online Status	
+false
+OK
+network/Ethernet IP Connection Enabled	switch	/devices/network/controls/Ethernet IP Connection Enabled	
+false
+OK
+network/Ethernet 2 IP	text	/devices/network/controls/Ethernet 2 IP	
+192.168.0.189
+OK
+network/Ethernet 2 IP Online Status	switch	/devices/network/controls/Ethernet 2 IP Online Status	
+true
+OK
+network/Ethernet 2 IP Connection Enabled	switch	/devices/network/controls/Ethernet 2 IP Connection Enabled	
+true
+OK
+network/Wi-Fi IP	text	/devices/network/controls/Wi-Fi IP	
+OK
+network/Wi-Fi IP Online Status	switch	/devices/network/controls/Wi-Fi IP Online Status	
+false
+OK
+network/Wi-Fi IP Connection Enabled	switch	/devices/network/controls/Wi-Fi IP Connection Enabled	
+false
+OK
+network/Wi-Fi 2 IP	text	/devices/network/controls/Wi-Fi 2 IP	
+OK
+network/Wi-Fi 2 IP Online Status	switch	/devices/network/controls/Wi-Fi 2 IP Online Status	
+false
+OK
+network/Wi-Fi 2 IP Connection Enabled	switch	/devices/network/controls/Wi-Fi 2 IP Connection Enabled	
+false
+OK
+network/GPRS IP	text	/devices/network/controls/GPRS IP	
+OK
+network/GPRS IP Online Status	switch	/devices/network/controls/GPRS IP Online Status	
+false
+OK
+network/GPRS IP Connection Enabled	switch	/devices/network/controls/GPRS IP Connection Enabled	
+false
+OK
+ping/global	switch	/devices/ping/controls/global	
+true
+OK
+ping/site	switch	/devices/ping/controls/site	
+true
+OK
+power_status/Vin	voltage	/devices/power_status/controls/Vin	
+23.1
+OK
+power_status/working on battery	switch	/devices/power_status/controls/working on battery	
+false
+OK
+system/Batch No	text	/devices/system/controls/Batch No	
+7.2.1B 577
+OK
+system/Current uptime	text	/devices/system/controls/Current uptime	
+8d 5h 10m
+OK
+system/DTS Version	text	/devices/system/controls/DTS Version	
+720
+OK
+system/HW Revision	text	/devices/system/controls/HW Revision	
+7.2.1
+OK
+system/Manufacturing Date	text	/devices/system/controls/Manufacturing Date	
+2022-02-10 08:22:26+00:00
+OK
+system/Reboot	pushbutton	/devices/system/controls/Reboot	
+OK
+system/Release name	text	/devices/system/controls/Release name	
+wb-2602
+OK
+system/Release suite	text	/devices/system/controls/Release suite	
+stable
+OK
+system/Short SN	text	/devices/system/controls/Short SN	
+ATYRHTOS
+OK
+system/Temperature Grade	text	/devices/system/controls/Temperature Grade	
+industrial
+OK
+system_time/current_date	text	/devices/system_time/controls/current_date	
+2026-04-25
+OK
+system_time/current_day	value	/devices/system_time/controls/current_day	
+6
+OK
+system_time/current_time	text	/devices/system_time/controls/current_time	
+07:06
+OK
+system_time/timezone	text	/devices/system_time/controls/timezone	
+UTC+0000
+OK
+temp_sensor_1c_99/Temperature	temperature	/devices/temp_sensor_1c_99/controls/Temperature	
+-28.87
+OK
+wb-adc/A1	voltage	/devices/wb-adc/controls/A1	
+0
+OK
+wb-adc/A2	voltage	/devices/wb-adc/controls/A2	
+0
+OK
+wb-adc/A3	voltage	/devices/wb-adc/controls/A3	
+0
+OK
+wb-adc/Vin	voltage	/devices/wb-adc/controls/Vin	
+23.1
+OK
+wb-gpio/A1_OUT	switch	/devices/wb-gpio/controls/A1_OUT	
+false
+OK
+wb-gpio/A2_OUT	switch	/devices/wb-gpio/controls/A2_OUT	
+false
+OK
+wb-gpio/A3_OUT	switch	/devices/wb-gpio/controls/A3_OUT	
+false
+OK
+wb-gpio/D1_OUT	switch	/devices/wb-gpio/controls/D1_OUT	
+false
+OK
+wb-gpio/A1_IN	switch	/devices/wb-gpio/controls/A1_IN	
+false
+OK
+wb-gpio/A2_IN	switch	/devices/wb-gpio/controls/A2_IN	
+false
+OK
+wb-gpio/A3_IN_total	water_consumption	/devices/wb-gpio/controls/A3_IN_total	
+364
+OK
+wb-gpio/A3_IN_current	water_flow	/devices/wb-gpio/controls/A3_IN_current	
+0.216
+OK
+wb-gpio/D1_IN	switch	/devices/wb-gpio/controls/D1_IN	
+false
+OK
+wb-gpio/5V_OUT	switch	/devices/wb-gpio/controls/5V_OUT	
+true
+OK
+wb-gpio/V_OUT	switch	/devices/wb-gpio/controls/V_OUT	
+true
+OK
+wb-gpio/EXT1_IN1	switch	/devices/wb-gpio/controls/EXT1_IN1	
+false
+OK
+wb-gpio/EXT1_IN2	switch	/devices/wb-gpio/controls/EXT1_IN2	
+false
+OK
+wb-gpio/EXT1_IN3	switch	/devices/wb-gpio/controls/EXT1_IN3	
+false
+OK
+wb-gpio/EXT1_IN4	switch	/devices/wb-gpio/controls/EXT1_IN4	
+false
+OK
+wb-gpio/EXT1_IN5	switch	/devices/wb-gpio/controls/EXT1_IN5	
+false
+OK
+wb-gpio/EXT1_IN6	switch	/devices/wb-gpio/controls/EXT1_IN6	
+false
+OK
+wb-gpio/EXT1_IN7	switch	/devices/wb-gpio/controls/EXT1_IN7	
+false
+OK
+wb-gpio/EXT1_IN8	switch	/devices/wb-gpio/controls/EXT1_IN8	
+false
+OK
+wb-gpio/EXT1_IN9	switch	/devices/wb-gpio/controls/EXT1_IN9	
+false
+OK
+wb-gpio/EXT1_IN10	switch	/devices/wb-gpio/controls/EXT1_IN10	
+false
+OK
+wb-gpio/EXT1_IN11	switch	/devices/wb-gpio/controls/EXT1_IN11	
+false
+OK
+wb-gpio/EXT1_IN12	switch	/devices/wb-gpio/controls/EXT1_IN12	
+false
+OK
+wb-gpio/EXT1_IN13	switch	/devices/wb-gpio/controls/EXT1_IN13	
+false
+OK
+wb-gpio/EXT1_IN14	switch	/devices/wb-gpio/controls/EXT1_IN14	
+false
+OK
+wb-mai11_32/5V Output	voltage	/devices/wb-mai11_32/controls/5V Output	
+5.243
+OK
+wb-mai11_32/Internal Temperature	temperature	/devices/wb-mai11_32/controls/Internal Temperature	
+25.54
+OK
+wb-mai11_32/Serial	text	/devices/wb-mai11_32/controls/Serial	
+4270510802
+OK
+wb-mai11_32/Uptime	value	/devices/wb-mai11_32/controls/Uptime	
+709776
+OK
+wb-mcm8_119/Input 1	switch	/devices/wb-mcm8_119/controls/Input 1	
+true
+OK
+wb-mcm8_119/Input 1 counter	value	/devices/wb-mcm8_119/controls/Input 1 counter	
+98
+OK
+wb-mcm8_119/Input 2	switch	/devices/wb-mcm8_119/controls/Input 2	
+false
+OK
+wb-mcm8_119/Input 2 counter	value	/devices/wb-mcm8_119/controls/Input 2 counter	
+9520
+OK
+wb-mcm8_119/Input 3	switch	/devices/wb-mcm8_119/controls/Input 3	
+true
+OK
+wb-mcm8_119/Input 3 counter	value	/devices/wb-mcm8_119/controls/Input 3 counter	
+89889
+OK
+wb-mcm8_119/Input 4	switch	/devices/wb-mcm8_119/controls/Input 4	
+false
+OK
+wb-mcm8_119/Input 4 counter	value	/devices/wb-mcm8_119/controls/Input 4 counter	
+314
+OK
+wb-mcm8_119/Input 5	switch	/devices/wb-mcm8_119/controls/Input 5	
+false
+OK
+wb-mcm8_119/Input 5 counter	value	/devices/wb-mcm8_119/controls/Input 5 counter	
+0
+OK
+wb-mcm8_119/Input 6	switch	/devices/wb-mcm8_119/controls/Input 6	
+false
+OK
+wb-mcm8_119/Input 6 counter	value	/devices/wb-mcm8_119/controls/Input 6 counter	
+0
+OK
+wb-mcm8_119/Input 7	switch	/devices/wb-mcm8_119/controls/Input 7	
+false
+OK
+wb-mcm8_119/Input 7 counter	value	/devices/wb-mcm8_119/controls/Input 7 counter	
+0
+OK
+wb-mcm8_119/Input 8	switch	/devices/wb-mcm8_119/controls/Input 8	
+false
+OK
+wb-mcm8_119/Input 8 counter	value	/devices/wb-mcm8_119/controls/Input 8 counter	
+0
+OK
+wb-mcm8_119/Reset all counters	pushbutton	/devices/wb-mcm8_119/controls/Reset all counters	
+OK
+wb-mcm8_119/Serial	text	/devices/wb-mcm8_119/controls/Serial	
+310785
+OK
+wb-mr6cu_16/K1	switch	/devices/wb-mr6cu_16/controls/K1	
+false
+OK
+wb-mr6cu_16/K2	switch	/devices/wb-mr6cu_16/controls/K2	
+false
+OK
+wb-mr6cu_16/K3	switch	/devices/wb-mr6cu_16/controls/K3	
+false
+OK
+wb-mr6cu_16/K4	switch	/devices/wb-mr6cu_16/controls/K4	
+false
+OK
+wb-mr6cu_16/K5	switch	/devices/wb-mr6cu_16/controls/K5	
+false
+OK
+wb-mr6cu_16/K6	switch	/devices/wb-mr6cu_16/controls/K6	
+false
+OK
+wb-mr6cu_16/Serial	text	/devices/wb-mr6cu_16/controls/Serial	
+4264751271
+OK
+wb-mr6cu_86/K1	switch	/devices/wb-mr6cu_86/controls/K1	
+false
+OK
+wb-mr6cu_86/K2	switch	/devices/wb-mr6cu_86/controls/K2	
+false
+OK
+wb-mr6cu_86/K3	switch	/devices/wb-mr6cu_86/controls/K3	
+false
+OK
+wb-mr6cu_86/K4	switch	/devices/wb-mr6cu_86/controls/K4	
+false
+OK
+wb-mr6cu_86/K5	switch	/devices/wb-mr6cu_86/controls/K5	
+false
+OK
+wb-mr6cu_86/K6	switch	/devices/wb-mr6cu_86/controls/K6	
+true
+OK
+wb-mr6cu_86/Serial	text	/devices/wb-mr6cu_86/controls/Serial	
+4264744820
+OK
+wb-mr6cv3_81/Input 0	switch	/devices/wb-mr6cv3_81/controls/Input 0	
+false
+OK
+wb-mr6cv3_81/Input 0 counter	value	/devices/wb-mr6cv3_81/controls/Input 0 counter	
+0
+OK
+wb-mr6cv3_81/Input 1	switch	/devices/wb-mr6cv3_81/controls/Input 1	
+false
+OK
+wb-mr6cv3_81/Input 1 counter	value	/devices/wb-mr6cv3_81/controls/Input 1 counter	
+0
+OK
+wb-mr6cv3_81/Input 2	switch	/devices/wb-mr6cv3_81/controls/Input 2	
+false
+OK
+wb-mr6cv3_81/Input 2 counter	value	/devices/wb-mr6cv3_81/controls/Input 2 counter	
+0
+OK
+wb-mr6cv3_81/Input 3	switch	/devices/wb-mr6cv3_81/controls/Input 3	
+false
+OK
+wb-mr6cv3_81/Input 3 counter	value	/devices/wb-mr6cv3_81/controls/Input 3 counter	
+0
+OK
+wb-mr6cv3_81/Input 4	switch	/devices/wb-mr6cv3_81/controls/Input 4	
+false
+OK
+wb-mr6cv3_81/Input 4 counter	value	/devices/wb-mr6cv3_81/controls/Input 4 counter	
+0
+OK
+wb-mr6cv3_81/Input 5	switch	/devices/wb-mr6cv3_81/controls/Input 5	
+false
+OK
+wb-mr6cv3_81/Input 5 counter	value	/devices/wb-mr6cv3_81/controls/Input 5 counter	
+0
+OK
+wb-mr6cv3_81/Input 6	switch	/devices/wb-mr6cv3_81/controls/Input 6	
+false
+OK
+wb-mr6cv3_81/Input 6 counter	value	/devices/wb-mr6cv3_81/controls/Input 6 counter	
+0
+OK
+wb-mr6cv3_81/K1	switch	/devices/wb-mr6cv3_81/controls/K1	
+false
+OK
+wb-mr6cv3_81/K2	switch	/devices/wb-mr6cv3_81/controls/K2	
+false
+OK
+wb-mr6cv3_81/K3	switch	/devices/wb-mr6cv3_81/controls/K3	
+false
+OK
+wb-mr6cv3_81/K4	switch	/devices/wb-mr6cv3_81/controls/K4	
+false
+OK
+wb-mr6cv3_81/K5	switch	/devices/wb-mr6cv3_81/controls/K5	
+false
+OK
+wb-mr6cv3_81/K6	switch	/devices/wb-mr6cv3_81/controls/K6	
+false
+OK
+wb-mr6cv3_81/Serial	text	/devices/wb-mr6cv3_81/controls/Serial	
+329970
+OK
+wb-mr6cv3_81/Bus Power Supply	switch	/devices/wb-mr6cv3_81/controls/Bus Power Supply	
+true
+OK
+wb-mrgbw-d-fw3_12/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_12/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_12/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_12/controls/RGB Palette	
+{"r":0,"g":128,"b":13}
+OK
+wb-mrgbw-d-fw3_12/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_12/controls/RGB Strip Hue	
+126
+OK
+wb-mrgbw-d-fw3_12/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_12/controls/RGB Strip Saturation	
+100
+OK
+wb-mrgbw-d-fw3_12/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_12/controls/RGB Strip Brightness	
+50
+OK
+wb-mrgbw-d-fw3_12/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_12/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_12/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_12/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_12/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_12/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_12/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_12/controls/Channel 4 (W) Brightness	
+100
+OK
+wb-mrgbw-d-fw3_12/Input 1	switch	/devices/wb-mrgbw-d-fw3_12/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_12/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_12/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_12/Input 2	switch	/devices/wb-mrgbw-d-fw3_12/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_12/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_12/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_12/Input 3	switch	/devices/wb-mrgbw-d-fw3_12/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_12/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_12/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_12/Serial	text	/devices/wb-mrgbw-d-fw3_12/controls/Serial	
+4264727564
+OK
+wb-mrgbw-d-fw3_27/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_27/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_27/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_27/controls/RGB Palette	
+{"r":128,"g":0,"b":0}
+OK
+wb-mrgbw-d-fw3_27/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_27/controls/RGB Strip Hue	
+360
+OK
+wb-mrgbw-d-fw3_27/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_27/controls/RGB Strip Saturation	
+100
+OK
+wb-mrgbw-d-fw3_27/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_27/controls/RGB Strip Brightness	
+50
+OK
+wb-mrgbw-d-fw3_27/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_27/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_27/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_27/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_27/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_27/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_27/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_27/controls/Channel 4 (W) Brightness	
+50
+OK
+wb-mrgbw-d-fw3_27/Input 1	switch	/devices/wb-mrgbw-d-fw3_27/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_27/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_27/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_27/Input 2	switch	/devices/wb-mrgbw-d-fw3_27/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_27/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_27/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_27/Input 3	switch	/devices/wb-mrgbw-d-fw3_27/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_27/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_27/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_27/Serial	text	/devices/wb-mrgbw-d-fw3_27/controls/Serial	
+4264752105
+OK
+wb-mrgbw-d-fw3_57/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_57/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_57/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_57/controls/RGB Palette	
+{"r":255,"g":255,"b":255}
+OK
+wb-mrgbw-d-fw3_57/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_57/controls/RGB Strip Hue	
+60
+OK
+wb-mrgbw-d-fw3_57/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_57/controls/RGB Strip Saturation	
+0
+OK
+wb-mrgbw-d-fw3_57/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_57/controls/RGB Strip Brightness	
+100
+OK
+wb-mrgbw-d-fw3_57/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_57/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_57/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_57/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_57/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_57/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_57/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_57/controls/Channel 4 (W) Brightness	
+100
+OK
+wb-mrgbw-d-fw3_57/Input 1	switch	/devices/wb-mrgbw-d-fw3_57/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_57/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_57/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_57/Input 2	switch	/devices/wb-mrgbw-d-fw3_57/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_57/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_57/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_57/Input 3	switch	/devices/wb-mrgbw-d-fw3_57/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_57/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_57/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_57/Serial	text	/devices/wb-mrgbw-d-fw3_57/controls/Serial	
+4264730101
+OK
+wb-t34-1/A1_OUT	switch	/devices/wb-t34-1/controls/A1_OUT	
+true
+OK
+wb-t34-1/A2_OUT	switch	/devices/wb-t34-1/controls/A2_OUT	
+false
+OK
+wb-t34-1/A3_OUT	switch	/devices/wb-t34-1/controls/A3_OUT	
+false
+OK
+wb-t34-1/D1_OUT	switch	/devices/wb-t34-1/controls/D1_OUT	
+false
+OK
+wb-t34-1/A1_IN_total	water_consumption	/devices/wb-t34-1/controls/A1_IN_total	
+13.63
+OK
+wb-t34-1/A1_IN_current	water_flow	/devices/wb-t34-1/controls/A1_IN_current	
+0.03
+OK
+wb-t34-1/A2_IN	switch	/devices/wb-t34-1/controls/A2_IN	
+false
+OK
+wb-t34-1/A3_IN	switch	/devices/wb-t34-1/controls/A3_IN	
+false
+OK
+wb-t34-1/D1_IN	switch	/devices/wb-t34-1/controls/D1_IN	
+false
+OK
+wb-t34-1/5V_OUT	switch	/devices/wb-t34-1/controls/5V_OUT	
+true
+OK
+wb-t34-1/V_OUT	switch	/devices/wb-t34-1/controls/V_OUT	
+true
+OK
+wb-t34-1/EXT1_IN1	switch	/devices/wb-t34-1/controls/EXT1_IN1	
+false
+OK
+wb-t34-1/EXT1_IN2	switch	/devices/wb-t34-1/controls/EXT1_IN2	
+false
+OK
+wb-t34-1/EXT1_IN3	switch	/devices/wb-t34-1/controls/EXT1_IN3	
+false
+OK
+wb-t34-1/EXT1_IN4	switch	/devices/wb-t34-1/controls/EXT1_IN4	
+false
+OK
+wb-t34-1/EXT1_IN5	switch	/devices/wb-t34-1/controls/EXT1_IN5	
+false
+OK
+wb-t34-1/EXT1_IN6	switch	/devices/wb-t34-1/controls/EXT1_IN6	
+false
+OK
+wb-t34-1/EXT1_IN7	switch	/devices/wb-t34-1/controls/EXT1_IN7	
+false
+OK
+wb-t34-1/EXT1_IN8	switch	/devices/wb-t34-1/controls/EXT1_IN8	
+false
+OK
+wb-t34-1/EXT1_IN9	switch	/devices/wb-t34-1/controls/EXT1_IN9	
+false
+OK
+wb-t34-1/EXT1_IN10	switch	/devices/wb-t34-1/controls/EXT1_IN10	
+false
+OK
+wb-t34-1/EXT1_IN11	switch	/devices/wb-t34-1/controls/EXT1_IN11	
+false
+OK
+wb-t34-1/EXT1_IN12	switch	/devices/wb-t34-1/controls/EXT1_IN12	
+false
+OK
+wb-t34-1/EXT1_IN13	switch	/devices/wb-t34-1/controls/EXT1_IN13	
+false
+OK
+wb-t34-1/EXT1_IN14	switch	/devices/wb-t34-1/controls/EXT1_IN14	
+false
+OK
+wb-t34-1/EXT2_IN1	switch	/devices/wb-t34-1/controls/EXT2_IN1	
+false
+OK
+wb-t34-1/EXT2_IN2	switch	/devices/wb-t34-1/controls/EXT2_IN2	
+false
+OK
+wb-t34-1/EXT2_IN3	switch	/devices/wb-t34-1/controls/EXT2_IN3	
+false
+OK
+wb-t34-1/EXT2_IN4	switch	/devices/wb-t34-1/controls/EXT2_IN4	
+false
+OK
+wb-t34-1/EXT2_IN5	switch	/devices/wb-t34-1/controls/EXT2_IN5	
+false
+OK
+wb-t34-1/EXT2_IN6	switch	/devices/wb-t34-1/controls/EXT2_IN6	
+false
+OK
+wb-t34-1/EXT2_IN7	switch	/devices/wb-t34-1/controls/EXT2_IN7	
+false
+OK
+wb-t34-1/EXT2_IN8	switch	/devices/wb-t34-1/controls/EXT2_IN8	
+false
+OK
+wb-t34-1/EXT2_IN9	switch	/devices/wb-t34-1/controls/EXT2_IN9	
+false
+OK
+wb-t34-1/EXT2_IN10	switch	/devices/wb-t34-1/controls/EXT2_IN10	
+false
+OK
+wb-t34-1/EXT2_IN11	switch	/devices/wb-t34-1/controls/EXT2_IN11	
+false
+OK
+wb-t34-1/EXT2_IN12	switch	/devices/wb-t34-1/controls/EXT2_IN12	
+false
+OK
+wb-t34-1/EXT2_IN13	switch	/devices/wb-t34-1/controls/EXT2_IN13	
+false
+OK
+wb-t34-1/EXT2_IN14	switch	/devices/wb-t34-1/controls/EXT2_IN14	
+false
+OK
+wb-t34-1/EXT3_IN1	switch	/devices/wb-t34-1/controls/EXT3_IN1	
+false
+OK
+wb-t34-1/EXT3_IN2	switch	/devices/wb-t34-1/controls/EXT3_IN2	
+false
+OK
+wb-t34-1/EXT3_IN3	switch	/devices/wb-t34-1/controls/EXT3_IN3	
+false
+OK
+wb-t34-1/EXT3_IN4	switch	/devices/wb-t34-1/controls/EXT3_IN4	
+false
+OK
+wb-t34-1/EXT3_IN5	switch	/devices/wb-t34-1/controls/EXT3_IN5	
+false
+OK
+wb-t34-1/EXT3_IN6	switch	/devices/wb-t34-1/controls/EXT3_IN6	
+false
+OK
+wb-t34-1/EXT3_IN7	switch	/devices/wb-t34-1/controls/EXT3_IN7	
+false
+OK
+wb-t34-1/EXT3_IN8	switch	/devices/wb-t34-1/controls/EXT3_IN8	
+false
+OK
+wb-t34-1/EXT3_IN9	switch	/devices/wb-t34-1/controls/EXT3_IN9	
+false
+OK
+wb-t34-1/EXT3_IN10	switch	/devices/wb-t34-1/controls/EXT3_IN10	
+false
+OK
+wb-t34-1/EXT3_IN11	switch	/devices/wb-t34-1/controls/EXT3_IN11	
+false
+OK
+wb-t34-1/EXT3_IN12	switch	/devices/wb-t34-1/controls/EXT3_IN12	
+false
+OK
+wb-t34-1/EXT3_IN13	switch	/devices/wb-t34-1/controls/EXT3_IN13	
+false
+OK
+wb-t34-1/EXT3_IN14	switch	/devices/wb-t34-1/controls/EXT3_IN14	
+false
+OK
+wb-t34-1/EXT4_IN1	switch	/devices/wb-t34-1/controls/EXT4_IN1	
+false
+OK
+wb-t34-1/EXT4_IN2	switch	/devices/wb-t34-1/controls/EXT4_IN2	
+false
+OK
+wb-t34-1/EXT4_IN3	switch	/devices/wb-t34-1/controls/EXT4_IN3	
+false
+OK
+wb-t34-1/EXT4_IN4	switch	/devices/wb-t34-1/controls/EXT4_IN4	
+false
+OK
+wb-t34-1/EXT4_IN5	switch	/devices/wb-t34-1/controls/EXT4_IN5	
+false
+OK
+wb-t34-1/EXT4_IN6	switch	/devices/wb-t34-1/controls/EXT4_IN6	
+false
+OK
+wb-t34-1/EXT4_IN7	switch	/devices/wb-t34-1/controls/EXT4_IN7	
+false
+OK
+wb-t34-1/EXT4_IN8	switch	/devices/wb-t34-1/controls/EXT4_IN8	
+false
+OK
+wb-t34-1/EXT4_IN9	switch	/devices/wb-t34-1/controls/EXT4_IN9	
+false
+OK
+wb-t34-1/EXT4_IN10	switch	/devices/wb-t34-1/controls/EXT4_IN10	
+false
+OK
+wb-t34-1/EXT4_IN11	switch	/devices/wb-t34-1/controls/EXT4_IN11	
+false
+OK
+wb-t34-1/EXT4_IN12	switch	/devices/wb-t34-1/controls/EXT4_IN12	
+false
+OK
+wb-t34-1/EXT4_IN13	switch	/devices/wb-t34-1/controls/EXT4_IN13	
+false
+OK
+wb-t34-1/EXT4_IN14	switch	/devices/wb-t34-1/controls/EXT4_IN14	
+false
+OK
+wb-t34-1/EXT5_DIR1	switch	/devices/wb-t34-1/controls/EXT5_DIR1	
+true
+OK
+wb-t34-1/EXT5_ON1	switch	/devices/wb-t34-1/controls/EXT5_ON1	
+true
+OK
+wb-t34-1/EXT5_DIR2	switch	/devices/wb-t34-1/controls/EXT5_DIR2	
+true
+OK
+wb-t34-1/EXT5_ON2	switch	/devices/wb-t34-1/controls/EXT5_ON2	
+true
+OK
+wb-t34-1/EXT5_DIR3	switch	/devices/wb-t34-1/controls/EXT5_DIR3	
+true
+OK
+wb-t34-1/EXT5_ON3	switch	/devices/wb-t34-1/controls/EXT5_ON3	
+true
+OK
+wb-t34-1/EXT5_DIR4	switch	/devices/wb-t34-1/controls/EXT5_DIR4	
+true
+OK
+wb-t34-1/EXT5_ON4	switch	/devices/wb-t34-1/controls/EXT5_ON4	
+true
+OK
+wb-t34-1/EXT6_DIR1	switch	/devices/wb-t34-1/controls/EXT6_DIR1	
+false
+OK
+wb-t34-1/EXT6_ON1	switch	/devices/wb-t34-1/controls/EXT6_ON1	
+false
+OK
+wb-t34-1/EXT6_DIR2	switch	/devices/wb-t34-1/controls/EXT6_DIR2	
+false
+OK
+wb-t34-1/EXT6_ON2	switch	/devices/wb-t34-1/controls/EXT6_ON2	
+false
+OK
+wb-t34-1/EXT6_DIR3	switch	/devices/wb-t34-1/controls/EXT6_DIR3	
+false
+OK
+wb-t34-1/EXT6_ON3	switch	/devices/wb-t34-1/controls/EXT6_ON3	
+false
+OK
+wb-t34-1/EXT6_DIR4	switch	/devices/wb-t34-1/controls/EXT6_DIR4	
+false
+OK
+wb-t34-1/EXT6_ON4	switch	/devices/wb-t34-1/controls/EXT6_ON4	
+false
+OK
+wbrules/Rule debugging	switch	/devices/wbrules/controls/Rule debugging	
+true
+OK

@@ -1,0 +1,3499 @@
+Carel_UR_4_1/Active	switch	/devices/Carel_UR_4_1/controls/Active	
+false
+Error: r
+Carel_UR_4_1/TargetRelativeHumidity	range	/devices/Carel_UR_4_1/controls/TargetRelativeHumidity	
+53.4
+Error: r
+Carel_UR_4_1/Status	value	/devices/Carel_UR_4_1/controls/Status	
+6
+Error: r
+Carel_UR_4_1/CurrentRelativeHumidityMainPrb	rel_humidity	/devices/Carel_UR_4_1/controls/CurrentRelativeHumidityMainPrb	
+42.3
+Error: r
+alarms/log	text	/devices/alarms/controls/log	
+OK
+buzzer/enabled	switch	/devices/buzzer/controls/enabled	
+false
+OK
+buzzer/frequency	range	/devices/buzzer/controls/frequency	
+3000
+OK
+buzzer/volume	range	/devices/buzzer/controls/volume	
+67
+OK
+doors/1эт Буфет	switch	/devices/doors/controls/1эт Буфет	
+false
+OK
+doors/1эт Входная	switch	/devices/doors/controls/1эт Входная	
+false
+OK
+doors/1эт Гараж прихожая	switch	/devices/doors/controls/1эт Гараж прихожая	
+false
+OK
+doors/1эт Гараж техкомн	switch	/devices/doors/controls/1эт Гараж техкомн	
+false
+OK
+doors/1эт Гардероб	switch	/devices/doors/controls/1эт Гардероб	
+false
+OK
+doors/1эт Гостевая	switch	/devices/doors/controls/1эт Гостевая	
+false
+OK
+doors/1эт Коридор	switch	/devices/doors/controls/1эт Коридор	
+false
+OK
+doors/1эт Санузел	switch	/devices/doors/controls/1эт Санузел	
+false
+OK
+doors/1эт Терраса	switch	/devices/doors/controls/1эт Терраса	
+false
+OK
+doors/1эт Щитовая	switch	/devices/doors/controls/1эт Щитовая	
+false
+OK
+doors/2эт Гардеробная	switch	/devices/doors/controls/2эт Гардеробная	
+false
+OK
+doors/2эт Детская бол	switch	/devices/doors/controls/2эт Детская бол	
+false
+OK
+doors/2эт Детская мал	switch	/devices/doors/controls/2эт Детская мал	
+false
+OK
+doors/2эт Санузел бол	switch	/devices/doors/controls/2эт Санузел бол	
+false
+OK
+doors/2эт Санузел мал	switch	/devices/doors/controls/2эт Санузел мал	
+false
+OK
+doors/2эт Спальня	switch	/devices/doors/controls/2эт Спальня	
+false
+OK
+doors/Гараж ворота лев	switch	/devices/doors/controls/Гараж ворота лев	
+false
+OK
+doors/Гараж ворота прав	switch	/devices/doors/controls/Гараж ворота прав	
+false
+OK
+dooya_0x0101/Position	range	/devices/dooya_0x0101/controls/Position	
+0
+Error: r
+dooya_0x0101/Open	pushbutton	/devices/dooya_0x0101/controls/Open	
+Error: w
+dooya_0x0101/Close	pushbutton	/devices/dooya_0x0101/controls/Close	
+Error: w
+dooya_0x0101/Stop	pushbutton	/devices/dooya_0x0101/controls/Stop	
+OK
+dooya_0x0101/Factory Default	pushbutton	/devices/dooya_0x0101/controls/Factory Default	
+OK
+dooya_0x0102/Position	range	/devices/dooya_0x0102/controls/Position	
+0
+OK
+dooya_0x0102/Open	pushbutton	/devices/dooya_0x0102/controls/Open	
+OK
+dooya_0x0102/Close	pushbutton	/devices/dooya_0x0102/controls/Close	
+OK
+dooya_0x0102/Stop	pushbutton	/devices/dooya_0x0102/controls/Stop	
+OK
+dooya_0x0102/Factory Default	pushbutton	/devices/dooya_0x0102/controls/Factory Default	
+OK
+dooya_0x0103/Position	range	/devices/dooya_0x0103/controls/Position	
+0
+OK
+dooya_0x0103/Open	pushbutton	/devices/dooya_0x0103/controls/Open	
+OK
+dooya_0x0103/Close	pushbutton	/devices/dooya_0x0103/controls/Close	
+OK
+dooya_0x0103/Stop	pushbutton	/devices/dooya_0x0103/controls/Stop	
+OK
+dooya_0x0103/Factory Default	pushbutton	/devices/dooya_0x0103/controls/Factory Default	
+OK
+engine_detector/Alert	switch	/devices/engine_detector/controls/Alert	
+true
+OK
+engine_detector/BaseReady	switch	/devices/engine_detector/controls/BaseReady	
+true
+OK
+engine_detector/CDS	value	/devices/engine_detector/controls/CDS	
+22.48
+OK
+engine_detector/CO2_delta	value	/devices/engine_detector/controls/CO2_delta	
+6.23
+OK
+engine_detector/Confirmed	switch	/devices/engine_detector/controls/Confirmed	
+true
+OK
+engine_detector/LastAlert	text	/devices/engine_detector/controls/LastAlert	
+2026-04-23T23:55:46.107Z
+OK
+engine_detector/SampleCount	value	/devices/engine_detector/controls/SampleCount	
+200
+OK
+engine_detector/Sound_delta	value	/devices/engine_detector/controls/Sound_delta	
+0
+OK
+engine_detector/Temp_delta	value	/devices/engine_detector/controls/Temp_delta	
+6.05
+OK
+engine_detector/VOC_delta	value	/devices/engine_detector/controls/VOC_delta	
+77.11
+OK
+hwmon/Board Temperature	temperature	/devices/hwmon/controls/Board Temperature	
+37.25
+OK
+hwmon/CPU Temperature	temperature	/devices/hwmon/controls/CPU Temperature	
+66.783
+OK
+knx/data	text	/devices/knx/controls/data	
+i:0/0/0 i:0/0/0 GroupValueRead 0x00
+OK
+metrics/load_average_1min	value	/devices/metrics/controls/load_average_1min	
+2.2
+OK
+metrics/load_average_5min	value	/devices/metrics/controls/load_average_5min	
+1.55
+OK
+metrics/load_average_15min	value	/devices/metrics/controls/load_average_15min	
+1.3
+OK
+metrics/ram_available	value	/devices/metrics/controls/ram_available	
+681
+OK
+metrics/ram_used	value	/devices/metrics/controls/ram_used	
+282
+OK
+metrics/swap_used	value	/devices/metrics/controls/swap_used	
+0
+OK
+metrics/ram_total	value	/devices/metrics/controls/ram_total	
+997
+OK
+metrics/swap_total	value	/devices/metrics/controls/swap_total	
+255
+OK
+metrics/dev_root_used_space	value	/devices/metrics/controls/dev_root_used_space	
+954
+OK
+metrics/data_used_space	value	/devices/metrics/controls/data_used_space	
+1446
+OK
+metrics/dev_root_total_space	value	/devices/metrics/controls/dev_root_total_space	
+1973
+OK
+metrics/dev_root_linked_on	text	/devices/metrics/controls/dev_root_linked_on	
+/dev/mmcblk0p2
+OK
+metrics/data_total_space	value	/devices/metrics/controls/data_total_space	
+4800
+OK
+mtdx62-mb_22/Presence Status	switch	/devices/mtdx62-mb_22/controls/Presence Status	
+false
+OK
+mtdx62-mb_22/Illuminance status	lux	/devices/mtdx62-mb_22/controls/Illuminance status	
+891.4
+OK
+mtdx62-mb_22/Target distance	value	/devices/mtdx62-mb_22/controls/Target distance	
+0
+OK
+mtdx62-mb_22/Detection distance	value	/devices/mtdx62-mb_22/controls/Detection distance	
+6
+OK
+mtdx62-mb_22/Detecting shielding distance	value	/devices/mtdx62-mb_22/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_22/Admission confirmation delayed	value	/devices/mtdx62-mb_22/controls/Admission confirmation delayed	
+0.05
+OK
+mtdx62-mb_22/Departure disappearance delay	value	/devices/mtdx62-mb_22/controls/Departure disappearance delay	
+2
+OK
+mtdx62-mb_22/Trigger sensitivity	value	/devices/mtdx62-mb_22/controls/Trigger sensitivity	
+5
+Error: r
+mtdx62-mb_22/Maintain sensitivity	value	/devices/mtdx62-mb_22/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_22/Entrance distance reduction	value	/devices/mtdx62-mb_22/controls/Entrance distance reduction	
+0.6
+OK
+mtdx62-mb_29/Presence Status	switch	/devices/mtdx62-mb_29/controls/Presence Status	
+false
+OK
+mtdx62-mb_29/Illuminance status	lux	/devices/mtdx62-mb_29/controls/Illuminance status	
+1134.3
+OK
+mtdx62-mb_29/Target distance	value	/devices/mtdx62-mb_29/controls/Target distance	
+0
+OK
+mtdx62-mb_29/Detection distance	value	/devices/mtdx62-mb_29/controls/Detection distance	
+6
+Error: r
+mtdx62-mb_29/Detecting shielding distance	value	/devices/mtdx62-mb_29/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_29/Admission confirmation delayed	value	/devices/mtdx62-mb_29/controls/Admission confirmation delayed	
+0.1
+Error: r
+mtdx62-mb_29/Departure disappearance delay	value	/devices/mtdx62-mb_29/controls/Departure disappearance delay	
+2
+OK
+mtdx62-mb_29/Trigger sensitivity	value	/devices/mtdx62-mb_29/controls/Trigger sensitivity	
+7
+OK
+mtdx62-mb_29/Maintain sensitivity	value	/devices/mtdx62-mb_29/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_29/Entrance distance reduction	value	/devices/mtdx62-mb_29/controls/Entrance distance reduction	
+0.6
+OK
+mtdx62-mb_30/Presence Status	switch	/devices/mtdx62-mb_30/controls/Presence Status	
+false
+Error: r
+mtdx62-mb_30/Illuminance status	lux	/devices/mtdx62-mb_30/controls/Illuminance status	
+14.2
+Error: r
+mtdx62-mb_30/Target distance	value	/devices/mtdx62-mb_30/controls/Target distance	
+0
+Error: r
+mtdx62-mb_30/Detection distance	value	/devices/mtdx62-mb_30/controls/Detection distance	
+6
+Error: r
+mtdx62-mb_30/Detecting shielding distance	value	/devices/mtdx62-mb_30/controls/Detecting shielding distance	
+0.6
+Error: r
+mtdx62-mb_30/Admission confirmation delayed	value	/devices/mtdx62-mb_30/controls/Admission confirmation delayed	
+0.05
+Error: r
+mtdx62-mb_30/Departure disappearance delay	value	/devices/mtdx62-mb_30/controls/Departure disappearance delay	
+3
+Error: r
+mtdx62-mb_30/Trigger sensitivity	value	/devices/mtdx62-mb_30/controls/Trigger sensitivity	
+5
+Error: r
+mtdx62-mb_30/Maintain sensitivity	value	/devices/mtdx62-mb_30/controls/Maintain sensitivity	
+7
+Error: r
+mtdx62-mb_30/Entrance distance reduction	value	/devices/mtdx62-mb_30/controls/Entrance distance reduction	
+0.6
+Error: r
+mtdx62-mb_31/Presence Status	switch	/devices/mtdx62-mb_31/controls/Presence Status	
+false
+OK
+mtdx62-mb_31/Illuminance status	lux	/devices/mtdx62-mb_31/controls/Illuminance status	
+440
+OK
+mtdx62-mb_31/Target distance	value	/devices/mtdx62-mb_31/controls/Target distance	
+0
+OK
+mtdx62-mb_31/Detection distance	value	/devices/mtdx62-mb_31/controls/Detection distance	
+6
+Error: r
+mtdx62-mb_31/Detecting shielding distance	value	/devices/mtdx62-mb_31/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_31/Admission confirmation delayed	value	/devices/mtdx62-mb_31/controls/Admission confirmation delayed	
+0.05
+Error: r
+mtdx62-mb_31/Departure disappearance delay	value	/devices/mtdx62-mb_31/controls/Departure disappearance delay	
+2
+OK
+mtdx62-mb_31/Trigger sensitivity	value	/devices/mtdx62-mb_31/controls/Trigger sensitivity	
+5
+OK
+mtdx62-mb_31/Maintain sensitivity	value	/devices/mtdx62-mb_31/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_31/Entrance distance reduction	value	/devices/mtdx62-mb_31/controls/Entrance distance reduction	
+0.6
+OK
+mtdx62-mb_34/Presence Status	switch	/devices/mtdx62-mb_34/controls/Presence Status	
+false
+OK
+mtdx62-mb_34/Illuminance status	lux	/devices/mtdx62-mb_34/controls/Illuminance status	
+255.9
+OK
+mtdx62-mb_34/Target distance	value	/devices/mtdx62-mb_34/controls/Target distance	
+0
+OK
+mtdx62-mb_34/Detection distance	value	/devices/mtdx62-mb_34/controls/Detection distance	
+6
+Error: r
+mtdx62-mb_34/Detecting shielding distance	value	/devices/mtdx62-mb_34/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_34/Admission confirmation delayed	value	/devices/mtdx62-mb_34/controls/Admission confirmation delayed	
+0.05
+Error: r
+mtdx62-mb_34/Departure disappearance delay	value	/devices/mtdx62-mb_34/controls/Departure disappearance delay	
+3
+OK
+mtdx62-mb_34/Trigger sensitivity	value	/devices/mtdx62-mb_34/controls/Trigger sensitivity	
+5
+OK
+mtdx62-mb_34/Maintain sensitivity	value	/devices/mtdx62-mb_34/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_34/Entrance distance reduction	value	/devices/mtdx62-mb_34/controls/Entrance distance reduction	
+0.6
+OK
+mtdx62-mb_5/Presence Status	switch	/devices/mtdx62-mb_5/controls/Presence Status	
+false
+OK
+mtdx62-mb_5/Illuminance status	lux	/devices/mtdx62-mb_5/controls/Illuminance status	
+298.1
+OK
+mtdx62-mb_5/Target distance	value	/devices/mtdx62-mb_5/controls/Target distance	
+0
+OK
+mtdx62-mb_5/Detection distance	value	/devices/mtdx62-mb_5/controls/Detection distance	
+6
+OK
+mtdx62-mb_5/Detecting shielding distance	value	/devices/mtdx62-mb_5/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_5/Admission confirmation delayed	value	/devices/mtdx62-mb_5/controls/Admission confirmation delayed	
+0.1
+OK
+mtdx62-mb_5/Departure disappearance delay	value	/devices/mtdx62-mb_5/controls/Departure disappearance delay	
+2
+OK
+mtdx62-mb_5/Trigger sensitivity	value	/devices/mtdx62-mb_5/controls/Trigger sensitivity	
+7
+OK
+mtdx62-mb_5/Maintain sensitivity	value	/devices/mtdx62-mb_5/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_5/Entrance distance reduction	value	/devices/mtdx62-mb_5/controls/Entrance distance reduction	
+0.6
+OK
+mtdx62-mb_55/Presence Status	switch	/devices/mtdx62-mb_55/controls/Presence Status	
+false
+OK
+mtdx62-mb_55/Illuminance status	lux	/devices/mtdx62-mb_55/controls/Illuminance status	
+1132
+OK
+mtdx62-mb_55/Target distance	value	/devices/mtdx62-mb_55/controls/Target distance	
+0
+OK
+mtdx62-mb_55/Detection distance	value	/devices/mtdx62-mb_55/controls/Detection distance	
+6
+OK
+mtdx62-mb_55/Detecting shielding distance	value	/devices/mtdx62-mb_55/controls/Detecting shielding distance	
+0.6
+OK
+mtdx62-mb_55/Admission confirmation delayed	value	/devices/mtdx62-mb_55/controls/Admission confirmation delayed	
+0.05
+Error: r
+mtdx62-mb_55/Departure disappearance delay	value	/devices/mtdx62-mb_55/controls/Departure disappearance delay	
+2
+OK
+mtdx62-mb_55/Trigger sensitivity	value	/devices/mtdx62-mb_55/controls/Trigger sensitivity	
+5
+OK
+mtdx62-mb_55/Maintain sensitivity	value	/devices/mtdx62-mb_55/controls/Maintain sensitivity	
+7
+OK
+mtdx62-mb_55/Entrance distance reduction	value	/devices/mtdx62-mb_55/controls/Entrance distance reduction	
+0.6
+OK
+network/Active Connections	text	/devices/network/controls/Active Connections	
+["lo","tailscale0","wb-eth1"]
+OK
+network/Default Interface	text	/devices/network/controls/Default Interface	
+eth1
+OK
+network/Internet Connection	text	/devices/network/controls/Internet Connection	
+wb-eth1
+OK
+network/Ethernet IP	text	/devices/network/controls/Ethernet IP	
+OK
+network/Ethernet IP Online Status	switch	/devices/network/controls/Ethernet IP Online Status	
+false
+OK
+network/Ethernet IP Connection Enabled	switch	/devices/network/controls/Ethernet IP Connection Enabled	
+false
+OK
+network/Ethernet 2 IP	text	/devices/network/controls/Ethernet 2 IP	
+192.168.0.200
+OK
+network/Ethernet 2 IP Online Status	switch	/devices/network/controls/Ethernet 2 IP Online Status	
+true
+OK
+network/Ethernet 2 IP Connection Enabled	switch	/devices/network/controls/Ethernet 2 IP Connection Enabled	
+true
+OK
+network/Wi-Fi IP	text	/devices/network/controls/Wi-Fi IP	
+OK
+network/Wi-Fi IP Online Status	switch	/devices/network/controls/Wi-Fi IP Online Status	
+false
+OK
+network/Wi-Fi IP Connection Enabled	switch	/devices/network/controls/Wi-Fi IP Connection Enabled	
+false
+OK
+network/Wi-Fi 2 IP	text	/devices/network/controls/Wi-Fi 2 IP	
+OK
+network/Wi-Fi 2 IP Online Status	switch	/devices/network/controls/Wi-Fi 2 IP Online Status	
+false
+OK
+network/Wi-Fi 2 IP Connection Enabled	switch	/devices/network/controls/Wi-Fi 2 IP Connection Enabled	
+false
+OK
+network/GPRS IP	text	/devices/network/controls/GPRS IP	
+OK
+network/GPRS IP Online Status	switch	/devices/network/controls/GPRS IP Online Status	
+false
+OK
+network/GPRS IP Connection Enabled	switch	/devices/network/controls/GPRS IP Connection Enabled	
+false
+OK
+ping/global	switch	/devices/ping/controls/global	
+true
+OK
+ping/site	switch	/devices/ping/controls/site	
+true
+OK
+power_off/power_off	pushbutton	/devices/power_off/controls/power_off	
+OK
+power_status/Vin	voltage	/devices/power_status/controls/Vin	
+23.4
+OK
+power_status/working on battery	switch	/devices/power_status/controls/working on battery	
+false
+OK
+system/Batch No	text	/devices/system/controls/Batch No	
+7.2.1B 579
+OK
+system/Current uptime	text	/devices/system/controls/Current uptime	
+8d 5h 8m
+OK
+system/DTS Version	text	/devices/system/controls/DTS Version	
+720
+OK
+system/HW Revision	text	/devices/system/controls/HW Revision	
+7.2.1
+OK
+system/Manufacturing Date	text	/devices/system/controls/Manufacturing Date	
+2022-02-11 13:21:24+00:00
+OK
+system/Reboot	pushbutton	/devices/system/controls/Reboot	
+OK
+system/Release name	text	/devices/system/controls/Release name	
+wb-2602
+OK
+system/Release suite	text	/devices/system/controls/Release suite	
+stable
+OK
+system/Short SN	text	/devices/system/controls/Short SN	
+AKTCQ4WF
+OK
+system/Temperature Grade	text	/devices/system/controls/Temperature Grade	
+industrial
+OK
+system_time/current_date	text	/devices/system_time/controls/current_date	
+2026-04-25
+OK
+system_time/current_day	value	/devices/system_time/controls/current_day	
+6
+OK
+system_time/current_time	text	/devices/system_time/controls/current_time	
+07:05
+OK
+system_time/timezone	text	/devices/system_time/controls/timezone	
+UTC+0000
+OK
+t13_frequency_converter_v2_2/frequency	value	/devices/t13_frequency_converter_v2_2/controls/frequency	
+0
+Error: r
+t13_frequency_converter_v2_2/start_stop_reverse	value	/devices/t13_frequency_converter_v2_2/controls/start_stop_reverse	
+2
+Error: r
+t13_frequency_converter_v2_2/panel_fw_version	text	/devices/t13_frequency_converter_v2_2/controls/panel_fw_version	
+241
+Error: r
+t13_frequency_converter_v2_2/driver_fw_version	text	/devices/t13_frequency_converter_v2_2/controls/driver_fw_version	
+19
+Error: r
+t13_frequency_converter_v2_2/voltage_bus	value	/devices/t13_frequency_converter_v2_2/controls/voltage_bus	
+52.2
+Error: r
+t13_frequency_converter_v2_2/current	value	/devices/t13_frequency_converter_v2_2/controls/current	
+0
+Error: r
+t13_frequency_converter_v2_2/radiator_temperature	value	/devices/t13_frequency_converter_v2_2/controls/radiator_temperature	
+24
+Error: r
+t13_vfd_control/start	switch	/devices/t13_vfd_control/controls/start	
+false
+OK
+t13_vfd_control/stop	switch	/devices/t13_vfd_control/controls/stop	
+false
+OK
+wb-adc/A1	voltage	/devices/wb-adc/controls/A1	
+0
+OK
+wb-adc/A2	voltage	/devices/wb-adc/controls/A2	
+0
+OK
+wb-adc/A3	voltage	/devices/wb-adc/controls/A3	
+0.04
+OK
+wb-adc/Vin	voltage	/devices/wb-adc/controls/Vin	
+23.4
+OK
+wb-gpio/A1_OUT	switch	/devices/wb-gpio/controls/A1_OUT	
+true
+OK
+wb-gpio/A2_OUT	switch	/devices/wb-gpio/controls/A2_OUT	
+false
+OK
+wb-gpio/A3_OUT	switch	/devices/wb-gpio/controls/A3_OUT	
+false
+OK
+wb-gpio/D1_OUT	switch	/devices/wb-gpio/controls/D1_OUT	
+false
+OK
+wb-gpio/A1_IN_total	water_consumption	/devices/wb-gpio/controls/A1_IN_total	
+13.63
+OK
+wb-gpio/A1_IN_current	water_flow	/devices/wb-gpio/controls/A1_IN_current	
+0.03
+OK
+wb-gpio/A2_IN	switch	/devices/wb-gpio/controls/A2_IN	
+false
+OK
+wb-gpio/A3_IN	switch	/devices/wb-gpio/controls/A3_IN	
+false
+OK
+wb-gpio/D1_IN	switch	/devices/wb-gpio/controls/D1_IN	
+false
+OK
+wb-gpio/5V_OUT	switch	/devices/wb-gpio/controls/5V_OUT	
+true
+OK
+wb-gpio/V_OUT	switch	/devices/wb-gpio/controls/V_OUT	
+true
+OK
+wb-gpio/EXT1_IN1	switch	/devices/wb-gpio/controls/EXT1_IN1	
+false
+OK
+wb-gpio/EXT1_IN2	switch	/devices/wb-gpio/controls/EXT1_IN2	
+false
+OK
+wb-gpio/EXT1_IN3	switch	/devices/wb-gpio/controls/EXT1_IN3	
+false
+OK
+wb-gpio/EXT1_IN4	switch	/devices/wb-gpio/controls/EXT1_IN4	
+false
+OK
+wb-gpio/EXT1_IN5	switch	/devices/wb-gpio/controls/EXT1_IN5	
+false
+OK
+wb-gpio/EXT1_IN6	switch	/devices/wb-gpio/controls/EXT1_IN6	
+false
+OK
+wb-gpio/EXT1_IN7	switch	/devices/wb-gpio/controls/EXT1_IN7	
+false
+OK
+wb-gpio/EXT1_IN8	switch	/devices/wb-gpio/controls/EXT1_IN8	
+false
+OK
+wb-gpio/EXT1_IN9	switch	/devices/wb-gpio/controls/EXT1_IN9	
+false
+OK
+wb-gpio/EXT1_IN10	switch	/devices/wb-gpio/controls/EXT1_IN10	
+false
+OK
+wb-gpio/EXT1_IN11	switch	/devices/wb-gpio/controls/EXT1_IN11	
+false
+OK
+wb-gpio/EXT1_IN12	switch	/devices/wb-gpio/controls/EXT1_IN12	
+false
+OK
+wb-gpio/EXT1_IN13	switch	/devices/wb-gpio/controls/EXT1_IN13	
+false
+OK
+wb-gpio/EXT1_IN14	switch	/devices/wb-gpio/controls/EXT1_IN14	
+false
+OK
+wb-gpio/EXT2_IN1	switch	/devices/wb-gpio/controls/EXT2_IN1	
+false
+OK
+wb-gpio/EXT2_IN2	switch	/devices/wb-gpio/controls/EXT2_IN2	
+false
+OK
+wb-gpio/EXT2_IN3	switch	/devices/wb-gpio/controls/EXT2_IN3	
+false
+OK
+wb-gpio/EXT2_IN4	switch	/devices/wb-gpio/controls/EXT2_IN4	
+false
+OK
+wb-gpio/EXT2_IN5	switch	/devices/wb-gpio/controls/EXT2_IN5	
+false
+OK
+wb-gpio/EXT2_IN6	switch	/devices/wb-gpio/controls/EXT2_IN6	
+false
+OK
+wb-gpio/EXT2_IN7	switch	/devices/wb-gpio/controls/EXT2_IN7	
+false
+OK
+wb-gpio/EXT2_IN8	switch	/devices/wb-gpio/controls/EXT2_IN8	
+false
+OK
+wb-gpio/EXT2_IN9	switch	/devices/wb-gpio/controls/EXT2_IN9	
+false
+OK
+wb-gpio/EXT2_IN10	switch	/devices/wb-gpio/controls/EXT2_IN10	
+false
+OK
+wb-gpio/EXT2_IN11	switch	/devices/wb-gpio/controls/EXT2_IN11	
+false
+OK
+wb-gpio/EXT2_IN12	switch	/devices/wb-gpio/controls/EXT2_IN12	
+false
+OK
+wb-gpio/EXT2_IN13	switch	/devices/wb-gpio/controls/EXT2_IN13	
+false
+OK
+wb-gpio/EXT2_IN14	switch	/devices/wb-gpio/controls/EXT2_IN14	
+false
+OK
+wb-gpio/EXT3_IN1	switch	/devices/wb-gpio/controls/EXT3_IN1	
+false
+OK
+wb-gpio/EXT3_IN2	switch	/devices/wb-gpio/controls/EXT3_IN2	
+false
+OK
+wb-gpio/EXT3_IN3	switch	/devices/wb-gpio/controls/EXT3_IN3	
+false
+OK
+wb-gpio/EXT3_IN4	switch	/devices/wb-gpio/controls/EXT3_IN4	
+false
+OK
+wb-gpio/EXT3_IN5	switch	/devices/wb-gpio/controls/EXT3_IN5	
+false
+OK
+wb-gpio/EXT3_IN6	switch	/devices/wb-gpio/controls/EXT3_IN6	
+false
+OK
+wb-gpio/EXT3_IN7	switch	/devices/wb-gpio/controls/EXT3_IN7	
+false
+OK
+wb-gpio/EXT3_IN8	switch	/devices/wb-gpio/controls/EXT3_IN8	
+false
+OK
+wb-gpio/EXT3_IN9	switch	/devices/wb-gpio/controls/EXT3_IN9	
+false
+OK
+wb-gpio/EXT3_IN10	switch	/devices/wb-gpio/controls/EXT3_IN10	
+false
+OK
+wb-gpio/EXT3_IN11	switch	/devices/wb-gpio/controls/EXT3_IN11	
+false
+OK
+wb-gpio/EXT3_IN12	switch	/devices/wb-gpio/controls/EXT3_IN12	
+false
+OK
+wb-gpio/EXT3_IN13	switch	/devices/wb-gpio/controls/EXT3_IN13	
+false
+OK
+wb-gpio/EXT3_IN14	switch	/devices/wb-gpio/controls/EXT3_IN14	
+false
+OK
+wb-gpio/EXT4_IN1	switch	/devices/wb-gpio/controls/EXT4_IN1	
+false
+OK
+wb-gpio/EXT4_IN2	switch	/devices/wb-gpio/controls/EXT4_IN2	
+false
+OK
+wb-gpio/EXT4_IN3	switch	/devices/wb-gpio/controls/EXT4_IN3	
+false
+OK
+wb-gpio/EXT4_IN4	switch	/devices/wb-gpio/controls/EXT4_IN4	
+false
+OK
+wb-gpio/EXT4_IN5	switch	/devices/wb-gpio/controls/EXT4_IN5	
+false
+OK
+wb-gpio/EXT4_IN6	switch	/devices/wb-gpio/controls/EXT4_IN6	
+false
+OK
+wb-gpio/EXT4_IN7	switch	/devices/wb-gpio/controls/EXT4_IN7	
+false
+OK
+wb-gpio/EXT4_IN8	switch	/devices/wb-gpio/controls/EXT4_IN8	
+false
+OK
+wb-gpio/EXT4_IN9	switch	/devices/wb-gpio/controls/EXT4_IN9	
+false
+OK
+wb-gpio/EXT4_IN10	switch	/devices/wb-gpio/controls/EXT4_IN10	
+false
+OK
+wb-gpio/EXT4_IN11	switch	/devices/wb-gpio/controls/EXT4_IN11	
+false
+OK
+wb-gpio/EXT4_IN12	switch	/devices/wb-gpio/controls/EXT4_IN12	
+false
+OK
+wb-gpio/EXT4_IN13	switch	/devices/wb-gpio/controls/EXT4_IN13	
+false
+OK
+wb-gpio/EXT4_IN14	switch	/devices/wb-gpio/controls/EXT4_IN14	
+false
+OK
+wb-gpio/EXT5_DIR1	switch	/devices/wb-gpio/controls/EXT5_DIR1	
+true
+OK
+wb-gpio/EXT5_ON1	switch	/devices/wb-gpio/controls/EXT5_ON1	
+true
+OK
+wb-gpio/EXT5_DIR2	switch	/devices/wb-gpio/controls/EXT5_DIR2	
+true
+OK
+wb-gpio/EXT5_ON2	switch	/devices/wb-gpio/controls/EXT5_ON2	
+true
+OK
+wb-gpio/EXT5_DIR3	switch	/devices/wb-gpio/controls/EXT5_DIR3	
+true
+OK
+wb-gpio/EXT5_ON3	switch	/devices/wb-gpio/controls/EXT5_ON3	
+true
+OK
+wb-gpio/EXT5_DIR4	switch	/devices/wb-gpio/controls/EXT5_DIR4	
+true
+OK
+wb-gpio/EXT5_ON4	switch	/devices/wb-gpio/controls/EXT5_ON4	
+true
+OK
+wb-gpio/EXT6_DIR1	switch	/devices/wb-gpio/controls/EXT6_DIR1	
+false
+OK
+wb-gpio/EXT6_ON1	switch	/devices/wb-gpio/controls/EXT6_ON1	
+false
+OK
+wb-gpio/EXT6_DIR2	switch	/devices/wb-gpio/controls/EXT6_DIR2	
+false
+OK
+wb-gpio/EXT6_ON2	switch	/devices/wb-gpio/controls/EXT6_ON2	
+false
+OK
+wb-gpio/EXT6_DIR3	switch	/devices/wb-gpio/controls/EXT6_DIR3	
+false
+OK
+wb-gpio/EXT6_ON3	switch	/devices/wb-gpio/controls/EXT6_ON3	
+false
+OK
+wb-gpio/EXT6_DIR4	switch	/devices/wb-gpio/controls/EXT6_DIR4	
+false
+OK
+wb-gpio/EXT6_ON4	switch	/devices/wb-gpio/controls/EXT6_ON4	
+false
+OK
+wb-led_166/RGB Strip	switch	/devices/wb-led_166/controls/RGB Strip	
+false
+OK
+wb-led_166/RGB Palette	rgb	/devices/wb-led_166/controls/RGB Palette	
+{"r":0,"g":255,"b":98}
+OK
+wb-led_166/RGB Strip Hue	range	/devices/wb-led_166/controls/RGB Strip Hue	
+143
+OK
+wb-led_166/RGB Strip Saturation	range	/devices/wb-led_166/controls/RGB Strip Saturation	
+100
+OK
+wb-led_166/RGB Strip Brightness	range	/devices/wb-led_166/controls/RGB Strip Brightness	
+100
+OK
+wb-led_166/Hue Changing	switch	/devices/wb-led_166/controls/Hue Changing	
+false
+OK
+wb-led_166/Hue Changing Rate	value	/devices/wb-led_166/controls/Hue Changing Rate	
+30
+OK
+wb-led_166/Channel 4	switch	/devices/wb-led_166/controls/Channel 4	
+false
+OK
+wb-led_166/Channel 4 Brightness	range	/devices/wb-led_166/controls/Channel 4 Brightness	
+50
+OK
+wb-led_166/Board Temperature	value	/devices/wb-led_166/controls/Board Temperature	
+21
+OK
+wb-led_166/Allowed Power	value	/devices/wb-led_166/controls/Allowed Power	
+100
+OK
+wb-led_166/Overcurrent	switch	/devices/wb-led_166/controls/Overcurrent	
+false
+OK
+wb-led_166/Input 1	switch	/devices/wb-led_166/controls/Input 1	
+false
+OK
+wb-led_166/Input 1 Counter	value	/devices/wb-led_166/controls/Input 1 Counter	
+0
+OK
+wb-led_166/Input 2	switch	/devices/wb-led_166/controls/Input 2	
+false
+OK
+wb-led_166/Input 2 Counter	value	/devices/wb-led_166/controls/Input 2 Counter	
+0
+OK
+wb-led_166/Input 3	switch	/devices/wb-led_166/controls/Input 3	
+false
+OK
+wb-led_166/Input 3 Counter	value	/devices/wb-led_166/controls/Input 3 Counter	
+0
+OK
+wb-led_166/Input 4	switch	/devices/wb-led_166/controls/Input 4	
+false
+OK
+wb-led_166/Input 4 Counter	value	/devices/wb-led_166/controls/Input 4 Counter	
+0
+OK
+wb-led_166/Serial	text	/devices/wb-led_166/controls/Serial	
+377376
+OK
+wb-led_184/RGB Strip	switch	/devices/wb-led_184/controls/RGB Strip	
+false
+OK
+wb-led_184/RGB Palette	rgb	/devices/wb-led_184/controls/RGB Palette	
+{"r":0,"g":255,"b":255}
+OK
+wb-led_184/RGB Strip Hue	range	/devices/wb-led_184/controls/RGB Strip Hue	
+180
+OK
+wb-led_184/RGB Strip Saturation	range	/devices/wb-led_184/controls/RGB Strip Saturation	
+100
+OK
+wb-led_184/RGB Strip Brightness	range	/devices/wb-led_184/controls/RGB Strip Brightness	
+100
+OK
+wb-led_184/Hue Changing	switch	/devices/wb-led_184/controls/Hue Changing	
+false
+OK
+wb-led_184/Hue Changing Rate	value	/devices/wb-led_184/controls/Hue Changing Rate	
+30
+OK
+wb-led_184/Channel 4	switch	/devices/wb-led_184/controls/Channel 4	
+false
+OK
+wb-led_184/Channel 4 Brightness	range	/devices/wb-led_184/controls/Channel 4 Brightness	
+50
+OK
+wb-led_184/Board Temperature	value	/devices/wb-led_184/controls/Board Temperature	
+21
+OK
+wb-led_184/Allowed Power	value	/devices/wb-led_184/controls/Allowed Power	
+100
+OK
+wb-led_184/Overcurrent	switch	/devices/wb-led_184/controls/Overcurrent	
+false
+OK
+wb-led_184/Input 1	switch	/devices/wb-led_184/controls/Input 1	
+false
+OK
+wb-led_184/Input 1 Counter	value	/devices/wb-led_184/controls/Input 1 Counter	
+0
+OK
+wb-led_184/Input 2	switch	/devices/wb-led_184/controls/Input 2	
+false
+OK
+wb-led_184/Input 2 Counter	value	/devices/wb-led_184/controls/Input 2 Counter	
+0
+OK
+wb-led_184/Input 3	switch	/devices/wb-led_184/controls/Input 3	
+false
+OK
+wb-led_184/Input 3 Counter	value	/devices/wb-led_184/controls/Input 3 Counter	
+0
+OK
+wb-led_184/Input 4	switch	/devices/wb-led_184/controls/Input 4	
+false
+OK
+wb-led_184/Input 4 Counter	value	/devices/wb-led_184/controls/Input 4 Counter	
+0
+OK
+wb-led_184/Serial	text	/devices/wb-led_184/controls/Serial	
+376777
+OK
+wb-map3e_219/Urms L1	voltage	/devices/wb-map3e_219/controls/Urms L1	
+243.594
+Error: r
+wb-map3e_219/U L1-L2	voltage	/devices/wb-map3e_219/controls/U L1-L2	
+421.9
+Error: r
+wb-map3e_219/Upeak L1	voltage	/devices/wb-map3e_219/controls/Upeak L1	
+347.05
+Error: r
+wb-map3e_219/Voltage angle L1	value	/devices/wb-map3e_219/controls/Voltage angle L1	
+0
+Error: r
+wb-map3e_219/Irms L1	current	/devices/wb-map3e_219/controls/Irms L1	
+0.8815
+Error: r
+wb-map3e_219/Ipeak L1	current	/devices/wb-map3e_219/controls/Ipeak L1	
+3.94
+Error: r
+wb-map3e_219/P L1	power	/devices/wb-map3e_219/controls/P L1	
+139.86
+Error: r
+wb-map3e_219/Q L1	value	/devices/wb-map3e_219/controls/Q L1	
+-60.02
+Error: r
+wb-map3e_219/S L1	value	/devices/wb-map3e_219/controls/S L1	
+218.44
+Error: r
+wb-map3e_219/PF L1	value	/devices/wb-map3e_219/controls/PF L1	
+0.6
+Error: r
+wb-map3e_219/AP energy L1	power_consumption	/devices/wb-map3e_219/controls/AP energy L1	
+198.28674
+Error: r
+wb-map3e_219/AN energy L1	power_consumption	/devices/wb-map3e_219/controls/AN energy L1	
+0
+Error: r
+wb-map3e_219/RP energy L1	value	/devices/wb-map3e_219/controls/RP energy L1	
+182.22273
+Error: r
+wb-map3e_219/RN energy L1	value	/devices/wb-map3e_219/controls/RN energy L1	
+6.50214
+Error: r
+wb-map3e_219/Phase angle L1	value	/devices/wb-map3e_219/controls/Phase angle L1	
+-14.7
+Error: r
+wb-map3e_219/Urms L2	voltage	/devices/wb-map3e_219/controls/Urms L2	
+244.235
+Error: r
+wb-map3e_219/U L2-L3	voltage	/devices/wb-map3e_219/controls/U L2-L3	
+422
+Error: r
+wb-map3e_219/Upeak L2	voltage	/devices/wb-map3e_219/controls/Upeak L2	
+348.76
+Error: r
+wb-map3e_219/Voltage angle L2	value	/devices/wb-map3e_219/controls/Voltage angle L2	
+120
+Error: r
+wb-map3e_219/Irms L2	current	/devices/wb-map3e_219/controls/Irms L2	
+1.4713
+Error: r
+wb-map3e_219/Ipeak L2	current	/devices/wb-map3e_219/controls/Ipeak L2	
+14.98
+Error: r
+wb-map3e_219/P L2	power	/devices/wb-map3e_219/controls/P L2	
+238.02
+Error: r
+wb-map3e_219/Q L2	value	/devices/wb-map3e_219/controls/Q L2	
+-43.15
+Error: r
+wb-map3e_219/S L2	value	/devices/wb-map3e_219/controls/S L2	
+360.81
+Error: r
+wb-map3e_219/PF L2	value	/devices/wb-map3e_219/controls/PF L2	
+0.66
+Error: r
+wb-map3e_219/AP energy L2	power_consumption	/devices/wb-map3e_219/controls/AP energy L2	
+425.48536
+Error: r
+wb-map3e_219/AN energy L2	power_consumption	/devices/wb-map3e_219/controls/AN energy L2	
+0
+Error: r
+wb-map3e_219/RP energy L2	value	/devices/wb-map3e_219/controls/RP energy L2	
+182.34092
+Error: r
+wb-map3e_219/RN energy L2	value	/devices/wb-map3e_219/controls/RN energy L2	
+6.29669
+Error: r
+wb-map3e_219/Phase angle L2	value	/devices/wb-map3e_219/controls/Phase angle L2	
+-9.2
+Error: r
+wb-map3e_219/Urms L3	voltage	/devices/wb-map3e_219/controls/Urms L3	
+242.563
+Error: r
+wb-map3e_219/U L3-L1	voltage	/devices/wb-map3e_219/controls/U L3-L1	
+418.8
+Error: r
+wb-map3e_219/Upeak L3	voltage	/devices/wb-map3e_219/controls/Upeak L3	
+346.57
+Error: r
+wb-map3e_219/Voltage angle L3	value	/devices/wb-map3e_219/controls/Voltage angle L3	
+-119.5
+Error: r
+wb-map3e_219/Irms L3	current	/devices/wb-map3e_219/controls/Irms L3	
+0.6705
+Error: r
+wb-map3e_219/Ipeak L3	current	/devices/wb-map3e_219/controls/Ipeak L3	
+1.74
+Error: r
+wb-map3e_219/P L3	power	/devices/wb-map3e_219/controls/P L3	
+101.01
+Error: r
+wb-map3e_219/Q L3	value	/devices/wb-map3e_219/controls/Q L3	
+-126.65
+Error: r
+wb-map3e_219/S L3	value	/devices/wb-map3e_219/controls/S L3	
+165.69
+Error: r
+wb-map3e_219/PF L3	value	/devices/wb-map3e_219/controls/PF L3	
+0.6
+Error: r
+wb-map3e_219/AP energy L3	power_consumption	/devices/wb-map3e_219/controls/AP energy L3	
+424.75963
+Error: r
+wb-map3e_219/AN energy L3	power_consumption	/devices/wb-map3e_219/controls/AN energy L3	
+0
+Error: r
+wb-map3e_219/RP energy L3	value	/devices/wb-map3e_219/controls/RP energy L3	
+182.02945
+Error: r
+wb-map3e_219/RN energy L3	value	/devices/wb-map3e_219/controls/RN energy L3	
+12.69341
+Error: r
+wb-map3e_219/Phase angle L3	value	/devices/wb-map3e_219/controls/Phase angle L3	
+-54.4
+Error: r
+wb-map3e_219/Total P	power	/devices/wb-map3e_219/controls/Total P	
+477.77
+Error: r
+wb-map3e_219/Total Q	value	/devices/wb-map3e_219/controls/Total Q	
+-230.07
+Error: r
+wb-map3e_219/Total S	value	/devices/wb-map3e_219/controls/Total S	
+738.38
+Error: r
+wb-map3e_219/Total PF	value	/devices/wb-map3e_219/controls/Total PF	
+0.63
+Error: r
+wb-map3e_219/Total AP energy	power_consumption	/devices/wb-map3e_219/controls/Total AP energy	
+1048.53281
+Error: r
+wb-map3e_219/Total AN energy	power_consumption	/devices/wb-map3e_219/controls/Total AN energy	
+0
+Error: r
+wb-map3e_219/Total RP energy	value	/devices/wb-map3e_219/controls/Total RP energy	
+546.5931
+Error: r
+wb-map3e_219/Total RN energy	value	/devices/wb-map3e_219/controls/Total RN energy	
+25.49223
+Error: r
+wb-map3e_219/Frequency	value	/devices/wb-map3e_219/controls/Frequency	
+50.03
+Error: r
+wb-map3e_219/Serial	text	/devices/wb-map3e_219/controls/Serial	
+16801044
+Error: r
+wb-mcm8_59/Input 1	switch	/devices/wb-mcm8_59/controls/Input 1	
+false
+OK
+wb-mcm8_59/Input 1 counter	value	/devices/wb-mcm8_59/controls/Input 1 counter	
+639
+OK
+wb-mcm8_59/Input 2	switch	/devices/wb-mcm8_59/controls/Input 2	
+true
+OK
+wb-mcm8_59/Input 2 counter	value	/devices/wb-mcm8_59/controls/Input 2 counter	
+361
+OK
+wb-mcm8_59/Input 3	switch	/devices/wb-mcm8_59/controls/Input 3	
+true
+OK
+wb-mcm8_59/Input 3 counter	value	/devices/wb-mcm8_59/controls/Input 3 counter	
+1480
+OK
+wb-mcm8_59/Input 4	switch	/devices/wb-mcm8_59/controls/Input 4	
+true
+OK
+wb-mcm8_59/Input 4 counter	value	/devices/wb-mcm8_59/controls/Input 4 counter	
+391
+OK
+wb-mcm8_59/Input 5	switch	/devices/wb-mcm8_59/controls/Input 5	
+false
+OK
+wb-mcm8_59/Input 5 counter	value	/devices/wb-mcm8_59/controls/Input 5 counter	
+23
+OK
+wb-mcm8_59/Input 6	switch	/devices/wb-mcm8_59/controls/Input 6	
+true
+OK
+wb-mcm8_59/Input 6 counter	value	/devices/wb-mcm8_59/controls/Input 6 counter	
+21
+OK
+wb-mcm8_59/Input 7	switch	/devices/wb-mcm8_59/controls/Input 7	
+false
+OK
+wb-mcm8_59/Input 7 counter	value	/devices/wb-mcm8_59/controls/Input 7 counter	
+4
+OK
+wb-mcm8_59/Input 8	switch	/devices/wb-mcm8_59/controls/Input 8	
+false
+OK
+wb-mcm8_59/Input 8 counter	value	/devices/wb-mcm8_59/controls/Input 8 counter	
+4
+OK
+wb-mcm8_59/Reset all counters	pushbutton	/devices/wb-mcm8_59/controls/Reset all counters	
+OK
+wb-mcm8_59/Serial	text	/devices/wb-mcm8_59/controls/Serial	
+311534
+OK
+wb-mcm8_62/Input 1	switch	/devices/wb-mcm8_62/controls/Input 1	
+true
+OK
+wb-mcm8_62/Input 1 counter	value	/devices/wb-mcm8_62/controls/Input 1 counter	
+14
+OK
+wb-mcm8_62/Input 2	switch	/devices/wb-mcm8_62/controls/Input 2	
+true
+OK
+wb-mcm8_62/Input 2 counter	value	/devices/wb-mcm8_62/controls/Input 2 counter	
+37
+OK
+wb-mcm8_62/Input 3	switch	/devices/wb-mcm8_62/controls/Input 3	
+true
+OK
+wb-mcm8_62/Input 3 counter	value	/devices/wb-mcm8_62/controls/Input 3 counter	
+28
+OK
+wb-mcm8_62/Input 4	switch	/devices/wb-mcm8_62/controls/Input 4	
+false
+OK
+wb-mcm8_62/Input 4 counter	value	/devices/wb-mcm8_62/controls/Input 4 counter	
+17
+OK
+wb-mcm8_62/Input 5	switch	/devices/wb-mcm8_62/controls/Input 5	
+false
+OK
+wb-mcm8_62/Input 5 counter	value	/devices/wb-mcm8_62/controls/Input 5 counter	
+3
+OK
+wb-mcm8_62/Input 6	switch	/devices/wb-mcm8_62/controls/Input 6	
+false
+OK
+wb-mcm8_62/Input 6 counter	value	/devices/wb-mcm8_62/controls/Input 6 counter	
+31
+OK
+wb-mcm8_62/Input 7	switch	/devices/wb-mcm8_62/controls/Input 7	
+false
+OK
+wb-mcm8_62/Input 7 counter	value	/devices/wb-mcm8_62/controls/Input 7 counter	
+203
+OK
+wb-mcm8_62/Input 8	switch	/devices/wb-mcm8_62/controls/Input 8	
+false
+OK
+wb-mcm8_62/Input 8 counter	value	/devices/wb-mcm8_62/controls/Input 8 counter	
+53
+OK
+wb-mcm8_62/Reset all counters	pushbutton	/devices/wb-mcm8_62/controls/Reset all counters	
+OK
+wb-mcm8_62/Serial	text	/devices/wb-mcm8_62/controls/Serial	
+311544
+OK
+wb-mcm8_94/Input 1	switch	/devices/wb-mcm8_94/controls/Input 1	
+false
+OK
+wb-mcm8_94/Input 1 counter	value	/devices/wb-mcm8_94/controls/Input 1 counter	
+14
+OK
+wb-mcm8_94/Input 2	switch	/devices/wb-mcm8_94/controls/Input 2	
+true
+OK
+wb-mcm8_94/Input 2 counter	value	/devices/wb-mcm8_94/controls/Input 2 counter	
+238
+OK
+wb-mcm8_94/Input 3	switch	/devices/wb-mcm8_94/controls/Input 3	
+true
+OK
+wb-mcm8_94/Input 3 counter	value	/devices/wb-mcm8_94/controls/Input 3 counter	
+41
+OK
+wb-mcm8_94/Input 4	switch	/devices/wb-mcm8_94/controls/Input 4	
+true
+OK
+wb-mcm8_94/Input 4 counter	value	/devices/wb-mcm8_94/controls/Input 4 counter	
+260
+OK
+wb-mcm8_94/Input 5	switch	/devices/wb-mcm8_94/controls/Input 5	
+false
+OK
+wb-mcm8_94/Input 5 counter	value	/devices/wb-mcm8_94/controls/Input 5 counter	
+63
+OK
+wb-mcm8_94/Input 6	switch	/devices/wb-mcm8_94/controls/Input 6	
+false
+OK
+wb-mcm8_94/Input 6 counter	value	/devices/wb-mcm8_94/controls/Input 6 counter	
+20
+OK
+wb-mcm8_94/Input 7	switch	/devices/wb-mcm8_94/controls/Input 7	
+true
+OK
+wb-mcm8_94/Input 7 counter	value	/devices/wb-mcm8_94/controls/Input 7 counter	
+78
+OK
+wb-mcm8_94/Input 8	switch	/devices/wb-mcm8_94/controls/Input 8	
+false
+OK
+wb-mcm8_94/Input 8 counter	value	/devices/wb-mcm8_94/controls/Input 8 counter	
+0
+OK
+wb-mcm8_94/Reset all counters	pushbutton	/devices/wb-mcm8_94/controls/Reset all counters	
+OK
+wb-mcm8_94/Serial	text	/devices/wb-mcm8_94/controls/Serial	
+4264896065
+OK
+wb-mdm3_68/Input 1	switch	/devices/wb-mdm3_68/controls/Input 1	
+false
+OK
+wb-mdm3_68/Input 1 counter	value	/devices/wb-mdm3_68/controls/Input 1 counter	
+0
+OK
+wb-mdm3_68/Input 1 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 1 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 1 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 1 Long Press Counter	
+0
+OK
+wb-mdm3_68/Input 2	switch	/devices/wb-mdm3_68/controls/Input 2	
+false
+OK
+wb-mdm3_68/Input 2 counter	value	/devices/wb-mdm3_68/controls/Input 2 counter	
+0
+OK
+wb-mdm3_68/Input 2 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 2 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 2 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 2 Long Press Counter	
+0
+OK
+wb-mdm3_68/Input 3	switch	/devices/wb-mdm3_68/controls/Input 3	
+false
+OK
+wb-mdm3_68/Input 3 counter	value	/devices/wb-mdm3_68/controls/Input 3 counter	
+0
+OK
+wb-mdm3_68/Input 3 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 3 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 3 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 3 Long Press Counter	
+0
+OK
+wb-mdm3_68/Input 4	switch	/devices/wb-mdm3_68/controls/Input 4	
+false
+OK
+wb-mdm3_68/Input 4 counter	value	/devices/wb-mdm3_68/controls/Input 4 counter	
+0
+OK
+wb-mdm3_68/Input 4 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 4 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 4 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 4 Long Press Counter	
+0
+OK
+wb-mdm3_68/Input 5	switch	/devices/wb-mdm3_68/controls/Input 5	
+false
+OK
+wb-mdm3_68/Input 5 counter	value	/devices/wb-mdm3_68/controls/Input 5 counter	
+0
+OK
+wb-mdm3_68/Input 5 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 5 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 5 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 5 Long Press Counter	
+0
+OK
+wb-mdm3_68/Input 6	switch	/devices/wb-mdm3_68/controls/Input 6	
+false
+OK
+wb-mdm3_68/Input 6 counter	value	/devices/wb-mdm3_68/controls/Input 6 counter	
+0
+OK
+wb-mdm3_68/Input 6 Single Press Counter	value	/devices/wb-mdm3_68/controls/Input 6 Single Press Counter	
+0
+OK
+wb-mdm3_68/Input 6 Long Press Counter	value	/devices/wb-mdm3_68/controls/Input 6 Long Press Counter	
+0
+OK
+wb-mdm3_68/K1	switch	/devices/wb-mdm3_68/controls/K1	
+false
+OK
+wb-mdm3_68/Channel 1	range	/devices/wb-mdm3_68/controls/Channel 1	
+43
+OK
+wb-mdm3_68/K2	switch	/devices/wb-mdm3_68/controls/K2	
+false
+OK
+wb-mdm3_68/Channel 2	range	/devices/wb-mdm3_68/controls/Channel 2	
+1
+OK
+wb-mdm3_68/K3	switch	/devices/wb-mdm3_68/controls/K3	
+false
+OK
+wb-mdm3_68/Channel 3	range	/devices/wb-mdm3_68/controls/Channel 3	
+4
+OK
+wb-mdm3_68/Serial	text	/devices/wb-mdm3_68/controls/Serial	
+4264905970
+OK
+wb-mdm3_68/AC on L-N	switch	/devices/wb-mdm3_68/controls/AC on L-N	
+true
+OK
+wb-mdm3_68/Overcurrent	switch	/devices/wb-mdm3_68/controls/Overcurrent	
+false
+OK
+wb-mio-gpio_21:1/IN1	switch	/devices/wb-mio-gpio_21:1/controls/IN1	
+false
+OK
+wb-mio-gpio_21:1/IN2	switch	/devices/wb-mio-gpio_21:1/controls/IN2	
+false
+OK
+wb-mio-gpio_21:1/IN3	switch	/devices/wb-mio-gpio_21:1/controls/IN3	
+false
+OK
+wb-mio-gpio_21:1/IN4	switch	/devices/wb-mio-gpio_21:1/controls/IN4	
+false
+OK
+wb-mio-gpio_21:1/IN5	switch	/devices/wb-mio-gpio_21:1/controls/IN5	
+false
+OK
+wb-mio-gpio_21:1/IN6	switch	/devices/wb-mio-gpio_21:1/controls/IN6	
+false
+OK
+wb-mio-gpio_21:1/IN7	switch	/devices/wb-mio-gpio_21:1/controls/IN7	
+false
+OK
+wb-mio-gpio_21:1/IN8	switch	/devices/wb-mio-gpio_21:1/controls/IN8	
+false
+OK
+wb-mio-gpio_21:1/IN9	switch	/devices/wb-mio-gpio_21:1/controls/IN9	
+false
+OK
+wb-mio-gpio_21:1/IN10	switch	/devices/wb-mio-gpio_21:1/controls/IN10	
+false
+OK
+wb-mio-gpio_21:1/IN11	switch	/devices/wb-mio-gpio_21:1/controls/IN11	
+false
+OK
+wb-mio-gpio_21:1/IN12	switch	/devices/wb-mio-gpio_21:1/controls/IN12	
+false
+OK
+wb-mio-gpio_21:1/IN13	switch	/devices/wb-mio-gpio_21:1/controls/IN13	
+false
+OK
+wb-mio-gpio_21:1/IN14	switch	/devices/wb-mio-gpio_21:1/controls/IN14	
+false
+OK
+wb-mio-gpio_21:1/IN15	switch	/devices/wb-mio-gpio_21:1/controls/IN15	
+false
+OK
+wb-mio-gpio_21:1/IN16	switch	/devices/wb-mio-gpio_21:1/controls/IN16	
+false
+OK
+wb-mio-gpio_231:1/K1	switch	/devices/wb-mio-gpio_231:1/controls/K1	
+false
+OK
+wb-mio-gpio_231:1/K2	switch	/devices/wb-mio-gpio_231:1/controls/K2	
+false
+OK
+wb-mio-gpio_231:1/K3	switch	/devices/wb-mio-gpio_231:1/controls/K3	
+false
+OK
+wb-mio-gpio_231:1/K4	switch	/devices/wb-mio-gpio_231:1/controls/K4	
+false
+OK
+wb-mio-gpio_231:1/K5	switch	/devices/wb-mio-gpio_231:1/controls/K5	
+false
+OK
+wb-mio-gpio_231:1/K6	switch	/devices/wb-mio-gpio_231:1/controls/K6	
+false
+OK
+wb-mio-gpio_231:1/K7	switch	/devices/wb-mio-gpio_231:1/controls/K7	
+false
+OK
+wb-mio-gpio_231:1/K8	switch	/devices/wb-mio-gpio_231:1/controls/K8	
+false
+OK
+wb-mio-gpio_231:2/K1	switch	/devices/wb-mio-gpio_231:2/controls/K1	
+false
+OK
+wb-mio-gpio_231:2/K2	switch	/devices/wb-mio-gpio_231:2/controls/K2	
+false
+OK
+wb-mio-gpio_231:2/K3	switch	/devices/wb-mio-gpio_231:2/controls/K3	
+false
+OK
+wb-mio-gpio_231:2/K4	switch	/devices/wb-mio-gpio_231:2/controls/K4	
+false
+OK
+wb-mio-gpio_231:2/K5	switch	/devices/wb-mio-gpio_231:2/controls/K5	
+false
+OK
+wb-mio-gpio_231:2/K6	switch	/devices/wb-mio-gpio_231:2/controls/K6	
+false
+OK
+wb-mio-gpio_231:2/K7	switch	/devices/wb-mio-gpio_231:2/controls/K7	
+false
+OK
+wb-mio-gpio_231:2/K8	switch	/devices/wb-mio-gpio_231:2/controls/K8	
+false
+OK
+wb-mio-gpio_231:3/K1	switch	/devices/wb-mio-gpio_231:3/controls/K1	
+false
+OK
+wb-mio-gpio_231:3/K2	switch	/devices/wb-mio-gpio_231:3/controls/K2	
+false
+OK
+wb-mio-gpio_231:3/K3	switch	/devices/wb-mio-gpio_231:3/controls/K3	
+false
+OK
+wb-mio-gpio_231:3/K4	switch	/devices/wb-mio-gpio_231:3/controls/K4	
+false
+OK
+wb-mio-gpio_231:3/K5	switch	/devices/wb-mio-gpio_231:3/controls/K5	
+false
+OK
+wb-mio-gpio_231:3/K6	switch	/devices/wb-mio-gpio_231:3/controls/K6	
+false
+OK
+wb-mio-gpio_231:3/K7	switch	/devices/wb-mio-gpio_231:3/controls/K7	
+false
+OK
+wb-mio-gpio_231:3/K8	switch	/devices/wb-mio-gpio_231:3/controls/K8	
+false
+OK
+wb-mio-gpio_60:1/IN1	switch	/devices/wb-mio-gpio_60:1/controls/IN1	
+false
+OK
+wb-mio-gpio_60:1/IN2	switch	/devices/wb-mio-gpio_60:1/controls/IN2	
+false
+OK
+wb-mio-gpio_60:1/IN3	switch	/devices/wb-mio-gpio_60:1/controls/IN3	
+false
+OK
+wb-mio-gpio_60:1/IN4	switch	/devices/wb-mio-gpio_60:1/controls/IN4	
+false
+OK
+wb-mio-gpio_60:1/IN5	switch	/devices/wb-mio-gpio_60:1/controls/IN5	
+false
+OK
+wb-mio-gpio_60:1/IN6	switch	/devices/wb-mio-gpio_60:1/controls/IN6	
+false
+OK
+wb-mio-gpio_60:1/IN7	switch	/devices/wb-mio-gpio_60:1/controls/IN7	
+false
+OK
+wb-mio-gpio_60:1/IN8	switch	/devices/wb-mio-gpio_60:1/controls/IN8	
+false
+OK
+wb-mio-gpio_60:1/IN9	switch	/devices/wb-mio-gpio_60:1/controls/IN9	
+false
+OK
+wb-mio-gpio_60:1/IN10	switch	/devices/wb-mio-gpio_60:1/controls/IN10	
+false
+OK
+wb-mio-gpio_60:1/IN11	switch	/devices/wb-mio-gpio_60:1/controls/IN11	
+false
+OK
+wb-mio-gpio_60:1/IN12	switch	/devices/wb-mio-gpio_60:1/controls/IN12	
+false
+OK
+wb-mio-gpio_60:1/IN13	switch	/devices/wb-mio-gpio_60:1/controls/IN13	
+false
+OK
+wb-mio-gpio_60:1/IN14	switch	/devices/wb-mio-gpio_60:1/controls/IN14	
+false
+OK
+wb-mio-gpio_60:1/Counter 1	value	/devices/wb-mio-gpio_60:1/controls/Counter 1	
+0
+OK
+wb-mio-gpio_60:1/Counter 2	value	/devices/wb-mio-gpio_60:1/controls/Counter 2	
+0
+OK
+wb-mio-gpio_60:1/Counter 3	value	/devices/wb-mio-gpio_60:1/controls/Counter 3	
+0
+OK
+wb-mio-gpio_60:1/Counter 4	value	/devices/wb-mio-gpio_60:1/controls/Counter 4	
+0
+OK
+wb-mio-gpio_60:1/Counter 5	value	/devices/wb-mio-gpio_60:1/controls/Counter 5	
+0
+OK
+wb-mio-gpio_60:1/Counter 6	value	/devices/wb-mio-gpio_60:1/controls/Counter 6	
+0
+OK
+wb-mio-gpio_60:1/Counter 7	value	/devices/wb-mio-gpio_60:1/controls/Counter 7	
+0
+OK
+wb-mio-gpio_60:1/Counter 8	value	/devices/wb-mio-gpio_60:1/controls/Counter 8	
+0
+OK
+wb-mio-gpio_60:1/Counter 9	value	/devices/wb-mio-gpio_60:1/controls/Counter 9	
+0
+OK
+wb-mio-gpio_60:1/Counter 10	value	/devices/wb-mio-gpio_60:1/controls/Counter 10	
+0
+OK
+wb-mio-gpio_60:1/Counter 11	value	/devices/wb-mio-gpio_60:1/controls/Counter 11	
+0
+OK
+wb-mio-gpio_60:1/Counter 12	value	/devices/wb-mio-gpio_60:1/controls/Counter 12	
+0
+OK
+wb-mio-gpio_60:1/Counter 13	value	/devices/wb-mio-gpio_60:1/controls/Counter 13	
+0
+OK
+wb-mio-gpio_60:1/Counter 14	value	/devices/wb-mio-gpio_60:1/controls/Counter 14	
+0
+OK
+wb-mr3_41/Input 0	switch	/devices/wb-mr3_41/controls/Input 0	
+false
+OK
+wb-mr3_41/Input 0 counter	value	/devices/wb-mr3_41/controls/Input 0 counter	
+0
+OK
+wb-mr3_41/Input 1	switch	/devices/wb-mr3_41/controls/Input 1	
+false
+OK
+wb-mr3_41/Input 1 counter	value	/devices/wb-mr3_41/controls/Input 1 counter	
+0
+OK
+wb-mr3_41/Input 2	switch	/devices/wb-mr3_41/controls/Input 2	
+true
+OK
+wb-mr3_41/Input 2 counter	value	/devices/wb-mr3_41/controls/Input 2 counter	
+0
+OK
+wb-mr3_41/Input 3	switch	/devices/wb-mr3_41/controls/Input 3	
+false
+OK
+wb-mr3_41/Input 3 counter	value	/devices/wb-mr3_41/controls/Input 3 counter	
+0
+OK
+wb-mr3_41/K1	switch	/devices/wb-mr3_41/controls/K1	
+false
+OK
+wb-mr3_41/K2	switch	/devices/wb-mr3_41/controls/K2	
+false
+OK
+wb-mr3_41/K3	switch	/devices/wb-mr3_41/controls/K3	
+false
+OK
+wb-mr3_41/Serial	text	/devices/wb-mr3_41/controls/Serial	
+4265606120
+OK
+wb-mr6cu_107/K1	switch	/devices/wb-mr6cu_107/controls/K1	
+false
+OK
+wb-mr6cu_107/K2	switch	/devices/wb-mr6cu_107/controls/K2	
+false
+OK
+wb-mr6cu_107/K3	switch	/devices/wb-mr6cu_107/controls/K3	
+false
+OK
+wb-mr6cu_107/K4	switch	/devices/wb-mr6cu_107/controls/K4	
+false
+OK
+wb-mr6cu_107/K5	switch	/devices/wb-mr6cu_107/controls/K5	
+false
+OK
+wb-mr6cu_107/K6	switch	/devices/wb-mr6cu_107/controls/K6	
+true
+OK
+wb-mr6cu_107/Serial	text	/devices/wb-mr6cu_107/controls/Serial	
+4264722813
+OK
+wb-mr6cu_21/K1	switch	/devices/wb-mr6cu_21/controls/K1	
+false
+OK
+wb-mr6cu_21/K2	switch	/devices/wb-mr6cu_21/controls/K2	
+false
+OK
+wb-mr6cu_21/K3	switch	/devices/wb-mr6cu_21/controls/K3	
+false
+OK
+wb-mr6cu_21/K4	switch	/devices/wb-mr6cu_21/controls/K4	
+false
+OK
+wb-mr6cu_21/K5	switch	/devices/wb-mr6cu_21/controls/K5	
+false
+OK
+wb-mr6cu_21/K6	switch	/devices/wb-mr6cu_21/controls/K6	
+false
+OK
+wb-mr6cu_21/Serial	text	/devices/wb-mr6cu_21/controls/Serial	
+4264721448
+OK
+wb-mr6cu_26/K1	switch	/devices/wb-mr6cu_26/controls/K1	
+false
+OK
+wb-mr6cu_26/K2	switch	/devices/wb-mr6cu_26/controls/K2	
+false
+OK
+wb-mr6cu_26/K3	switch	/devices/wb-mr6cu_26/controls/K3	
+false
+OK
+wb-mr6cu_26/K4	switch	/devices/wb-mr6cu_26/controls/K4	
+false
+OK
+wb-mr6cu_26/K5	switch	/devices/wb-mr6cu_26/controls/K5	
+false
+OK
+wb-mr6cu_26/K6	switch	/devices/wb-mr6cu_26/controls/K6	
+false
+OK
+wb-mr6cu_26/Serial	text	/devices/wb-mr6cu_26/controls/Serial	
+4264743655
+OK
+wb-mr6cu_43/K1	switch	/devices/wb-mr6cu_43/controls/K1	
+false
+OK
+wb-mr6cu_43/K2	switch	/devices/wb-mr6cu_43/controls/K2	
+false
+OK
+wb-mr6cu_43/K3	switch	/devices/wb-mr6cu_43/controls/K3	
+false
+OK
+wb-mr6cu_43/K4	switch	/devices/wb-mr6cu_43/controls/K4	
+false
+OK
+wb-mr6cu_43/K5	switch	/devices/wb-mr6cu_43/controls/K5	
+false
+OK
+wb-mr6cu_43/K6	switch	/devices/wb-mr6cu_43/controls/K6	
+false
+OK
+wb-mr6cu_43/Serial	text	/devices/wb-mr6cu_43/controls/Serial	
+4264722825
+OK
+wb-mr6cu_44/K1	switch	/devices/wb-mr6cu_44/controls/K1	
+false
+OK
+wb-mr6cu_44/K2	switch	/devices/wb-mr6cu_44/controls/K2	
+false
+OK
+wb-mr6cu_44/K3	switch	/devices/wb-mr6cu_44/controls/K3	
+false
+OK
+wb-mr6cu_44/K4	switch	/devices/wb-mr6cu_44/controls/K4	
+false
+OK
+wb-mr6cu_44/K5	switch	/devices/wb-mr6cu_44/controls/K5	
+false
+OK
+wb-mr6cu_44/K6	switch	/devices/wb-mr6cu_44/controls/K6	
+false
+OK
+wb-mr6cu_44/Serial	text	/devices/wb-mr6cu_44/controls/Serial	
+4264729408
+OK
+wb-mr6cu_54/K1	switch	/devices/wb-mr6cu_54/controls/K1	
+false
+OK
+wb-mr6cu_54/K2	switch	/devices/wb-mr6cu_54/controls/K2	
+false
+OK
+wb-mr6cu_54/K3	switch	/devices/wb-mr6cu_54/controls/K3	
+false
+OK
+wb-mr6cu_54/K4	switch	/devices/wb-mr6cu_54/controls/K4	
+false
+OK
+wb-mr6cu_54/K5	switch	/devices/wb-mr6cu_54/controls/K5	
+false
+OK
+wb-mr6cu_54/K6	switch	/devices/wb-mr6cu_54/controls/K6	
+false
+OK
+wb-mr6cu_54/Serial	text	/devices/wb-mr6cu_54/controls/Serial	
+4264744274
+OK
+wb-mr6cu_78/K1	switch	/devices/wb-mr6cu_78/controls/K1	
+false
+OK
+wb-mr6cu_78/K2	switch	/devices/wb-mr6cu_78/controls/K2	
+false
+OK
+wb-mr6cu_78/K3	switch	/devices/wb-mr6cu_78/controls/K3	
+false
+OK
+wb-mr6cu_78/K4	switch	/devices/wb-mr6cu_78/controls/K4	
+false
+OK
+wb-mr6cu_78/K5	switch	/devices/wb-mr6cu_78/controls/K5	
+false
+OK
+wb-mr6cu_78/K6	switch	/devices/wb-mr6cu_78/controls/K6	
+false
+OK
+wb-mr6cu_78/Serial	text	/devices/wb-mr6cu_78/controls/Serial	
+4264721972
+OK
+wb-mr6cu_91/K1	switch	/devices/wb-mr6cu_91/controls/K1	
+false
+OK
+wb-mr6cu_91/K2	switch	/devices/wb-mr6cu_91/controls/K2	
+false
+OK
+wb-mr6cu_91/K3	switch	/devices/wb-mr6cu_91/controls/K3	
+false
+OK
+wb-mr6cu_91/K4	switch	/devices/wb-mr6cu_91/controls/K4	
+false
+OK
+wb-mr6cu_91/K5	switch	/devices/wb-mr6cu_91/controls/K5	
+false
+OK
+wb-mr6cu_91/K6	switch	/devices/wb-mr6cu_91/controls/K6	
+false
+OK
+wb-mr6cu_91/Serial	text	/devices/wb-mr6cu_91/controls/Serial	
+4264722275
+OK
+wb-mr6cv3_119/Input 0	switch	/devices/wb-mr6cv3_119/controls/Input 0	
+false
+OK
+wb-mr6cv3_119/Input 0 counter	value	/devices/wb-mr6cv3_119/controls/Input 0 counter	
+0
+OK
+wb-mr6cv3_119/Input 1	switch	/devices/wb-mr6cv3_119/controls/Input 1	
+false
+OK
+wb-mr6cv3_119/Input 1 counter	value	/devices/wb-mr6cv3_119/controls/Input 1 counter	
+0
+OK
+wb-mr6cv3_119/Input 2	switch	/devices/wb-mr6cv3_119/controls/Input 2	
+false
+OK
+wb-mr6cv3_119/Input 2 counter	value	/devices/wb-mr6cv3_119/controls/Input 2 counter	
+0
+OK
+wb-mr6cv3_119/Input 3	switch	/devices/wb-mr6cv3_119/controls/Input 3	
+false
+OK
+wb-mr6cv3_119/Input 3 counter	value	/devices/wb-mr6cv3_119/controls/Input 3 counter	
+0
+OK
+wb-mr6cv3_119/Input 4	switch	/devices/wb-mr6cv3_119/controls/Input 4	
+false
+OK
+wb-mr6cv3_119/Input 4 counter	value	/devices/wb-mr6cv3_119/controls/Input 4 counter	
+0
+OK
+wb-mr6cv3_119/Input 5	switch	/devices/wb-mr6cv3_119/controls/Input 5	
+false
+OK
+wb-mr6cv3_119/Input 5 counter	value	/devices/wb-mr6cv3_119/controls/Input 5 counter	
+0
+OK
+wb-mr6cv3_119/Input 6	switch	/devices/wb-mr6cv3_119/controls/Input 6	
+false
+OK
+wb-mr6cv3_119/Input 6 counter	value	/devices/wb-mr6cv3_119/controls/Input 6 counter	
+0
+OK
+wb-mr6cv3_119/K1	switch	/devices/wb-mr6cv3_119/controls/K1	
+false
+OK
+wb-mr6cv3_119/K2	switch	/devices/wb-mr6cv3_119/controls/K2	
+false
+OK
+wb-mr6cv3_119/K3	switch	/devices/wb-mr6cv3_119/controls/K3	
+true
+OK
+wb-mr6cv3_119/K4	switch	/devices/wb-mr6cv3_119/controls/K4	
+false
+OK
+wb-mr6cv3_119/K5	switch	/devices/wb-mr6cv3_119/controls/K5	
+false
+OK
+wb-mr6cv3_119/K6	switch	/devices/wb-mr6cv3_119/controls/K6	
+false
+OK
+wb-mr6cv3_119/Serial	text	/devices/wb-mr6cv3_119/controls/Serial	
+190330
+OK
+wb-mr6cv3_119/Bus Power Supply	switch	/devices/wb-mr6cv3_119/controls/Bus Power Supply	
+true
+OK
+wb-mr6cv3_32/Input 0	switch	/devices/wb-mr6cv3_32/controls/Input 0	
+false
+OK
+wb-mr6cv3_32/Input 0 counter	value	/devices/wb-mr6cv3_32/controls/Input 0 counter	
+0
+OK
+wb-mr6cv3_32/Input 1	switch	/devices/wb-mr6cv3_32/controls/Input 1	
+false
+OK
+wb-mr6cv3_32/Input 1 counter	value	/devices/wb-mr6cv3_32/controls/Input 1 counter	
+0
+OK
+wb-mr6cv3_32/Input 2	switch	/devices/wb-mr6cv3_32/controls/Input 2	
+false
+OK
+wb-mr6cv3_32/Input 2 counter	value	/devices/wb-mr6cv3_32/controls/Input 2 counter	
+0
+OK
+wb-mr6cv3_32/Input 3	switch	/devices/wb-mr6cv3_32/controls/Input 3	
+false
+OK
+wb-mr6cv3_32/Input 3 counter	value	/devices/wb-mr6cv3_32/controls/Input 3 counter	
+0
+OK
+wb-mr6cv3_32/Input 4	switch	/devices/wb-mr6cv3_32/controls/Input 4	
+false
+OK
+wb-mr6cv3_32/Input 4 counter	value	/devices/wb-mr6cv3_32/controls/Input 4 counter	
+0
+OK
+wb-mr6cv3_32/Input 5	switch	/devices/wb-mr6cv3_32/controls/Input 5	
+false
+OK
+wb-mr6cv3_32/Input 5 counter	value	/devices/wb-mr6cv3_32/controls/Input 5 counter	
+0
+OK
+wb-mr6cv3_32/Input 6	switch	/devices/wb-mr6cv3_32/controls/Input 6	
+false
+OK
+wb-mr6cv3_32/Input 6 counter	value	/devices/wb-mr6cv3_32/controls/Input 6 counter	
+0
+OK
+wb-mr6cv3_32/K1	switch	/devices/wb-mr6cv3_32/controls/K1	
+false
+OK
+wb-mr6cv3_32/K2	switch	/devices/wb-mr6cv3_32/controls/K2	
+false
+OK
+wb-mr6cv3_32/K3	switch	/devices/wb-mr6cv3_32/controls/K3	
+false
+OK
+wb-mr6cv3_32/K4	switch	/devices/wb-mr6cv3_32/controls/K4	
+false
+OK
+wb-mr6cv3_32/K5	switch	/devices/wb-mr6cv3_32/controls/K5	
+false
+OK
+wb-mr6cv3_32/K6	switch	/devices/wb-mr6cv3_32/controls/K6	
+false
+OK
+wb-mr6cv3_32/Serial	text	/devices/wb-mr6cv3_32/controls/Serial	
+192061
+OK
+wb-mr6cv3_32/Bus Power Supply	switch	/devices/wb-mr6cv3_32/controls/Bus Power Supply	
+true
+OK
+wb-mrgbw-d-fw3_19/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_19/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_19/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_19/controls/RGB Palette	
+{"r":13,"g":0,"b":128}
+OK
+wb-mrgbw-d-fw3_19/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_19/controls/RGB Strip Hue	
+246
+OK
+wb-mrgbw-d-fw3_19/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_19/controls/RGB Strip Saturation	
+100
+OK
+wb-mrgbw-d-fw3_19/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_19/controls/RGB Strip Brightness	
+50
+OK
+wb-mrgbw-d-fw3_19/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_19/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_19/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_19/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_19/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_19/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_19/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_19/controls/Channel 4 (W) Brightness	
+50
+OK
+wb-mrgbw-d-fw3_19/Input 1	switch	/devices/wb-mrgbw-d-fw3_19/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_19/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_19/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_19/Input 2	switch	/devices/wb-mrgbw-d-fw3_19/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_19/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_19/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_19/Input 3	switch	/devices/wb-mrgbw-d-fw3_19/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_19/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_19/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_19/Serial	text	/devices/wb-mrgbw-d-fw3_19/controls/Serial	
+4264714984
+OK
+wb-mrgbw-d-fw3_41/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_41/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_41/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_41/controls/RGB Palette	
+{"r":128,"g":0,"b":0}
+OK
+wb-mrgbw-d-fw3_41/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_41/controls/RGB Strip Hue	
+0
+OK
+wb-mrgbw-d-fw3_41/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_41/controls/RGB Strip Saturation	
+100
+OK
+wb-mrgbw-d-fw3_41/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_41/controls/RGB Strip Brightness	
+50
+OK
+wb-mrgbw-d-fw3_41/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_41/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_41/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_41/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_41/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_41/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_41/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_41/controls/Channel 4 (W) Brightness	
+50
+OK
+wb-mrgbw-d-fw3_41/Input 1	switch	/devices/wb-mrgbw-d-fw3_41/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_41/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_41/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_41/Input 2	switch	/devices/wb-mrgbw-d-fw3_41/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_41/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_41/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_41/Input 3	switch	/devices/wb-mrgbw-d-fw3_41/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_41/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_41/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_41/Serial	text	/devices/wb-mrgbw-d-fw3_41/controls/Serial	
+4264738047
+OK
+wb-mrgbw-d-fw3_42/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_42/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_42/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_42/controls/RGB Palette	
+{"r":255,"g":99,"b":99}
+OK
+wb-mrgbw-d-fw3_42/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_42/controls/RGB Strip Hue	
+0
+OK
+wb-mrgbw-d-fw3_42/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_42/controls/RGB Strip Saturation	
+61
+OK
+wb-mrgbw-d-fw3_42/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_42/controls/RGB Strip Brightness	
+100
+OK
+wb-mrgbw-d-fw3_42/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_42/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_42/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_42/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_42/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_42/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_42/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_42/controls/Channel 4 (W) Brightness	
+50
+OK
+wb-mrgbw-d-fw3_42/Input 1	switch	/devices/wb-mrgbw-d-fw3_42/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_42/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_42/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_42/Input 2	switch	/devices/wb-mrgbw-d-fw3_42/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_42/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_42/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_42/Input 3	switch	/devices/wb-mrgbw-d-fw3_42/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_42/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_42/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_42/Serial	text	/devices/wb-mrgbw-d-fw3_42/controls/Serial	
+4264737774
+OK
+wb-mrgbw-d-fw3_51/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_51/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_51/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_51/controls/RGB Palette	
+{"r":56,"g":43,"b":43}
+OK
+wb-mrgbw-d-fw3_51/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_51/controls/RGB Strip Hue	
+0
+OK
+wb-mrgbw-d-fw3_51/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_51/controls/RGB Strip Saturation	
+24
+OK
+wb-mrgbw-d-fw3_51/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_51/controls/RGB Strip Brightness	
+22
+OK
+wb-mrgbw-d-fw3_51/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_51/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_51/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_51/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_51/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_51/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_51/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_51/controls/Channel 4 (W) Brightness	
+15
+OK
+wb-mrgbw-d-fw3_51/Input 1	switch	/devices/wb-mrgbw-d-fw3_51/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_51/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_51/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_51/Input 2	switch	/devices/wb-mrgbw-d-fw3_51/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_51/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_51/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_51/Input 3	switch	/devices/wb-mrgbw-d-fw3_51/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_51/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_51/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_51/Serial	text	/devices/wb-mrgbw-d-fw3_51/controls/Serial	
+4264721941
+OK
+wb-mrgbw-d-fw3_56/RGB Strip	switch	/devices/wb-mrgbw-d-fw3_56/controls/RGB Strip	
+false
+OK
+wb-mrgbw-d-fw3_56/RGB Palette	rgb	/devices/wb-mrgbw-d-fw3_56/controls/RGB Palette	
+{"r":89,"g":247,"b":94}
+OK
+wb-mrgbw-d-fw3_56/RGB Strip Hue	range	/devices/wb-mrgbw-d-fw3_56/controls/RGB Strip Hue	
+122
+OK
+wb-mrgbw-d-fw3_56/RGB Strip Saturation	range	/devices/wb-mrgbw-d-fw3_56/controls/RGB Strip Saturation	
+64
+OK
+wb-mrgbw-d-fw3_56/RGB Strip Brightness	range	/devices/wb-mrgbw-d-fw3_56/controls/RGB Strip Brightness	
+97
+OK
+wb-mrgbw-d-fw3_56/Hue Changing	switch	/devices/wb-mrgbw-d-fw3_56/controls/Hue Changing	
+false
+OK
+wb-mrgbw-d-fw3_56/Hue Changing Rate	value	/devices/wb-mrgbw-d-fw3_56/controls/Hue Changing Rate	
+30
+OK
+wb-mrgbw-d-fw3_56/Channel 4 (W)	switch	/devices/wb-mrgbw-d-fw3_56/controls/Channel 4 (W)	
+false
+OK
+wb-mrgbw-d-fw3_56/Channel 4 (W) Brightness	range	/devices/wb-mrgbw-d-fw3_56/controls/Channel 4 (W) Brightness	
+50
+OK
+wb-mrgbw-d-fw3_56/Channel 1 (B) Raw PWM	value	/devices/wb-mrgbw-d-fw3_56/controls/Channel 1 (B) Raw PWM	
+0
+OK
+wb-mrgbw-d-fw3_56/Channel 2 (R) Raw PWM	value	/devices/wb-mrgbw-d-fw3_56/controls/Channel 2 (R) Raw PWM	
+0
+OK
+wb-mrgbw-d-fw3_56/Channel 3 (G) Raw PWM	value	/devices/wb-mrgbw-d-fw3_56/controls/Channel 3 (G) Raw PWM	
+0
+OK
+wb-mrgbw-d-fw3_56/Channel 4 (W) Raw PWM	value	/devices/wb-mrgbw-d-fw3_56/controls/Channel 4 (W) Raw PWM	
+0
+OK
+wb-mrgbw-d-fw3_56/Input 1	switch	/devices/wb-mrgbw-d-fw3_56/controls/Input 1	
+false
+OK
+wb-mrgbw-d-fw3_56/Input 1 Counter	value	/devices/wb-mrgbw-d-fw3_56/controls/Input 1 Counter	
+0
+OK
+wb-mrgbw-d-fw3_56/Input 2	switch	/devices/wb-mrgbw-d-fw3_56/controls/Input 2	
+false
+OK
+wb-mrgbw-d-fw3_56/Input 2 Counter	value	/devices/wb-mrgbw-d-fw3_56/controls/Input 2 Counter	
+0
+OK
+wb-mrgbw-d-fw3_56/Input 3	switch	/devices/wb-mrgbw-d-fw3_56/controls/Input 3	
+false
+OK
+wb-mrgbw-d-fw3_56/Input 3 Counter	value	/devices/wb-mrgbw-d-fw3_56/controls/Input 3 Counter	
+0
+OK
+wb-mrgbw-d-fw3_56/Serial	text	/devices/wb-mrgbw-d-fw3_56/controls/Serial	
+4264716642
+OK
+wb-mrgbw-d-fw3_56/FW Version	text	/devices/wb-mrgbw-d-fw3_56/controls/FW Version	
+3.3.4
+OK
+wb-mrgbw-d-fw3_56/Supply Voltage	voltage	/devices/wb-mrgbw-d-fw3_56/controls/Supply Voltage	
+23.191
+OK
+wb-mrgbw-d-fw3_56/Uptime	text	/devices/wb-mrgbw-d-fw3_56/controls/Uptime	
+709685
+OK
+wb-mrgbw-d-fw3_56/MCU Temperature	temperature	/devices/wb-mrgbw-d-fw3_56/controls/MCU Temperature	
+38.2
+OK
+wb-mrgbw-d-fw3_56/MCU Voltage	voltage	/devices/wb-mrgbw-d-fw3_56/controls/MCU Voltage	
+3.304
+OK
+wb-mrm2-mini_140/Input 1	switch	/devices/wb-mrm2-mini_140/controls/Input 1	
+false
+OK
+wb-mrm2-mini_140/Input 1 counter	value	/devices/wb-mrm2-mini_140/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_140/Input 2	switch	/devices/wb-mrm2-mini_140/controls/Input 2	
+false
+OK
+wb-mrm2-mini_140/Input 2 counter	value	/devices/wb-mrm2-mini_140/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_140/K1	switch	/devices/wb-mrm2-mini_140/controls/K1	
+false
+OK
+wb-mrm2-mini_140/K2	switch	/devices/wb-mrm2-mini_140/controls/K2	
+false
+OK
+wb-mrm2-mini_140/Curtain 1 Open	switch	/devices/wb-mrm2-mini_140/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_140/Curtain 1 Close	switch	/devices/wb-mrm2-mini_140/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_140/Serial	text	/devices/wb-mrm2-mini_140/controls/Serial	
+255045
+OK
+wb-mrm2-mini_146/Input 1	switch	/devices/wb-mrm2-mini_146/controls/Input 1	
+false
+OK
+wb-mrm2-mini_146/Input 1 counter	value	/devices/wb-mrm2-mini_146/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_146/Input 2	switch	/devices/wb-mrm2-mini_146/controls/Input 2	
+false
+OK
+wb-mrm2-mini_146/Input 2 counter	value	/devices/wb-mrm2-mini_146/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_146/K1	switch	/devices/wb-mrm2-mini_146/controls/K1	
+false
+OK
+wb-mrm2-mini_146/K2	switch	/devices/wb-mrm2-mini_146/controls/K2	
+false
+OK
+wb-mrm2-mini_146/Curtain 1 Open	switch	/devices/wb-mrm2-mini_146/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_146/Curtain 1 Close	switch	/devices/wb-mrm2-mini_146/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_146/Serial	text	/devices/wb-mrm2-mini_146/controls/Serial	
+255073
+OK
+wb-mrm2-mini_148/Input 1	switch	/devices/wb-mrm2-mini_148/controls/Input 1	
+false
+OK
+wb-mrm2-mini_148/Input 1 counter	value	/devices/wb-mrm2-mini_148/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_148/Input 2	switch	/devices/wb-mrm2-mini_148/controls/Input 2	
+false
+OK
+wb-mrm2-mini_148/Input 2 counter	value	/devices/wb-mrm2-mini_148/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_148/K1	switch	/devices/wb-mrm2-mini_148/controls/K1	
+false
+OK
+wb-mrm2-mini_148/K2	switch	/devices/wb-mrm2-mini_148/controls/K2	
+false
+OK
+wb-mrm2-mini_148/Curtain 1 Open	switch	/devices/wb-mrm2-mini_148/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_148/Curtain 1 Close	switch	/devices/wb-mrm2-mini_148/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_148/Serial	text	/devices/wb-mrm2-mini_148/controls/Serial	
+255082
+OK
+wb-mrm2-mini_50/Input 1	switch	/devices/wb-mrm2-mini_50/controls/Input 1	
+false
+OK
+wb-mrm2-mini_50/Input 1 counter	value	/devices/wb-mrm2-mini_50/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_50/Input 2	switch	/devices/wb-mrm2-mini_50/controls/Input 2	
+false
+OK
+wb-mrm2-mini_50/Input 2 counter	value	/devices/wb-mrm2-mini_50/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_50/K1	switch	/devices/wb-mrm2-mini_50/controls/K1	
+false
+OK
+wb-mrm2-mini_50/K2	switch	/devices/wb-mrm2-mini_50/controls/K2	
+false
+OK
+wb-mrm2-mini_50/Curtain 1 Open	switch	/devices/wb-mrm2-mini_50/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_50/Curtain 1 Close	switch	/devices/wb-mrm2-mini_50/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_50/Serial	text	/devices/wb-mrm2-mini_50/controls/Serial	
+254627
+OK
+wb-mrm2-mini_64/Input 1	switch	/devices/wb-mrm2-mini_64/controls/Input 1	
+false
+OK
+wb-mrm2-mini_64/Input 1 counter	value	/devices/wb-mrm2-mini_64/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_64/Input 2	switch	/devices/wb-mrm2-mini_64/controls/Input 2	
+false
+OK
+wb-mrm2-mini_64/Input 2 counter	value	/devices/wb-mrm2-mini_64/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_64/K1	switch	/devices/wb-mrm2-mini_64/controls/K1	
+false
+OK
+wb-mrm2-mini_64/K2	switch	/devices/wb-mrm2-mini_64/controls/K2	
+false
+OK
+wb-mrm2-mini_64/Curtain 1 Open	switch	/devices/wb-mrm2-mini_64/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_64/Curtain 1 Close	switch	/devices/wb-mrm2-mini_64/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_64/Serial	text	/devices/wb-mrm2-mini_64/controls/Serial	
+4264100383
+OK
+wb-mrm2-mini_70/Input 1	switch	/devices/wb-mrm2-mini_70/controls/Input 1	
+false
+OK
+wb-mrm2-mini_70/Input 1 counter	value	/devices/wb-mrm2-mini_70/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_70/Input 2	switch	/devices/wb-mrm2-mini_70/controls/Input 2	
+false
+OK
+wb-mrm2-mini_70/Input 2 counter	value	/devices/wb-mrm2-mini_70/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_70/K1	switch	/devices/wb-mrm2-mini_70/controls/K1	
+false
+OK
+wb-mrm2-mini_70/K2	switch	/devices/wb-mrm2-mini_70/controls/K2	
+false
+OK
+wb-mrm2-mini_70/Curtain 1 Open	switch	/devices/wb-mrm2-mini_70/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_70/Curtain 1 Close	switch	/devices/wb-mrm2-mini_70/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_70/Serial	text	/devices/wb-mrm2-mini_70/controls/Serial	
+333346
+OK
+wb-mrm2-mini_73/Input 1	switch	/devices/wb-mrm2-mini_73/controls/Input 1	
+false
+OK
+wb-mrm2-mini_73/Input 1 counter	value	/devices/wb-mrm2-mini_73/controls/Input 1 counter	
+0
+OK
+wb-mrm2-mini_73/Input 2	switch	/devices/wb-mrm2-mini_73/controls/Input 2	
+false
+OK
+wb-mrm2-mini_73/Input 2 counter	value	/devices/wb-mrm2-mini_73/controls/Input 2 counter	
+0
+OK
+wb-mrm2-mini_73/K1	switch	/devices/wb-mrm2-mini_73/controls/K1	
+false
+OK
+wb-mrm2-mini_73/K2	switch	/devices/wb-mrm2-mini_73/controls/K2	
+false
+OK
+wb-mrm2-mini_73/Curtain 1 Open	switch	/devices/wb-mrm2-mini_73/controls/Curtain 1 Open	
+false
+OK
+wb-mrm2-mini_73/Curtain 1 Close	switch	/devices/wb-mrm2-mini_73/controls/Curtain 1 Close	
+false
+OK
+wb-mrm2-mini_73/Serial	text	/devices/wb-mrm2-mini_73/controls/Serial	
+254720
+OK
+wb-ms_221/Temperature	temperature	/devices/wb-ms_221/controls/Temperature	
+13
+OK
+wb-ms_221/Humidity	rel_humidity	/devices/wb-ms_221/controls/Humidity	
+43.77
+OK
+wb-ms_221/Air Quality (VOC)	value	/devices/wb-ms_221/controls/Air Quality (VOC)	
+0
+Error: r
+wb-ms_221/Illuminance	lux	/devices/wb-ms_221/controls/Illuminance	
+1
+OK
+wb-ms_221/Serial	text	/devices/wb-ms_221/controls/Serial	
+198086
+OK
+wb-ms_221/External Sensor 1	temperature	/devices/wb-ms_221/controls/External Sensor 1	
+0
+Error: r
+wb-ms_221/External Sensor 2	temperature	/devices/wb-ms_221/controls/External Sensor 2	
+0
+Error: r
+wb-msw-v3_1/Temperature	temperature	/devices/wb-msw-v3_1/controls/Temperature	
+20.3
+OK
+wb-msw-v3_1/Humidity	rel_humidity	/devices/wb-msw-v3_1/controls/Humidity	
+34
+OK
+wb-msw-v3_1/CO2	concentration	/devices/wb-msw-v3_1/controls/CO2	
+0
+Error: r
+wb-msw-v3_1/Air Quality (VOC)	value	/devices/wb-msw-v3_1/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_1/Sound Level	sound_level	/devices/wb-msw-v3_1/controls/Sound Level	
+37.45
+OK
+wb-msw-v3_1/Illuminance	lux	/devices/wb-msw-v3_1/controls/Illuminance	
+24.8
+OK
+wb-msw-v3_1/Max Motion	value	/devices/wb-msw-v3_1/controls/Max Motion	
+12
+OK
+wb-msw-v3_1/Current Motion	value	/devices/wb-msw-v3_1/controls/Current Motion	
+6
+OK
+wb-msw-v3_1/Buzzer	switch	/devices/wb-msw-v3_1/controls/Buzzer	
+false
+OK
+wb-msw-v3_1/Red LED	switch	/devices/wb-msw-v3_1/controls/Red LED	
+false
+OK
+wb-msw-v3_1/Green LED	switch	/devices/wb-msw-v3_1/controls/Green LED	
+false
+OK
+wb-msw-v3_1/LED Period (s)	range	/devices/wb-msw-v3_1/controls/LED Period (s)	
+2
+OK
+wb-msw-v3_1/LED Glow Duration (ms)	range	/devices/wb-msw-v3_1/controls/LED Glow Duration (ms)	
+0
+OK
+wb-msw-v3_1/Learn to RAM	switch	/devices/wb-msw-v3_1/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_1/Play from RAM	pushbutton	/devices/wb-msw-v3_1/controls/Play from RAM	
+OK
+wb-msw-v3_1/Learn to ROM1	switch	/devices/wb-msw-v3_1/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_1/Learn to ROM2	switch	/devices/wb-msw-v3_1/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_1/Learn to ROM3	switch	/devices/wb-msw-v3_1/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_1/Learn to ROM4	switch	/devices/wb-msw-v3_1/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_1/Learn to ROM5	switch	/devices/wb-msw-v3_1/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_1/Learn to ROM6	switch	/devices/wb-msw-v3_1/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_1/Learn to ROM7	switch	/devices/wb-msw-v3_1/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_1/Play from ROM1	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM1	
+OK
+wb-msw-v3_1/Play from ROM2	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM2	
+OK
+wb-msw-v3_1/Play from ROM3	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM3	
+OK
+wb-msw-v3_1/Play from ROM4	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM4	
+OK
+wb-msw-v3_1/Play from ROM5	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM5	
+OK
+wb-msw-v3_1/Play from ROM6	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM6	
+OK
+wb-msw-v3_1/Play from ROM7	pushbutton	/devices/wb-msw-v3_1/controls/Play from ROM7	
+OK
+wb-msw-v3_1/Serial	text	/devices/wb-msw-v3_1/controls/Serial	
+4269960132
+OK
+wb-msw-v3_149/Temperature	temperature	/devices/wb-msw-v3_149/controls/Temperature	
+19.8
+OK
+wb-msw-v3_149/Humidity	rel_humidity	/devices/wb-msw-v3_149/controls/Humidity	
+26.2
+OK
+wb-msw-v3_149/CO2	concentration	/devices/wb-msw-v3_149/controls/CO2	
+0
+Error: r
+wb-msw-v3_149/Air Quality (VOC)	value	/devices/wb-msw-v3_149/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_149/Sound Level	sound_level	/devices/wb-msw-v3_149/controls/Sound Level	
+37.45
+OK
+wb-msw-v3_149/Illuminance	lux	/devices/wb-msw-v3_149/controls/Illuminance	
+388.48
+OK
+wb-msw-v3_149/Max Motion	value	/devices/wb-msw-v3_149/controls/Max Motion	
+10
+OK
+wb-msw-v3_149/Current Motion	value	/devices/wb-msw-v3_149/controls/Current Motion	
+8
+OK
+wb-msw-v3_149/Buzzer	switch	/devices/wb-msw-v3_149/controls/Buzzer	
+false
+OK
+wb-msw-v3_149/Red LED	switch	/devices/wb-msw-v3_149/controls/Red LED	
+false
+OK
+wb-msw-v3_149/Green LED	switch	/devices/wb-msw-v3_149/controls/Green LED	
+false
+OK
+wb-msw-v3_149/LED Period (s)	range	/devices/wb-msw-v3_149/controls/LED Period (s)	
+2
+OK
+wb-msw-v3_149/LED Glow Duration (ms)	range	/devices/wb-msw-v3_149/controls/LED Glow Duration (ms)	
+50
+OK
+wb-msw-v3_149/Learn to RAM	switch	/devices/wb-msw-v3_149/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_149/Play from RAM	pushbutton	/devices/wb-msw-v3_149/controls/Play from RAM	
+OK
+wb-msw-v3_149/Learn to ROM1	switch	/devices/wb-msw-v3_149/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_149/Learn to ROM2	switch	/devices/wb-msw-v3_149/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_149/Learn to ROM3	switch	/devices/wb-msw-v3_149/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_149/Learn to ROM4	switch	/devices/wb-msw-v3_149/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_149/Learn to ROM5	switch	/devices/wb-msw-v3_149/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_149/Learn to ROM6	switch	/devices/wb-msw-v3_149/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_149/Learn to ROM7	switch	/devices/wb-msw-v3_149/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_149/Play from ROM1	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM1	
+OK
+wb-msw-v3_149/Play from ROM2	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM2	
+OK
+wb-msw-v3_149/Play from ROM3	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM3	
+OK
+wb-msw-v3_149/Play from ROM4	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM4	
+OK
+wb-msw-v3_149/Play from ROM5	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM5	
+OK
+wb-msw-v3_149/Play from ROM6	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM6	
+OK
+wb-msw-v3_149/Play from ROM7	pushbutton	/devices/wb-msw-v3_149/controls/Play from ROM7	
+OK
+wb-msw-v3_149/Serial	text	/devices/wb-msw-v3_149/controls/Serial	
+4269989670
+OK
+wb-msw-v3_151/Temperature	temperature	/devices/wb-msw-v3_151/controls/Temperature	
+19.7
+OK
+wb-msw-v3_151/Humidity	rel_humidity	/devices/wb-msw-v3_151/controls/Humidity	
+27.2
+OK
+wb-msw-v3_151/CO2	concentration	/devices/wb-msw-v3_151/controls/CO2	
+0
+Error: r
+wb-msw-v3_151/Air Quality (VOC)	value	/devices/wb-msw-v3_151/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_151/Sound Level	sound_level	/devices/wb-msw-v3_151/controls/Sound Level	
+37.61
+OK
+wb-msw-v3_151/Illuminance	lux	/devices/wb-msw-v3_151/controls/Illuminance	
+467.2
+OK
+wb-msw-v3_151/Max Motion	value	/devices/wb-msw-v3_151/controls/Max Motion	
+15
+OK
+wb-msw-v3_151/Current Motion	value	/devices/wb-msw-v3_151/controls/Current Motion	
+8
+OK
+wb-msw-v3_151/Buzzer	switch	/devices/wb-msw-v3_151/controls/Buzzer	
+false
+OK
+wb-msw-v3_151/Red LED	switch	/devices/wb-msw-v3_151/controls/Red LED	
+false
+OK
+wb-msw-v3_151/Green LED	switch	/devices/wb-msw-v3_151/controls/Green LED	
+false
+OK
+wb-msw-v3_151/LED Period (s)	range	/devices/wb-msw-v3_151/controls/LED Period (s)	
+0
+OK
+wb-msw-v3_151/LED Glow Duration (ms)	range	/devices/wb-msw-v3_151/controls/LED Glow Duration (ms)	
+34
+OK
+wb-msw-v3_151/Learn to RAM	switch	/devices/wb-msw-v3_151/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_151/Play from RAM	pushbutton	/devices/wb-msw-v3_151/controls/Play from RAM	
+OK
+wb-msw-v3_151/Learn to ROM1	switch	/devices/wb-msw-v3_151/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_151/Learn to ROM2	switch	/devices/wb-msw-v3_151/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_151/Learn to ROM3	switch	/devices/wb-msw-v3_151/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_151/Learn to ROM4	switch	/devices/wb-msw-v3_151/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_151/Learn to ROM5	switch	/devices/wb-msw-v3_151/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_151/Learn to ROM6	switch	/devices/wb-msw-v3_151/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_151/Learn to ROM7	switch	/devices/wb-msw-v3_151/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_151/Play from ROM1	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM1	
+OK
+wb-msw-v3_151/Play from ROM2	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM2	
+OK
+wb-msw-v3_151/Play from ROM3	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM3	
+OK
+wb-msw-v3_151/Play from ROM4	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM4	
+OK
+wb-msw-v3_151/Play from ROM5	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM5	
+OK
+wb-msw-v3_151/Play from ROM6	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM6	
+OK
+wb-msw-v3_151/Play from ROM7	pushbutton	/devices/wb-msw-v3_151/controls/Play from ROM7	
+OK
+wb-msw-v3_151/Serial	text	/devices/wb-msw-v3_151/controls/Serial	
+4269955038
+OK
+wb-msw-v3_157/Temperature	temperature	/devices/wb-msw-v3_157/controls/Temperature	
+20.1
+OK
+wb-msw-v3_157/Humidity	rel_humidity	/devices/wb-msw-v3_157/controls/Humidity	
+37.5
+OK
+wb-msw-v3_157/CO2	concentration	/devices/wb-msw-v3_157/controls/CO2	
+0
+Error: r
+wb-msw-v3_157/Air Quality (VOC)	value	/devices/wb-msw-v3_157/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_157/Sound Level	sound_level	/devices/wb-msw-v3_157/controls/Sound Level	
+37.45
+OK
+wb-msw-v3_157/Illuminance	lux	/devices/wb-msw-v3_157/controls/Illuminance	
+46.96
+OK
+wb-msw-v3_157/Max Motion	value	/devices/wb-msw-v3_157/controls/Max Motion	
+14
+OK
+wb-msw-v3_157/Current Motion	value	/devices/wb-msw-v3_157/controls/Current Motion	
+9
+OK
+wb-msw-v3_157/Buzzer	switch	/devices/wb-msw-v3_157/controls/Buzzer	
+false
+OK
+wb-msw-v3_157/Red LED	switch	/devices/wb-msw-v3_157/controls/Red LED	
+false
+OK
+wb-msw-v3_157/Green LED	switch	/devices/wb-msw-v3_157/controls/Green LED	
+false
+OK
+wb-msw-v3_157/LED Period (s)	range	/devices/wb-msw-v3_157/controls/LED Period (s)	
+0
+OK
+wb-msw-v3_157/LED Glow Duration (ms)	range	/devices/wb-msw-v3_157/controls/LED Glow Duration (ms)	
+0
+OK
+wb-msw-v3_157/Learn to RAM	switch	/devices/wb-msw-v3_157/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_157/Play from RAM	pushbutton	/devices/wb-msw-v3_157/controls/Play from RAM	
+OK
+wb-msw-v3_157/Learn to ROM1	switch	/devices/wb-msw-v3_157/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_157/Learn to ROM2	switch	/devices/wb-msw-v3_157/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_157/Learn to ROM3	switch	/devices/wb-msw-v3_157/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_157/Learn to ROM4	switch	/devices/wb-msw-v3_157/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_157/Learn to ROM5	switch	/devices/wb-msw-v3_157/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_157/Learn to ROM6	switch	/devices/wb-msw-v3_157/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_157/Learn to ROM7	switch	/devices/wb-msw-v3_157/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_157/Play from ROM1	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM1	
+OK
+wb-msw-v3_157/Play from ROM2	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM2	
+OK
+wb-msw-v3_157/Play from ROM3	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM3	
+OK
+wb-msw-v3_157/Play from ROM4	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM4	
+OK
+wb-msw-v3_157/Play from ROM5	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM5	
+OK
+wb-msw-v3_157/Play from ROM6	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM6	
+OK
+wb-msw-v3_157/Play from ROM7	pushbutton	/devices/wb-msw-v3_157/controls/Play from ROM7	
+OK
+wb-msw-v3_157/Serial	text	/devices/wb-msw-v3_157/controls/Serial	
+4269959904
+OK
+wb-msw-v3_183/Temperature	temperature	/devices/wb-msw-v3_183/controls/Temperature	
+20.3
+OK
+wb-msw-v3_183/Humidity	rel_humidity	/devices/wb-msw-v3_183/controls/Humidity	
+33
+OK
+wb-msw-v3_183/Sound Level	sound_level	/devices/wb-msw-v3_183/controls/Sound Level	
+30
+OK
+wb-msw-v3_183/Illuminance	lux	/devices/wb-msw-v3_183/controls/Illuminance	
+1093.33
+OK
+wb-msw-v3_183/Max Motion	value	/devices/wb-msw-v3_183/controls/Max Motion	
+19
+OK
+wb-msw-v3_183/Current Motion	value	/devices/wb-msw-v3_183/controls/Current Motion	
+12
+OK
+wb-msw-v3_183/Buzzer	switch	/devices/wb-msw-v3_183/controls/Buzzer	
+false
+OK
+wb-msw-v3_183/Red LED	switch	/devices/wb-msw-v3_183/controls/Red LED	
+false
+OK
+wb-msw-v3_183/Green LED	switch	/devices/wb-msw-v3_183/controls/Green LED	
+false
+OK
+wb-msw-v3_183/LED Period (s)	range	/devices/wb-msw-v3_183/controls/LED Period (s)	
+0
+OK
+wb-msw-v3_183/LED Glow Duration (ms)	range	/devices/wb-msw-v3_183/controls/LED Glow Duration (ms)	
+0
+OK
+wb-msw-v3_183/Learn to RAM	switch	/devices/wb-msw-v3_183/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_183/Play from RAM	pushbutton	/devices/wb-msw-v3_183/controls/Play from RAM	
+OK
+wb-msw-v3_183/Learn to ROM1	switch	/devices/wb-msw-v3_183/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_183/Learn to ROM2	switch	/devices/wb-msw-v3_183/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_183/Learn to ROM3	switch	/devices/wb-msw-v3_183/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_183/Learn to ROM4	switch	/devices/wb-msw-v3_183/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_183/Learn to ROM5	switch	/devices/wb-msw-v3_183/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_183/Learn to ROM6	switch	/devices/wb-msw-v3_183/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_183/Learn to ROM7	switch	/devices/wb-msw-v3_183/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_183/Play from ROM1	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM1	
+OK
+wb-msw-v3_183/Play from ROM2	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM2	
+OK
+wb-msw-v3_183/Play from ROM3	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM3	
+OK
+wb-msw-v3_183/Play from ROM4	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM4	
+OK
+wb-msw-v3_183/Play from ROM5	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM5	
+OK
+wb-msw-v3_183/Play from ROM6	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM6	
+OK
+wb-msw-v3_183/Play from ROM7	pushbutton	/devices/wb-msw-v3_183/controls/Play from ROM7	
+OK
+wb-msw-v3_183/Serial	text	/devices/wb-msw-v3_183/controls/Serial	
+4264896133
+OK
+wb-msw-v3_188/Temperature	temperature	/devices/wb-msw-v3_188/controls/Temperature	
+19.6
+OK
+wb-msw-v3_188/Humidity	rel_humidity	/devices/wb-msw-v3_188/controls/Humidity	
+33.3
+OK
+wb-msw-v3_188/CO2	concentration	/devices/wb-msw-v3_188/controls/CO2	
+0
+Error: r
+wb-msw-v3_188/Air Quality (VOC)	value	/devices/wb-msw-v3_188/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_188/Sound Level	sound_level	/devices/wb-msw-v3_188/controls/Sound Level	
+30
+OK
+wb-msw-v3_188/Illuminance	lux	/devices/wb-msw-v3_188/controls/Illuminance	
+286.8
+OK
+wb-msw-v3_188/Max Motion	value	/devices/wb-msw-v3_188/controls/Max Motion	
+19
+OK
+wb-msw-v3_188/Current Motion	value	/devices/wb-msw-v3_188/controls/Current Motion	
+14
+OK
+wb-msw-v3_188/Buzzer	switch	/devices/wb-msw-v3_188/controls/Buzzer	
+false
+OK
+wb-msw-v3_188/Red LED	switch	/devices/wb-msw-v3_188/controls/Red LED	
+false
+OK
+wb-msw-v3_188/Green LED	switch	/devices/wb-msw-v3_188/controls/Green LED	
+false
+OK
+wb-msw-v3_188/LED Period (s)	range	/devices/wb-msw-v3_188/controls/LED Period (s)	
+0
+OK
+wb-msw-v3_188/LED Glow Duration (ms)	range	/devices/wb-msw-v3_188/controls/LED Glow Duration (ms)	
+0
+OK
+wb-msw-v3_188/Learn to RAM	switch	/devices/wb-msw-v3_188/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_188/Play from RAM	pushbutton	/devices/wb-msw-v3_188/controls/Play from RAM	
+OK
+wb-msw-v3_188/Learn to ROM1	switch	/devices/wb-msw-v3_188/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_188/Learn to ROM2	switch	/devices/wb-msw-v3_188/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_188/Learn to ROM3	switch	/devices/wb-msw-v3_188/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_188/Learn to ROM4	switch	/devices/wb-msw-v3_188/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_188/Learn to ROM5	switch	/devices/wb-msw-v3_188/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_188/Learn to ROM6	switch	/devices/wb-msw-v3_188/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_188/Learn to ROM7	switch	/devices/wb-msw-v3_188/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_188/Play from ROM1	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM1	
+OK
+wb-msw-v3_188/Play from ROM2	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM2	
+OK
+wb-msw-v3_188/Play from ROM3	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM3	
+OK
+wb-msw-v3_188/Play from ROM4	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM4	
+OK
+wb-msw-v3_188/Play from ROM5	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM5	
+OK
+wb-msw-v3_188/Play from ROM6	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM6	
+OK
+wb-msw-v3_188/Play from ROM7	pushbutton	/devices/wb-msw-v3_188/controls/Play from ROM7	
+OK
+wb-msw-v3_188/Serial	text	/devices/wb-msw-v3_188/controls/Serial	
+4264869593
+OK
+wb-msw-v3_189/Temperature	temperature	/devices/wb-msw-v3_189/controls/Temperature	
+20.7
+OK
+wb-msw-v3_189/Humidity	rel_humidity	/devices/wb-msw-v3_189/controls/Humidity	
+33.3
+OK
+wb-msw-v3_189/CO2	concentration	/devices/wb-msw-v3_189/controls/CO2	
+0
+Error: r
+wb-msw-v3_189/Air Quality (VOC)	value	/devices/wb-msw-v3_189/controls/Air Quality (VOC)	
+0
+Error: r
+wb-msw-v3_189/Sound Level	sound_level	/devices/wb-msw-v3_189/controls/Sound Level	
+30
+OK
+wb-msw-v3_189/Illuminance	lux	/devices/wb-msw-v3_189/controls/Illuminance	
+660.37
+OK
+wb-msw-v3_189/Max Motion	value	/devices/wb-msw-v3_189/controls/Max Motion	
+21
+OK
+wb-msw-v3_189/Current Motion	value	/devices/wb-msw-v3_189/controls/Current Motion	
+15
+OK
+wb-msw-v3_189/Buzzer	switch	/devices/wb-msw-v3_189/controls/Buzzer	
+false
+OK
+wb-msw-v3_189/Red LED	switch	/devices/wb-msw-v3_189/controls/Red LED	
+false
+OK
+wb-msw-v3_189/Green LED	switch	/devices/wb-msw-v3_189/controls/Green LED	
+false
+OK
+wb-msw-v3_189/LED Period (s)	range	/devices/wb-msw-v3_189/controls/LED Period (s)	
+0
+OK
+wb-msw-v3_189/LED Glow Duration (ms)	range	/devices/wb-msw-v3_189/controls/LED Glow Duration (ms)	
+50
+OK
+wb-msw-v3_189/Learn to RAM	switch	/devices/wb-msw-v3_189/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_189/Play from RAM	pushbutton	/devices/wb-msw-v3_189/controls/Play from RAM	
+OK
+wb-msw-v3_189/Learn to ROM1	switch	/devices/wb-msw-v3_189/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_189/Learn to ROM2	switch	/devices/wb-msw-v3_189/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_189/Learn to ROM3	switch	/devices/wb-msw-v3_189/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_189/Learn to ROM4	switch	/devices/wb-msw-v3_189/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_189/Learn to ROM5	switch	/devices/wb-msw-v3_189/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_189/Learn to ROM6	switch	/devices/wb-msw-v3_189/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_189/Learn to ROM7	switch	/devices/wb-msw-v3_189/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_189/Play from ROM1	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM1	
+OK
+wb-msw-v3_189/Play from ROM2	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM2	
+OK
+wb-msw-v3_189/Play from ROM3	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM3	
+OK
+wb-msw-v3_189/Play from ROM4	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM4	
+OK
+wb-msw-v3_189/Play from ROM5	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM5	
+OK
+wb-msw-v3_189/Play from ROM6	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM6	
+OK
+wb-msw-v3_189/Play from ROM7	pushbutton	/devices/wb-msw-v3_189/controls/Play from ROM7	
+OK
+wb-msw-v3_189/Serial	text	/devices/wb-msw-v3_189/controls/Serial	
+4264914004
+OK
+wb-msw-v3_198/Temperature	temperature	/devices/wb-msw-v3_198/controls/Temperature	
+19.5
+OK
+wb-msw-v3_198/Humidity	rel_humidity	/devices/wb-msw-v3_198/controls/Humidity	
+33.9
+OK
+wb-msw-v3_198/Sound Level	sound_level	/devices/wb-msw-v3_198/controls/Sound Level	
+30
+OK
+wb-msw-v3_198/Illuminance	lux	/devices/wb-msw-v3_198/controls/Illuminance	
+141.54
+OK
+wb-msw-v3_198/Max Motion	value	/devices/wb-msw-v3_198/controls/Max Motion	
+20
+OK
+wb-msw-v3_198/Current Motion	value	/devices/wb-msw-v3_198/controls/Current Motion	
+13
+OK
+wb-msw-v3_198/Buzzer	switch	/devices/wb-msw-v3_198/controls/Buzzer	
+false
+OK
+wb-msw-v3_198/Red LED	switch	/devices/wb-msw-v3_198/controls/Red LED	
+false
+OK
+wb-msw-v3_198/Green LED	switch	/devices/wb-msw-v3_198/controls/Green LED	
+false
+OK
+wb-msw-v3_198/LED Period (s)	range	/devices/wb-msw-v3_198/controls/LED Period (s)	
+2
+OK
+wb-msw-v3_198/LED Glow Duration (ms)	range	/devices/wb-msw-v3_198/controls/LED Glow Duration (ms)	
+0
+OK
+wb-msw-v3_198/Learn to RAM	switch	/devices/wb-msw-v3_198/controls/Learn to RAM	
+false
+OK
+wb-msw-v3_198/Play from RAM	pushbutton	/devices/wb-msw-v3_198/controls/Play from RAM	
+OK
+wb-msw-v3_198/Learn to ROM1	switch	/devices/wb-msw-v3_198/controls/Learn to ROM1	
+false
+OK
+wb-msw-v3_198/Learn to ROM2	switch	/devices/wb-msw-v3_198/controls/Learn to ROM2	
+false
+OK
+wb-msw-v3_198/Learn to ROM3	switch	/devices/wb-msw-v3_198/controls/Learn to ROM3	
+false
+OK
+wb-msw-v3_198/Learn to ROM4	switch	/devices/wb-msw-v3_198/controls/Learn to ROM4	
+false
+OK
+wb-msw-v3_198/Learn to ROM5	switch	/devices/wb-msw-v3_198/controls/Learn to ROM5	
+false
+OK
+wb-msw-v3_198/Learn to ROM6	switch	/devices/wb-msw-v3_198/controls/Learn to ROM6	
+false
+OK
+wb-msw-v3_198/Learn to ROM7	switch	/devices/wb-msw-v3_198/controls/Learn to ROM7	
+false
+OK
+wb-msw-v3_198/Play from ROM1	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM1	
+OK
+wb-msw-v3_198/Play from ROM2	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM2	
+OK
+wb-msw-v3_198/Play from ROM3	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM3	
+OK
+wb-msw-v3_198/Play from ROM4	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM4	
+OK
+wb-msw-v3_198/Play from ROM5	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM5	
+OK
+wb-msw-v3_198/Play from ROM6	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM6	
+OK
+wb-msw-v3_198/Play from ROM7	pushbutton	/devices/wb-msw-v3_198/controls/Play from ROM7	
+OK
+wb-msw-v3_198/Serial	text	/devices/wb-msw-v3_198/controls/Serial	
+4264874841
+OK
+wb-msw-v4_110/Temperature	value	/devices/wb-msw-v4_110/controls/Temperature	
+17.8
+OK
+wb-msw-v4_110/Humidity	value	/devices/wb-msw-v4_110/controls/Humidity	
+58.24
+OK
+wb-msw-v4_110/CO2	concentration	/devices/wb-msw-v4_110/controls/CO2	
+440
+OK
+wb-msw-v4_110/Air Quality (VOC)	value	/devices/wb-msw-v4_110/controls/Air Quality (VOC)	
+568
+OK
+wb-msw-v4_110/Sound Level	sound_level	/devices/wb-msw-v4_110/controls/Sound Level	
+30
+OK
+wb-msw-v4_110/Illuminance	lux	/devices/wb-msw-v4_110/controls/Illuminance	
+26.05
+OK
+wb-msw-v4_110/Max Motion	value	/devices/wb-msw-v4_110/controls/Max Motion	
+18
+OK
+wb-msw-v4_110/Current Motion	value	/devices/wb-msw-v4_110/controls/Current Motion	
+9
+OK
+wb-msw-v4_110/Buzzer	switch	/devices/wb-msw-v4_110/controls/Buzzer	
+false
+OK
+wb-msw-v4_110/Red LED	switch	/devices/wb-msw-v4_110/controls/Red LED	
+false
+OK
+wb-msw-v4_110/Green LED	switch	/devices/wb-msw-v4_110/controls/Green LED	
+false
+OK
+wb-msw-v4_110/LED Period (s)	range	/devices/wb-msw-v4_110/controls/LED Period (s)	
+3
+OK
+wb-msw-v4_110/LED Glow Duration (ms)	range	/devices/wb-msw-v4_110/controls/LED Glow Duration (ms)	
+30
+OK
+wb-msw-v4_110/Learn to RAM	switch	/devices/wb-msw-v4_110/controls/Learn to RAM	
+false
+OK
+wb-msw-v4_110/Play from RAM	pushbutton	/devices/wb-msw-v4_110/controls/Play from RAM	
+OK
+wb-msw-v4_110/Learn to ROM1	switch	/devices/wb-msw-v4_110/controls/Learn to ROM1	
+false
+OK
+wb-msw-v4_110/Learn to ROM2	switch	/devices/wb-msw-v4_110/controls/Learn to ROM2	
+false
+OK
+wb-msw-v4_110/Learn to ROM3	switch	/devices/wb-msw-v4_110/controls/Learn to ROM3	
+false
+OK
+wb-msw-v4_110/Learn to ROM4	switch	/devices/wb-msw-v4_110/controls/Learn to ROM4	
+false
+OK
+wb-msw-v4_110/Learn to ROM5	switch	/devices/wb-msw-v4_110/controls/Learn to ROM5	
+false
+OK
+wb-msw-v4_110/Learn to ROM6	switch	/devices/wb-msw-v4_110/controls/Learn to ROM6	
+false
+OK
+wb-msw-v4_110/Learn to ROM7	switch	/devices/wb-msw-v4_110/controls/Learn to ROM7	
+false
+OK
+wb-msw-v4_110/Play from ROM1	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM1	
+OK
+wb-msw-v4_110/Play from ROM2	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM2	
+OK
+wb-msw-v4_110/Play from ROM3	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM3	
+OK
+wb-msw-v4_110/Play from ROM4	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM4	
+OK
+wb-msw-v4_110/Play from ROM5	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM5	
+OK
+wb-msw-v4_110/Play from ROM6	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM6	
+OK
+wb-msw-v4_110/Play from ROM7	pushbutton	/devices/wb-msw-v4_110/controls/Play from ROM7	
+OK
+wb-msw-v4_110/Serial	text	/devices/wb-msw-v4_110/controls/Serial	
+227439
+OK
+wb-msw-v4_116/Temperature	value	/devices/wb-msw-v4_116/controls/Temperature	
+19.42
+OK
+wb-msw-v4_116/Humidity	value	/devices/wb-msw-v4_116/controls/Humidity	
+34.85
+OK
+wb-msw-v4_116/CO2	concentration	/devices/wb-msw-v4_116/controls/CO2	
+635
+OK
+wb-msw-v4_116/Air Quality (VOC)	value	/devices/wb-msw-v4_116/controls/Air Quality (VOC)	
+183
+OK
+wb-msw-v4_116/Sound Level	sound_level	/devices/wb-msw-v4_116/controls/Sound Level	
+39.83
+OK
+wb-msw-v4_116/Illuminance	lux	/devices/wb-msw-v4_116/controls/Illuminance	
+243.02
+OK
+wb-msw-v4_116/Max Motion	value	/devices/wb-msw-v4_116/controls/Max Motion	
+27
+OK
+wb-msw-v4_116/Current Motion	value	/devices/wb-msw-v4_116/controls/Current Motion	
+14
+OK
+wb-msw-v4_116/Buzzer	switch	/devices/wb-msw-v4_116/controls/Buzzer	
+false
+OK
+wb-msw-v4_116/Red LED	switch	/devices/wb-msw-v4_116/controls/Red LED	
+false
+OK
+wb-msw-v4_116/Green LED	switch	/devices/wb-msw-v4_116/controls/Green LED	
+false
+OK
+wb-msw-v4_116/LED Period (s)	range	/devices/wb-msw-v4_116/controls/LED Period (s)	
+1
+OK
+wb-msw-v4_116/LED Glow Duration (ms)	range	/devices/wb-msw-v4_116/controls/LED Glow Duration (ms)	
+30
+OK
+wb-msw-v4_116/Learn to RAM	switch	/devices/wb-msw-v4_116/controls/Learn to RAM	
+false
+OK
+wb-msw-v4_116/Play from RAM	pushbutton	/devices/wb-msw-v4_116/controls/Play from RAM	
+OK
+wb-msw-v4_116/Learn to ROM1	switch	/devices/wb-msw-v4_116/controls/Learn to ROM1	
+false
+OK
+wb-msw-v4_116/Learn to ROM2	switch	/devices/wb-msw-v4_116/controls/Learn to ROM2	
+false
+OK
+wb-msw-v4_116/Learn to ROM3	switch	/devices/wb-msw-v4_116/controls/Learn to ROM3	
+false
+OK
+wb-msw-v4_116/Learn to ROM4	switch	/devices/wb-msw-v4_116/controls/Learn to ROM4	
+false
+OK
+wb-msw-v4_116/Learn to ROM5	switch	/devices/wb-msw-v4_116/controls/Learn to ROM5	
+false
+OK
+wb-msw-v4_116/Learn to ROM6	switch	/devices/wb-msw-v4_116/controls/Learn to ROM6	
+false
+OK
+wb-msw-v4_116/Learn to ROM7	switch	/devices/wb-msw-v4_116/controls/Learn to ROM7	
+false
+OK
+wb-msw-v4_116/Play from ROM1	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM1	
+OK
+wb-msw-v4_116/Play from ROM2	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM2	
+OK
+wb-msw-v4_116/Play from ROM3	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM3	
+OK
+wb-msw-v4_116/Play from ROM4	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM4	
+OK
+wb-msw-v4_116/Play from ROM5	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM5	
+OK
+wb-msw-v4_116/Play from ROM6	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM6	
+OK
+wb-msw-v4_116/Play from ROM7	pushbutton	/devices/wb-msw-v4_116/controls/Play from ROM7	
+OK
+wb-msw-v4_116/Serial	text	/devices/wb-msw-v4_116/controls/Serial	
+227451
+OK
+wb-msw-v4_123/Temperature	value	/devices/wb-msw-v4_123/controls/Temperature	
+19.92
+OK
+wb-msw-v4_123/Humidity	value	/devices/wb-msw-v4_123/controls/Humidity	
+34.8
+OK
+wb-msw-v4_123/CO2	concentration	/devices/wb-msw-v4_123/controls/CO2	
+536
+OK
+wb-msw-v4_123/Air Quality (VOC)	value	/devices/wb-msw-v4_123/controls/Air Quality (VOC)	
+191
+OK
+wb-msw-v4_123/Sound Level	sound_level	/devices/wb-msw-v4_123/controls/Sound Level	
+30
+OK
+wb-msw-v4_123/Illuminance	lux	/devices/wb-msw-v4_123/controls/Illuminance	
+564.94
+OK
+wb-msw-v4_123/Max Motion	value	/devices/wb-msw-v4_123/controls/Max Motion	
+18
+OK
+wb-msw-v4_123/Current Motion	value	/devices/wb-msw-v4_123/controls/Current Motion	
+14
+OK
+wb-msw-v4_123/Buzzer	switch	/devices/wb-msw-v4_123/controls/Buzzer	
+false
+OK
+wb-msw-v4_123/Red LED	switch	/devices/wb-msw-v4_123/controls/Red LED	
+false
+OK
+wb-msw-v4_123/Green LED	switch	/devices/wb-msw-v4_123/controls/Green LED	
+false
+OK
+wb-msw-v4_123/LED Period (s)	range	/devices/wb-msw-v4_123/controls/LED Period (s)	
+3
+OK
+wb-msw-v4_123/LED Glow Duration (ms)	range	/devices/wb-msw-v4_123/controls/LED Glow Duration (ms)	
+30
+OK
+wb-msw-v4_123/Learn to RAM	switch	/devices/wb-msw-v4_123/controls/Learn to RAM	
+false
+OK
+wb-msw-v4_123/Play from RAM	pushbutton	/devices/wb-msw-v4_123/controls/Play from RAM	
+OK
+wb-msw-v4_123/Learn to ROM1	switch	/devices/wb-msw-v4_123/controls/Learn to ROM1	
+false
+OK
+wb-msw-v4_123/Learn to ROM2	switch	/devices/wb-msw-v4_123/controls/Learn to ROM2	
+false
+OK
+wb-msw-v4_123/Learn to ROM3	switch	/devices/wb-msw-v4_123/controls/Learn to ROM3	
+false
+OK
+wb-msw-v4_123/Learn to ROM4	switch	/devices/wb-msw-v4_123/controls/Learn to ROM4	
+false
+OK
+wb-msw-v4_123/Learn to ROM5	switch	/devices/wb-msw-v4_123/controls/Learn to ROM5	
+false
+OK
+wb-msw-v4_123/Learn to ROM6	switch	/devices/wb-msw-v4_123/controls/Learn to ROM6	
+false
+OK
+wb-msw-v4_123/Learn to ROM7	switch	/devices/wb-msw-v4_123/controls/Learn to ROM7	
+false
+OK
+wb-msw-v4_123/Play from ROM1	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM1	
+OK
+wb-msw-v4_123/Play from ROM2	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM2	
+OK
+wb-msw-v4_123/Play from ROM3	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM3	
+OK
+wb-msw-v4_123/Play from ROM4	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM4	
+OK
+wb-msw-v4_123/Play from ROM5	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM5	
+OK
+wb-msw-v4_123/Play from ROM6	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM6	
+OK
+wb-msw-v4_123/Play from ROM7	pushbutton	/devices/wb-msw-v4_123/controls/Play from ROM7	
+OK
+wb-msw-v4_123/Serial	text	/devices/wb-msw-v4_123/controls/Serial	
+227468
+OK
+wb-msw-v4_172/Temperature	value	/devices/wb-msw-v4_172/controls/Temperature	
+19.73
+OK
+wb-msw-v4_172/Humidity	value	/devices/wb-msw-v4_172/controls/Humidity	
+33.94
+OK
+wb-msw-v4_172/CO2	concentration	/devices/wb-msw-v4_172/controls/CO2	
+467
+OK
+wb-msw-v4_172/Air Quality (VOC)	value	/devices/wb-msw-v4_172/controls/Air Quality (VOC)	
+77
+OK
+wb-msw-v4_172/Sound Level	sound_level	/devices/wb-msw-v4_172/controls/Sound Level	
+30
+OK
+wb-msw-v4_172/Illuminance	lux	/devices/wb-msw-v4_172/controls/Illuminance	
+335.15
+OK
+wb-msw-v4_172/Max Motion	value	/devices/wb-msw-v4_172/controls/Max Motion	
+16
+OK
+wb-msw-v4_172/Current Motion	value	/devices/wb-msw-v4_172/controls/Current Motion	
+12
+OK
+wb-msw-v4_172/Buzzer	switch	/devices/wb-msw-v4_172/controls/Buzzer	
+false
+OK
+wb-msw-v4_172/Red LED	switch	/devices/wb-msw-v4_172/controls/Red LED	
+false
+OK
+wb-msw-v4_172/Green LED	switch	/devices/wb-msw-v4_172/controls/Green LED	
+false
+OK
+wb-msw-v4_172/LED Period (s)	range	/devices/wb-msw-v4_172/controls/LED Period (s)	
+3
+Error: r
+wb-msw-v4_172/LED Glow Duration (ms)	range	/devices/wb-msw-v4_172/controls/LED Glow Duration (ms)	
+24
+Error: r
+wb-msw-v4_172/Learn to RAM	switch	/devices/wb-msw-v4_172/controls/Learn to RAM	
+false
+OK
+wb-msw-v4_172/Play from RAM	pushbutton	/devices/wb-msw-v4_172/controls/Play from RAM	
+OK
+wb-msw-v4_172/Learn to ROM1	switch	/devices/wb-msw-v4_172/controls/Learn to ROM1	
+false
+OK
+wb-msw-v4_172/Learn to ROM2	switch	/devices/wb-msw-v4_172/controls/Learn to ROM2	
+false
+OK
+wb-msw-v4_172/Learn to ROM3	switch	/devices/wb-msw-v4_172/controls/Learn to ROM3	
+false
+OK
+wb-msw-v4_172/Learn to ROM4	switch	/devices/wb-msw-v4_172/controls/Learn to ROM4	
+false
+OK
+wb-msw-v4_172/Learn to ROM5	switch	/devices/wb-msw-v4_172/controls/Learn to ROM5	
+false
+OK
+wb-msw-v4_172/Learn to ROM6	switch	/devices/wb-msw-v4_172/controls/Learn to ROM6	
+false
+OK
+wb-msw-v4_172/Learn to ROM7	switch	/devices/wb-msw-v4_172/controls/Learn to ROM7	
+false
+OK
+wb-msw-v4_172/Play from ROM1	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM1	
+OK
+wb-msw-v4_172/Play from ROM2	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM2	
+OK
+wb-msw-v4_172/Play from ROM3	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM3	
+OK
+wb-msw-v4_172/Play from ROM4	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM4	
+OK
+wb-msw-v4_172/Play from ROM5	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM5	
+OK
+wb-msw-v4_172/Play from ROM6	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM6	
+OK
+wb-msw-v4_172/Play from ROM7	pushbutton	/devices/wb-msw-v4_172/controls/Play from ROM7	
+OK
+wb-msw-v4_172/Serial	text	/devices/wb-msw-v4_172/controls/Serial	
+227566
+OK
+wb-msw-v4_36/Temperature	value	/devices/wb-msw-v4_36/controls/Temperature	
+17.3
+OK
+wb-msw-v4_36/Humidity	value	/devices/wb-msw-v4_36/controls/Humidity	
+66.83
+OK
+wb-msw-v4_36/CO2	concentration	/devices/wb-msw-v4_36/controls/CO2	
+432
+OK
+wb-msw-v4_36/Air Quality (VOC)	value	/devices/wb-msw-v4_36/controls/Air Quality (VOC)	
+385
+OK
+wb-msw-v4_36/Sound Level	sound_level	/devices/wb-msw-v4_36/controls/Sound Level	
+30.66
+OK
+wb-msw-v4_36/Illuminance	lux	/devices/wb-msw-v4_36/controls/Illuminance	
+26.71
+OK
+wb-msw-v4_36/Max Motion	value	/devices/wb-msw-v4_36/controls/Max Motion	
+15
+OK
+wb-msw-v4_36/Current Motion	value	/devices/wb-msw-v4_36/controls/Current Motion	
+11
+OK
+wb-msw-v4_36/Buzzer	switch	/devices/wb-msw-v4_36/controls/Buzzer	
+false
+OK
+wb-msw-v4_36/Red LED	switch	/devices/wb-msw-v4_36/controls/Red LED	
+false
+OK
+wb-msw-v4_36/Green LED	switch	/devices/wb-msw-v4_36/controls/Green LED	
+false
+OK
+wb-msw-v4_36/LED Period (s)	range	/devices/wb-msw-v4_36/controls/LED Period (s)	
+1
+OK
+wb-msw-v4_36/LED Glow Duration (ms)	range	/devices/wb-msw-v4_36/controls/LED Glow Duration (ms)	
+50
+OK
+wb-msw-v4_36/Learn to RAM	switch	/devices/wb-msw-v4_36/controls/Learn to RAM	
+false
+OK
+wb-msw-v4_36/Play from RAM	pushbutton	/devices/wb-msw-v4_36/controls/Play from RAM	
+OK
+wb-msw-v4_36/Learn to ROM1	switch	/devices/wb-msw-v4_36/controls/Learn to ROM1	
+false
+OK
+wb-msw-v4_36/Learn to ROM2	switch	/devices/wb-msw-v4_36/controls/Learn to ROM2	
+false
+OK
+wb-msw-v4_36/Learn to ROM3	switch	/devices/wb-msw-v4_36/controls/Learn to ROM3	
+false
+OK
+wb-msw-v4_36/Learn to ROM4	switch	/devices/wb-msw-v4_36/controls/Learn to ROM4	
+false
+OK
+wb-msw-v4_36/Learn to ROM5	switch	/devices/wb-msw-v4_36/controls/Learn to ROM5	
+false
+OK
+wb-msw-v4_36/Learn to ROM6	switch	/devices/wb-msw-v4_36/controls/Learn to ROM6	
+false
+OK
+wb-msw-v4_36/Learn to ROM7	switch	/devices/wb-msw-v4_36/controls/Learn to ROM7	
+false
+OK
+wb-msw-v4_36/Play from ROM1	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM1	
+OK
+wb-msw-v4_36/Play from ROM2	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM2	
+OK
+wb-msw-v4_36/Play from ROM3	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM3	
+OK
+wb-msw-v4_36/Play from ROM4	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM4	
+OK
+wb-msw-v4_36/Play from ROM5	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM5	
+OK
+wb-msw-v4_36/Play from ROM6	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM6	
+OK
+wb-msw-v4_36/Play from ROM7	pushbutton	/devices/wb-msw-v4_36/controls/Play from ROM7	
+OK
+wb-msw-v4_36/Serial	text	/devices/wb-msw-v4_36/controls/Serial	
+314021
+OK
+wb_mio_21/di_1_status	value	/devices/wb_mio_21/controls/di_1_status	
+2
+OK
+wb_mio_21/di_2_status	value	/devices/wb_mio_21/controls/di_2_status	
+0
+OK
+wb_mio_21/di_3_status	value	/devices/wb_mio_21/controls/di_3_status	
+0
+OK
+wb_mio_21/di_4_status	value	/devices/wb_mio_21/controls/di_4_status	
+0
+OK
+wb_mio_21/do_1_status	value	/devices/wb_mio_21/controls/do_1_status	
+0
+OK
+wb_mio_21/do_2_status	value	/devices/wb_mio_21/controls/do_2_status	
+0
+OK
+wb_mio_21/do_3_status	value	/devices/wb_mio_21/controls/do_3_status	
+0
+OK
+wb_mio_21/do_4_status	value	/devices/wb_mio_21/controls/do_4_status	
+0
+OK
+wb_mio_21/serial	text	/devices/wb_mio_21/controls/serial	
+235823
+OK
+wb_mio_231/di_1_status	value	/devices/wb_mio_231/controls/di_1_status	
+0
+OK
+wb_mio_231/di_2_status	value	/devices/wb_mio_231/controls/di_2_status	
+0
+OK
+wb_mio_231/di_3_status	value	/devices/wb_mio_231/controls/di_3_status	
+0
+OK
+wb_mio_231/di_4_status	value	/devices/wb_mio_231/controls/di_4_status	
+0
+OK
+wb_mio_231/do_1_status	value	/devices/wb_mio_231/controls/do_1_status	
+1
+OK
+wb_mio_231/do_2_status	value	/devices/wb_mio_231/controls/do_2_status	
+1
+OK
+wb_mio_231/do_3_status	value	/devices/wb_mio_231/controls/do_3_status	
+1
+OK
+wb_mio_231/do_4_status	value	/devices/wb_mio_231/controls/do_4_status	
+0
+OK
+wb_mio_231/serial	text	/devices/wb_mio_231/controls/serial	
+235697
+OK
+wb_mio_60/di_1_status	value	/devices/wb_mio_60/controls/di_1_status	
+2
+OK
+wb_mio_60/di_2_status	value	/devices/wb_mio_60/controls/di_2_status	
+0
+OK
+wb_mio_60/di_3_status	value	/devices/wb_mio_60/controls/di_3_status	
+0
+OK
+wb_mio_60/di_4_status	value	/devices/wb_mio_60/controls/di_4_status	
+0
+OK
+wb_mio_60/do_1_status	value	/devices/wb_mio_60/controls/do_1_status	
+0
+OK
+wb_mio_60/do_2_status	value	/devices/wb_mio_60/controls/do_2_status	
+0
+OK
+wb_mio_60/do_3_status	value	/devices/wb_mio_60/controls/do_3_status	
+0
+OK
+wb_mio_60/do_4_status	value	/devices/wb_mio_60/controls/do_4_status	
+0
+OK
+wb_mio_60/serial	text	/devices/wb_mio_60/controls/serial	
+4264751427
+OK
+wbrules/Rule debugging	switch	/devices/wbrules/controls/Rule debugging	
+true
+OK
+wt53r_240/Measured distance	value	/devices/wt53r_240/controls/Measured distance	
+1857
+OK
+wt53r_241/Measured distance	value	/devices/wt53r_241/controls/Measured distance
