@@ -2,17 +2,11 @@
 //
 // Ворота (мотор — импульс запускает/останавливает привод):
 //   Левые:  wb-mr6cv3_119/K3   Правые: wb-mr6cv3_119/K6
-//
 // Светильники над воротами:
-//   Левые:  wb-mr6cu_43/K4
-//   Правые: wb-mr6cu_43/K5
-//
-// Концевики (wb-mcm8_94, Normally Open: 0 = ворота открыты, 1 = закрыты):
-//   Левые:  Input 1   Правые: Input 2
-//
-// Датчики освещённости:
-//   wb-msw-v4_36/Illuminance, wb-msw-v4_110/Illuminance
-//   mtdx62-mb_30/Illuminance status, mtdx62-mb_34/Illuminance status
+//   Левые:  wb-mr6cu_43/K4    Правые: wb-mr6cu_43/K5
+// Концевики (Normally Open: 0 = открыты, 1 = закрыты):
+//   Левые:  wb-mcm8_94/Input 1   Правые: wb-mcm8_94/Input 2
+// Датчики освещённости: wb-msw-v4_36, _110, mtdx62-mb_30, _34
 
 (function () {
 
@@ -20,15 +14,22 @@
 // АППАРАТНЫЕ КОНСТАНТЫ
 // ══════════════════════════════════════════════════════════════════
 
-var MOTOR_LEFT  = "wb-mr6cv3_119/K3";
-var MOTOR_RIGHT = "wb-mr6cv3_119/K6";
+var SIDES = ["left", "right"];
 
-var LIGHT_LEFT  = "wb-mr6cu_43/K4";
-var LIGHT_RIGHT = "wb-mr6cu_43/K5";
-
-// Normally Open: 0 = ворота открыты, 1 = ворота закрыты
-var REED_LEFT  = "wb-mcm8_94/Input 1";
-var REED_RIGHT = "wb-mcm8_94/Input 2";
+var HW = {
+  left: {
+    motor: "wb-mr6cv3_119/K3",
+    light: "wb-mr6cu_43/K4",
+    reed:  "wb-mcm8_94/Input 1",
+    label: "Левые",
+  },
+  right: {
+    motor: "wb-mr6cv3_119/K6",
+    light: "wb-mr6cu_43/K5",
+    reed:  "wb-mcm8_94/Input 2",
+    label: "Правые",
+  },
+};
 
 var LUX_TOPICS = [
   "wb-msw-v4_36/Illuminance",
@@ -41,14 +42,26 @@ var LUX_TOPICS = [
 // НАСТРОЙКИ
 // ══════════════════════════════════════════════════════════════════
 
-var PULSE_MS           = 500;            // длительность импульса мотора, мс
-var AUTO_CLOSE_MIN_DEF = 5;              // авtozакрытие по умолчанию, мин
-var LUX_THRESHOLD_DEF  = 50;            // порог «темно», лк
-var LIGHT_OFF_DELAY_MS = 2 * 60 * 1000; // задержка выкл света после закрытия
+var TZ_OFFSET_HOURS         = 10;       // Asia/Vladivostok = UTC+10 (без DST)
+var PULSE_MS                = 500;      // длительность импульса мотора
+var MOTOR_COOLDOWN_MS       = 1500;     // блокировка повторного импульса
+var SYNC_RETRY_MS           = 2000;     // повторная синхронизация после старта
+var AUTO_CLOSE_MIN_DEF      = 5;
+var LIGHT_OFF_DELAY_MIN_DEF = 2;
+var LUX_THRESHOLD_DEF       = 50;
+var LUX_MIN_DELTA           = 0.5;      // публиковать lux только при дельте ≥ 0.5
 
 var TG_SCRIPT = "/usr/local/bin/t34_send_tg.sh";
-var TG_TOKEN  = "7042371125:AAGoHru0YWW9l4vihJPYP72DIAtq6PkzcqE";
-var TG_CHAT   = "2006469967";
+// Секреты загружаются из /etc/wb-rules-modules/garage_secrets.js (игнорируется git).
+var TG_TOKEN = "";
+var TG_CHAT  = "";
+try {
+  var _s = require("garage_secrets");
+  if (_s && _s.tgToken) TG_TOKEN = _s.tgToken;
+  if (_s && _s.tgChat)  TG_CHAT  = _s.tgChat;
+} catch (e) {
+  log.warning("[ВОРОТА] garage_secrets не найден — Telegram отключён");
+}
 
 var VDEV = "garage_gates";
 
@@ -58,25 +71,33 @@ var VDEV = "garage_gates";
 
 function makeGateState() {
   return {
-    closed:         true,   // true = закрыты (reed=1)
-    lightCached:    false,  // последнее значение, записанное скриптом в реле
-    lightAutoOn:    false,  // свет включён автоматически (не вручную)
-    lightManualOn:  false,  // пользователь вручную включил
-    lightManualOff: false,  // пользователь вручную выключил
+    closed:         true,
+    lightCached:    false,
+    lightAutoOn:    false,
+    lightManualOn:  false,
+    lightManualOff: false,
     lightOffTimer:  null,
     autoCloseTimer: null,
-    autoCloseAt:    0,      // ms timestamp окончания таймера
+    autoCloseAt:    0,
+    motorBusyUntil: 0,
   };
 }
 
 var gs = { left: makeGateState(), right: makeGateState() };
+var luxLastPublished = -1;
 
 // ══════════════════════════════════════════════════════════════════
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// УТИЛИТЫ
 // ══════════════════════════════════════════════════════════════════
 
 function ts() {
-  return new Date().toISOString().replace("T", " ").slice(0, 19);
+  // Локальное время Asia/Vladivostok (UTC+10, без DST)
+  var d = new Date(Date.now() + TZ_OFFSET_HOURS * 3600000);
+  return d.toISOString().replace("T", " ").slice(0, 19);
+}
+
+function shellQuote(s) {
+  return "'" + String(s).replace(/'/g, "'\\''") + "'";
 }
 
 function getLux() {
@@ -85,12 +106,22 @@ function getLux() {
     v = dev[LUX_TOPICS[i]];
     if (v !== undefined && v !== null) { sum += Number(v); count++; }
   }
-  return count > 0 ? sum / count : 9999;
+  return count > 0 ? sum / count : null;
 }
 
 function refreshLux() {
   var lux = getLux();
-  dev[VDEV + "/lux"] = Math.round(lux * 10) / 10;
+  if (lux === null) {
+    if (luxLastPublished !== -1) {
+      dev[VDEV + "/lux"] = -1;
+      luxLastPublished = -1;
+    }
+    return null;
+  }
+  if (luxLastPublished < 0 || Math.abs(lux - luxLastPublished) >= LUX_MIN_DELTA) {
+    dev[VDEV + "/lux"] = Math.round(lux * 10) / 10;
+    luxLastPublished = lux;
+  }
   return lux;
 }
 
@@ -99,15 +130,20 @@ function luxThreshold() {
   return (isNaN(t) || t <= 0) ? LUX_THRESHOLD_DEF : t;
 }
 
+function lightOffDelayMs() {
+  var m = Number(dev[VDEV + "/light_off_delay_min"]);
+  if (isNaN(m) || m < 0) m = LIGHT_OFF_DELAY_MIN_DEF;
+  return m * 60000;
+}
+
 function tgSend(text) {
   if (!TG_TOKEN || !TG_CHAT) return;
-  var esc = text
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g,  "\\'")
-    .replace(/\n/g, "\\n");
-  runShellCommand(
-    "bash '" + TG_SCRIPT + "' '" + TG_TOKEN + "' '" + TG_CHAT + "' $'" + esc + "' >/dev/null 2>&1 &"
-  );
+  // Текст идёт через stdin → переменную MSG, никакой шелл-интерполяции
+  var cmd = "MSG=$(cat); bash " + shellQuote(TG_SCRIPT)
+          + " " + shellQuote(TG_TOKEN)
+          + " " + shellQuote(TG_CHAT)
+          + " \"$MSG\" >/dev/null 2>&1";
+  runShellCommand(cmd, { input: text, captureOutput: false });
 }
 
 function logEvent(msg) {
@@ -115,59 +151,90 @@ function logEvent(msg) {
   dev[VDEV + "/last_event"] = ts() + " — " + msg;
 }
 
-function gateLabel(side)  { return side === "left" ? "Левые"      : "Правые";     }
-function lightTopic(side) { return side === "left" ? LIGHT_LEFT   : LIGHT_RIGHT;  }
+// ══════════════════════════════════════════════════════════════════
+// СВЕТ
+// ══════════════════════════════════════════════════════════════════
 
-// ── Управление светом ─────────────────────────────────────────────────────────
-//
-// Детекция ручного вмешательства: сравниваем st.lightCached (что скрипт последний
-// раз записал в реле) с фактическим состоянием реле. Расхождение = внешнее изменение.
-
-function setLight(side, on, reason) {
-  var st    = gs[side];
-  var topic = lightTopic(side);
-  var vcell = VDEV + "/" + side + "_light";
-
-  // Проверка внешнего (ручного) изменения
-  var raw    = dev[topic];
-  var actual = (raw === true || raw === 1);
-  if (actual !== st.lightCached) {
-    st.lightCached = actual;
-    dev[vcell]     = actual;
-    if (actual) {
-      st.lightManualOn = true; st.lightManualOff = false;
-    } else {
-      st.lightManualOff = true; st.lightManualOn = false; st.lightAutoOn = false;
-    }
-    log.info("[ВОРОТА] " + side + " свет: внешнее " + (actual ? "ВКЛ" : "ВЫКЛ") + " обнаружено");
-    return; // всегда уважаем ручное вмешательство
+function markManual(st, on) {
+  if (on) {
+    st.lightManualOn  = true;
+    st.lightManualOff = false;
+  } else {
+    st.lightManualOn  = false;
+    st.lightManualOff = true;
+    st.lightAutoOn    = false;
   }
+  if (st.lightOffTimer) {
+    clearTimeout(st.lightOffTimer);
+    st.lightOffTimer = null;
+  }
+}
 
-  if (st.lightCached === on) return; // уже в нужном состоянии
-
-  st.lightCached = on; // обновляем кэш ДО записи в dev, чтобы watchers не приняли за ручное
-  dev[topic]     = on;
-  dev[vcell]     = on;
+// Скриптовое (автоматическое) переключение света
+function setLight(side, on, reason) {
+  var h  = HW[side];
+  var st = gs[side];
+  if (st.lightCached === on) return;
+  // обновляем кэш ДО записей, чтобы watcher'ы реле/UI приняли это за эхо
+  st.lightCached = on;
+  dev[h.light]                       = on;
+  dev[VDEV + "/" + side + "_light"]  = on;
   st.lightAutoOn = on;
   log.info("[ВОРОТА] " + side + " свет: " + (on ? "ВКЛ" : "ВЫКЛ") + " (" + reason + ")");
 }
 
-// ── Импульс мотора ────────────────────────────────────────────────────────────
+// Внешнее изменение света: source = "ui" (vdev switch) или "relay" (физическое реле)
+function onLightExternal(side, raw, source) {
+  var on = (raw === true || raw === 1);
+  var st = gs[side];
+  if (on === st.lightCached) return; // эхо собственной записи
 
-function pulseGate(side, reason) {
-  var topic = (side === "left") ? MOTOR_LEFT : MOTOR_RIGHT;
-  dev[topic] = true;
-  setTimeout(function () { dev[topic] = false; }, PULSE_MS);
-  log.info("[ВОРОТА] " + gateLabel(side) + ": импульс мотора (" + reason + ")");
+  st.lightCached = on;
+  if (source === "ui") dev[HW[side].light]              = on;
+  else                 dev[VDEV + "/" + side + "_light"] = on;
+  markManual(st, on);
+  log.info("[ВОРОТА] " + side + " свет: " + source + " " + (on ? "ВКЛ" : "ВЫКЛ") + " (ручн.)");
 }
 
-// ── Авtozакрытие ──────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// МОТОР
+// ══════════════════════════════════════════════════════════════════
+
+function pulseGate(side, reason) {
+  var h   = HW[side];
+  var st  = gs[side];
+  var now = Date.now();
+  if (now < st.motorBusyUntil) {
+    log.info("[ВОРОТА] " + h.label + ": импульс проигнорирован (cooldown), " + reason);
+    return false;
+  }
+  st.motorBusyUntil = now + PULSE_MS + MOTOR_COOLDOWN_MS;
+  dev[h.motor] = true;
+  setTimeout(function () { dev[h.motor] = false; }, PULSE_MS);
+  log.info("[ВОРОТА] " + h.label + ": импульс мотора (" + reason + ")");
+  return true;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// АВТОЗАКРЫТИЕ
+// ══════════════════════════════════════════════════════════════════
+
+function updateCountdown(side) {
+  var st   = gs[side];
+  var cell = VDEV + "/" + side + "_close_in";
+  if (st.autoCloseAt > 0) {
+    var rem = Math.max(0, Math.ceil((st.autoCloseAt - Date.now()) / 60000));
+    dev[cell] = rem > 0 ? "через " + rem + " мин" : "скоро...";
+  } else {
+    dev[cell] = "";
+  }
+}
 
 function cancelAutoClose(side) {
   var st = gs[side];
   if (st.autoCloseTimer) { clearTimeout(st.autoCloseTimer); st.autoCloseTimer = null; }
   st.autoCloseAt = 0;
-  dev[VDEV + "/" + side + "_close_in"] = "";
+  updateCountdown(side);
 }
 
 function startAutoClose(side) {
@@ -177,40 +244,25 @@ function startAutoClose(side) {
 
   var minutes = Number(dev[VDEV + "/auto_close_min"]);
   if (isNaN(minutes) || minutes <= 0) minutes = AUTO_CLOSE_MIN_DEF;
-  var ms = minutes * 60 * 1000;
+  var ms = minutes * 60000;
   var st = gs[side];
   st.autoCloseAt = Date.now() + ms;
+  updateCountdown(side);
 
   st.autoCloseTimer = setTimeout(function () {
     st.autoCloseTimer = null;
     st.autoCloseAt    = 0;
-    dev[VDEV + "/" + side + "_close_in"] = "";
-    if (st.closed) return; // уже закрыты вручную — ничего не делаем
-    var msg = gateLabel(side) + " ворота: авtoзакрытие (открыты " + minutes + " мин)";
+    updateCountdown(side);
+    if (st.closed) return;
+    var msg = HW[side].label + " ворота: автозакрытие (открыты " + minutes + " мин)";
     logEvent(msg);
     tgSend("[ВОРОТА] " + msg + "\nВремя: " + ts());
-    pulseGate(side, "авtoзакрытие через " + minutes + " мин");
+    pulseGate(side, "автозакрытие через " + minutes + " мин");
   }, ms);
 }
 
-function updateCountdown() {
-  var now   = Date.now();
-  var sides = ["left", "right"];
-  for (var i = 0; i < sides.length; i++) {
-    var s    = sides[i];
-    var st   = gs[s];
-    var cell = VDEV + "/" + s + "_close_in";
-    if (st.autoCloseAt > 0) {
-      var rem = Math.max(0, Math.ceil((st.autoCloseAt - now) / 60000));
-      dev[cell] = rem > 0 ? "через " + rem + " мин" : "скоро...";
-    } else {
-      dev[cell] = "";
-    }
-  }
-}
-
 // ══════════════════════════════════════════════════════════════════
-// ЛОГИКА ИЗМЕНЕНИЯ СОСТОЯНИЯ ВОРОТ
+// ИЗМЕНЕНИЕ СОСТОЯНИЯ ВОРОТ
 // ══════════════════════════════════════════════════════════════════
 
 function onGateChange(side, rawVal) {
@@ -219,48 +271,43 @@ function onGateChange(side, rawVal) {
   if (nowClosed === st.closed) return;
   st.closed = nowClosed;
 
-  var label     = gateLabel(side);
+  var label     = HW[side].label;
   var stateText = nowClosed ? "ЗАКРЫТЫ" : "ОТКРЫТЫ";
   dev[VDEV + "/" + side + "_state"] = nowClosed ? "Закрыты" : "Открыты";
 
   if (!nowClosed) {
-    // ── Ворота открылись ──────────────────────────────────────────
-    var lux  = refreshLux();
-    var dark = lux < luxThreshold();
+    // Ворота открылись
+    var lux    = refreshLux();
+    var luxStr = (lux === null) ? "n/a" : lux.toFixed(1);
+    var dark   = (lux !== null) && (lux < luxThreshold());
 
-    logEvent(label + " ворота: " + stateText + "  [лк=" + lux.toFixed(1) + "]");
-    tgSend(
-      "[ВОРОТА] " + label + " ворота: " + stateText +
-      "\nОсвещённость: " + lux.toFixed(1) + " лк" +
-      "\nВремя: " + ts()
-    );
+    logEvent(label + " ворота: " + stateText + "  [лк=" + luxStr + "]");
+    tgSend("[ВОРОТА] " + label + " ворота: " + stateText +
+           "\nОсвещённость: " + luxStr + " лк\nВремя: " + ts());
 
-    // Авто-свет при открытии: включаем если темно и пользователь не выключал вручную
     if (dark && !st.lightManualOff) {
       if (st.lightOffTimer) { clearTimeout(st.lightOffTimer); st.lightOffTimer = null; }
-      setLight(side, true, "ворота открылись, темно (" + lux.toFixed(1) + " лк)");
+      setLight(side, true, "ворота открылись, темно (" + luxStr + " лк)");
     }
 
     startAutoClose(side);
 
   } else {
-    // ── Ворота закрылись ──────────────────────────────────────────
+    // Ворота закрылись
     logEvent(label + " ворота: " + stateText);
     tgSend("[ВОРОТА] " + label + " ворота: " + stateText + "\nВремя: " + ts());
 
     cancelAutoClose(side);
 
-    // Авто-выкл света: если свет включён автоматически и не переопределён вручную
     if (st.lightAutoOn && !st.lightManualOn) {
       if (st.lightOffTimer) clearTimeout(st.lightOffTimer);
       st.lightOffTimer = setTimeout(function () {
         st.lightOffTimer = null;
-        if (st.lightManualOn) return; // пока ждали — вручную включили
+        if (st.lightManualOn) return;
         setLight(side, false, "ворота закрыты, таймер выкл");
-      }, LIGHT_OFF_DELAY_MS);
+      }, lightOffDelayMs());
     }
 
-    // Сброс флага «вручную выключен» — при следующем открытии авто-логика снова работает
     st.lightManualOff = false;
   }
 }
@@ -272,99 +319,106 @@ function onGateChange(side, rawVal) {
 defineVirtualDevice(VDEV, {
   title: "Гараж — Ворота",
   cells: {
-    // ── Состояние ворот ─────────────────────────────────────────────
-    left_state:     { type: "text",   value: "неизвестно",      title: "Левые ворота: состояние"   },
-    right_state:    { type: "text",   value: "неизвестно",      title: "Правые ворота: состояние"  },
+    left_state:          { type: "text",       value: "неизвестно",            title: "Левые ворота: состояние"          },
+    right_state:         { type: "text",       value: "неизвестно",            title: "Правые ворота: состояние"         },
 
-    // ── Управление воротами ─────────────────────────────────────────
-    cmd_left:       { type: "pushbutton",                        title: "Левые: открыть / закрыть"  },
-    cmd_right:      { type: "pushbutton",                        title: "Правые: открыть / закрыть" },
-    cmd_close_all:  { type: "pushbutton",                        title: "Закрыть ВСЕ ворота"        },
+    cmd_left:            { type: "pushbutton",                                  title: "Левые: открыть / закрыть"         },
+    cmd_right:           { type: "pushbutton",                                  title: "Правые: открыть / закрыть"        },
+    cmd_close_all:       { type: "pushbutton",                                  title: "Закрыть ВСЕ ворота"               },
 
-    // ── Свет над воротами (ручное управление) ──────────────────────
-    left_light:     { type: "switch", value: false,              title: "Левые: свет"               },
-    right_light:    { type: "switch", value: false,              title: "Правые: свет"              },
-    lux:            { type: "value",  value: 0,                  title: "Освещённость ср., лк"      },
-    lux_threshold:  { type: "range",  value: LUX_THRESHOLD_DEF,
-                      min: 5, max: 300,                          title: "Порог 'темно', лк"         },
+    left_light:          { type: "switch",     value: false,                    title: "Левые: свет"                      },
+    right_light:         { type: "switch",     value: false,                    title: "Правые: свет"                     },
+    lux:                 { type: "value",      value: 0,                        title: "Освещённость ср., лк"             },
+    lux_threshold:       { type: "range",      value: LUX_THRESHOLD_DEF,
+                           min: 5, max: 300,                                    title: "Порог 'темно', лк"                },
+    light_off_delay_min: { type: "range",      value: LIGHT_OFF_DELAY_MIN_DEF,
+                           min: 0, max: 30,                                     title: "Авто-выкл света: задержка (мин)"  },
 
-    // ── Авtozакрытие ────────────────────────────────────────────────
-    auto_close_on:  { type: "switch", value: true,               title: "Авtoзакрытие: вкл"         },
-    auto_close_min: { type: "range",  value: AUTO_CLOSE_MIN_DEF,
-                      min: 1, max: 120,                          title: "Авtoзакрытие: через (мин)" },
-    left_close_in:  { type: "text",   value: "",                 title: "Левые: закроются"          },
-    right_close_in: { type: "text",   value: "",                 title: "Правые: закроются"         },
+    auto_close_on:       { type: "switch",     value: true,                     title: "Автозакрытие: вкл"                },
+    auto_close_min:      { type: "range",      value: AUTO_CLOSE_MIN_DEF,
+                           min: 1, max: 120,                                    title: "Автозакрытие: через (мин)"        },
+    left_close_in:       { type: "text",       value: "",                       title: "Левые: закроются"                 },
+    right_close_in:      { type: "text",       value: "",                       title: "Правые: закроются"                },
 
-    // ── Журнал событий ──────────────────────────────────────────────
-    last_event:     { type: "text",   value: "",                 title: "Последнее событие"         },
+    last_event:          { type: "text",       value: "",                       title: "Последнее событие"                },
   },
 });
 
 // ══════════════════════════════════════════════════════════════════
-// ИНИЦИАЛИЗАЦИЯ — синхронизация начального состояния
+// ИНИЦИАЛИЗАЦИЯ
 // ══════════════════════════════════════════════════════════════════
 
-(function syncStartup() {
-  var cfg = [
-    { side: "left",  reed: REED_LEFT,  light: LIGHT_LEFT  },
-    { side: "right", reed: REED_RIGHT, light: LIGHT_RIGHT },
-  ];
-  for (var i = 0; i < cfg.length; i++) {
-    var c  = cfg[i];
-    var st = gs[c.side];
+function syncStartup() {
+  SIDES.forEach(function (side) {
+    var h  = HW[side];
+    var st = gs[side];
 
-    var rv     = dev[c.reed];
-    st.closed  = (rv === true || rv === 1);
-    dev[VDEV + "/" + c.side + "_state"] = st.closed ? "Закрыты" : "Открыты";
+    var rv = dev[h.reed];
+    if (rv !== undefined && rv !== null) {
+      st.closed = (rv === true || rv === 1);
+      dev[VDEV + "/" + side + "_state"] = st.closed ? "Закрыты" : "Открыты";
+    }
 
-    var lv          = dev[c.light];
-    st.lightCached  = (lv === true || lv === 1);
-    dev[VDEV + "/" + c.side + "_light"] = st.lightCached;
+    var lv = dev[h.light];
+    if (lv !== undefined && lv !== null) {
+      st.lightCached = (lv === true || lv === 1);
+      dev[VDEV + "/" + side + "_light"] = st.lightCached;
+    }
 
-    log.info("[ВОРОТА] init: " + c.side +
-      " — " + (st.closed ? "закрыты" : "открыты") +
+    log.info("[ВОРОТА] init " + side +
+      ": " + (st.closed ? "закрыты" : "открыты") +
       ", свет=" + (st.lightCached ? "вкл" : "выкл"));
-  }
+  });
   refreshLux();
-})();
+}
+
+// Сбрасываем моторы — на случай если предыдущий запуск завис в импульсе
+SIDES.forEach(function (side) { dev[HW[side].motor] = false; });
+syncStartup();
+// Повтор: retained MQTT-значения могут прийти с задержкой
+setTimeout(syncStartup, SYNC_RETRY_MS);
 
 // ══════════════════════════════════════════════════════════════════
 // ПРАВИЛА
 // ══════════════════════════════════════════════════════════════════
 
-// ── Концевики ворот ───────────────────────────────────────────────
-defineRule("gg_left_reed", {
-  whenChanged: REED_LEFT,
-  then: function (v) { onGateChange("left", v); },
-});
-defineRule("gg_right_reed", {
-  whenChanged: REED_RIGHT,
-  then: function (v) { onGateChange("right", v); },
+SIDES.forEach(function (side) {
+  var h     = HW[side];
+  var label = h.label;
+
+  defineRule("gg_" + side + "_reed", {
+    whenChanged: h.reed,
+    then: function (v) { onGateChange(side, v); },
+  });
+
+  defineRule("gg_cmd_" + side, {
+    whenChanged: VDEV + "/cmd_" + side,
+    then: function () {
+      var action = gs[side].closed ? "открытие" : "закрытие";
+      if (pulseGate(side, "кнопка (" + action + ")")) {
+        logEvent(label + " ворота: команда " + action + " (кнопка)");
+      }
+    },
+  });
+
+  defineRule("gg_" + side + "_light_sw", {
+    whenChanged: VDEV + "/" + side + "_light",
+    then: function (v) { onLightExternal(side, v, "ui"); },
+  });
+
+  defineRule("gg_" + side + "_light_relay", {
+    whenChanged: h.light,
+    then: function (v) { onLightExternal(side, v, "relay"); },
+  });
 });
 
-// ── Кнопки управления воротами ────────────────────────────────────
-defineRule("gg_cmd_left", {
-  whenChanged: VDEV + "/cmd_left",
-  then: function () {
-    var action = gs.left.closed ? "открытие" : "закрытие";
-    pulseGate("left", "кнопка (" + action + ")");
-    logEvent("Левые ворота: команда " + action + " (кнопка)");
-  },
-});
-defineRule("gg_cmd_right", {
-  whenChanged: VDEV + "/cmd_right",
-  then: function () {
-    var action = gs.right.closed ? "открытие" : "закрытие";
-    pulseGate("right", "кнопка (" + action + ")");
-    logEvent("Правые ворота: команда " + action + " (кнопка)");
-  },
-});
 defineRule("gg_cmd_close_all", {
   whenChanged: VDEV + "/cmd_close_all",
   then: function () {
     var sent = false;
-    if (!gs.left.closed)  { pulseGate("left",  "закрыть все"); sent = true; }
-    if (!gs.right.closed) { pulseGate("right", "закрыть все"); sent = true; }
+    SIDES.forEach(function (side) {
+      if (!gs[side].closed && pulseGate(side, "закрыть все")) sent = true;
+    });
     if (sent) {
       logEvent("Команда: закрыть все ворота");
       tgSend("[ВОРОТА] Принудительное закрытие всех ворот\nВремя: " + ts());
@@ -374,123 +428,31 @@ defineRule("gg_cmd_close_all", {
   },
 });
 
-// ── Ручное управление светом из UI ───────────────────────────────
-//
-// Пользователь переключил switch на карточке vdev.
-// st.lightCached уже равно новому значению если это скрипт переключил (return сразу).
-
-defineRule("gg_left_light_sw", {
-  whenChanged: VDEV + "/left_light",
-  then: function (v) {
-    var on = (v === true || v === 1);
-    var st = gs.left;
-    if (on === st.lightCached) return; // скрипт сам изменил — игнорируем
-    // Ручное управление из UI
-    st.lightCached = on;
-    dev[LIGHT_LEFT] = on;
-    if (on) {
-      st.lightManualOn  = true;
-      st.lightManualOff = false;
-      if (st.lightOffTimer) { clearTimeout(st.lightOffTimer); st.lightOffTimer = null; }
-    } else {
-      st.lightManualOff = true;
-      st.lightManualOn  = false;
-      st.lightAutoOn    = false;
-      if (st.lightOffTimer) { clearTimeout(st.lightOffTimer); st.lightOffTimer = null; }
-    }
-    log.info("[ВОРОТА] left свет: UI " + (on ? "ВКЛ" : "ВЫКЛ") + " (ручн.)");
-  },
-});
-defineRule("gg_right_light_sw", {
-  whenChanged: VDEV + "/right_light",
-  then: function (v) {
-    var on = (v === true || v === 1);
-    var st = gs.right;
-    if (on === st.lightCached) return;
-    st.lightCached = on;
-    dev[LIGHT_RIGHT] = on;
-    if (on) {
-      st.lightManualOn  = true;
-      st.lightManualOff = false;
-      if (st.lightOffTimer) { clearTimeout(st.lightOffTimer); st.lightOffTimer = null; }
-    } else {
-      st.lightManualOff = true;
-      st.lightManualOn  = false;
-      st.lightAutoOn    = false;
-      if (st.lightOffTimer) { clearTimeout(st.lightOffTimer); st.lightOffTimer = null; }
-    }
-    log.info("[ВОРОТА] right свет: UI " + (on ? "ВКЛ" : "ВЫКЛ") + " (ручн.)");
-  },
-});
-
-// ── Физическое изменение реле света (настенный выключатель) ──────
-//
-// Синхронизирует vdev switch и выставляет флаги ручного вмешательства.
-// st.lightCached обновляется ДО записи в dev в setLight(), поэтому
-// при автоматическом изменении on === st.lightCached → return.
-
-defineRule("gg_left_light_relay", {
-  whenChanged: LIGHT_LEFT,
-  then: function (v) {
-    var on = (v === true || v === 1);
-    var st = gs.left;
-    if (on === st.lightCached) return; // script-originated change
-    st.lightCached = on;
-    dev[VDEV + "/left_light"] = on;
-    if (on) { st.lightManualOn  = true;  st.lightManualOff = false; }
-    else    { st.lightManualOff = true;  st.lightManualOn  = false; st.lightAutoOn = false; }
-    log.info("[ВОРОТА] left свет: физ. выкл. " + (on ? "ВКЛ" : "ВЫКЛ"));
-  },
-});
-defineRule("gg_right_light_relay", {
-  whenChanged: LIGHT_RIGHT,
-  then: function (v) {
-    var on = (v === true || v === 1);
-    var st = gs.right;
-    if (on === st.lightCached) return;
-    st.lightCached = on;
-    dev[VDEV + "/right_light"] = on;
-    if (on) { st.lightManualOn  = true;  st.lightManualOff = false; }
-    else    { st.lightManualOff = true;  st.lightManualOn  = false; st.lightAutoOn = false; }
-    log.info("[ВОРОТА] right свет: физ. выкл. " + (on ? "ВКЛ" : "ВЫКЛ"));
-  },
-});
-
-// ── Авtoзакрытие: вкл/выкл ───────────────────────────────────────
 defineRule("gg_auto_close_toggle", {
   whenChanged: VDEV + "/auto_close_on",
   then: function (v) {
     var en = (v === true || v === 1);
-    log.info("[ВОРОТА] авtoзакрытие: " + (en ? "включено" : "выключено"));
-    if (!en) {
-      cancelAutoClose("left");
-      cancelAutoClose("right");
-    } else {
-      if (!gs.left.closed)  startAutoClose("left");
-      if (!gs.right.closed) startAutoClose("right");
-    }
+    log.info("[ВОРОТА] автозакрытие: " + (en ? "включено" : "выключено"));
+    SIDES.forEach(function (side) {
+      if (!en) cancelAutoClose(side);
+      else if (!gs[side].closed) startAutoClose(side);
+    });
   },
 });
 
-// ── Авtoзакрытие: изменение интервала ────────────────────────────
 defineRule("gg_auto_close_min", {
   whenChanged: VDEV + "/auto_close_min",
   then: function () {
     var en = dev[VDEV + "/auto_close_on"];
     if (en === false || en === 0) return;
-    // Перезапустить таймеры для открытых ворот с новым интервалом
-    if (!gs.left.closed)  startAutoClose("left");
-    if (!gs.right.closed) startAutoClose("right");
+    SIDES.forEach(function (side) {
+      if (!gs[side].closed) startAutoClose(side);
+    });
   },
 });
 
-// ── Обратный отсчёт и обновление lux ─────────────────────────────
-defineRule("gg_countdown", {
-  when: function () { return cron("*/30 * * * * *"); },
-  then: updateCountdown,
-});
 defineRule("gg_lux_refresh", {
-  when: function () { return cron("0 * * * * *"); },
+  whenChanged: LUX_TOPICS,
   then: refreshLux,
 });
 
