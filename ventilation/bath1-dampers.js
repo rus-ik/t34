@@ -3,452 +3,654 @@
 // Приводы WB-MRM2-mini (curtain1_mode=1):
 //   wb-mrm2-mini_50  — N1 Сушилка  (всегда закрыта, сушилки нет)
 //   wb-mrm2-mini_64  — N2 Ванная   (открывается при высокой влажности)
-//   wb-mrm2-mini_73  — N6 Унитаз   (открывается по датчику протока воды)
+//   wb-mrm2-mini_73  — N6 Унитаз   (открывается по датчику протока + VOC)
 //   wb-mrm2-mini_70  — N7 Чердак   (открывается на ATTIC_LEAD_MS раньше,
 //                                    закрывается на ATTIC_TRAIL_MS позже)
 //
-// Датчик протока YF-B1:   wb-mcm8_119, вход 3 (импульсный, счётчик на MQTT)
-// Датчик присутствия MTD-262: mtdx62-mb_28/presence_status
-// Датчик положения WBIO-DI-HVD-16 (wb-mio-gpio_21:1):
-//   IN1 — N1 сушилка  | IN2 — N2 ванная | IN3 — N6 унитаз | IN4 — N7 чердак
-//   Оба концевика каждого привода выведены на один вход.
+// Датчик протока YF-B1: wb-mcm8_119/Input 3 counter
+// Датчик присутствия:   mtdx62-mb_28/presence_status
+// Датчик положения WBIO-DI-HVD-16: wb-mio-gpio_21:1/IN1..IN4
 //   HIGH = мотор крутится; LOW = достиг крайнего положения.
 //   Позиция = lastCmd[привод] при переходе HIGH→LOW.
 //
 // TODO: установить WB-MSW в ванной 1эт. и заменить HUMIDITY_TOPIC + VOC_TOPIC
 
-// ── Настройки ────────────────────────────────────────────────────────────────
+(function() {
 
-var HUMIDITY_TOPIC = "wb-msw-v3_XXX/Humidity";       // TODO: заменить на реальный датчик
-var VOC_TOPIC      = "wb-msw-v3_XXX/VOC";            // TODO: тот же датчик, VOC Index 0–500
-var FLOW_COUNTER   = "wb-mcm8_119/Input 3 counter";  // YF-B1, счётчик импульсов
-var PRESENCE_TOPIC = "mtdx62-mb_28/presence_status"; // MTD-262
+// ══════════════════════════════════════════════════════════════════
+// АППАРАТНЫЕ ТОПИКИ
+// ══════════════════════════════════════════════════════════════════
 
-var HUMIDITY_HIGH  = 65;  // % — порог открытия заслонки ванной
-var HUMIDITY_LOW   = 55;  // % — порог закрытия (гистерезис)
-var BATH_MIN_ON_MS   = 10 * 60 * 1000;  // 10 мин — минимум работы после открытия
-var BATH_MAX_ON_MS   = 60 * 60 * 1000;  // 60 мин — аварийное закрытие
-var TOILET_TAIL_MS   =  5 * 60 * 1000;  // 5 мин — период доп.работы после ухода человека
-var TOILET_MAX_ON_MS = 30 * 60 * 1000;  // 30 мин — аварийное закрытие унитаза
-var FLOW_STOP_MS   =  5 * 1000;       // 5 сек без импульсов → проток прекратился
-var FLOW_OPEN_PULSES = 3;             // мин. импульсов для открытия заслонки (защита от обратного хода)
+var HUMIDITY_TOPIC = "wb-msw-v3_XXX/Humidity";       // TODO: реальный датчик
+var VOC_TOPIC      = "wb-msw-v3_XXX/VOC";            // TODO: тот же датчик
+var FLOW_COUNTER   = "wb-mcm8_119/Input 3 counter";
+var PRESENCE_TOPIC = "mtdx62-mb_28/presence_status";
 
-var VOC_HIGH       = 150;             // VOC Index — порог открытия унитаза (калибровать!)
-var VOC_LOW        = 100;             // VOC Index — порог закрытия (гистерезис)
-var VOC_MIN_ON_MS  =  5 * 60 * 1000; // 5 мин — минимум работы после открытия по VOC
+// ══════════════════════════════════════════════════════════════════
+// НАСТРОЙКИ
+// ══════════════════════════════════════════════════════════════════
 
-var ATTIC_LEAD_MS  = 2500;  // чердак открывается на 2.5с раньше остальных
-var ATTIC_TRAIL_MS = 2500;  // чердак закрывается на 2.5с позже остальных
+var TZ_OFFSET_HOURS     = 10;            // Asia/Vladivostok UTC+10
+var PULSE_RELAY_MS      = 200;           // длительность импульса на реле
+var DAMPER_COOLDOWN_MS  = 1500;          // защита от повторной команды того же направления
+var INIT_GUARD_MS       = 2000;          // подавление позиций HVD-16 при запуске
+var SENSOR_STALE_MS     = 5 * 60 * 1000; // срок «свежести» датчика
+var NIGHT_CALIB_HOUR    = 3;             // 03:00 Vlat
 
-// ── Топики управления приводами ───────────────────────────────────────────────
+var HUMIDITY_HIGH       = 65;
+var HUMIDITY_LOW        = 55;
+var BATH_MIN_ON_MS      = 10 * 60 * 1000;
+var BATH_MAX_ON_MS      = 60 * 60 * 1000;
 
-var DRYER_OPEN   = "wb-mrm2-mini_50/Curtain 1 Open";
-var DRYER_CLOSE  = "wb-mrm2-mini_50/Curtain 1 Close";
-var BATH_OPEN    = "wb-mrm2-mini_64/Curtain 1 Open";
-var BATH_CLOSE   = "wb-mrm2-mini_64/Curtain 1 Close";
-var TOILET_OPEN  = "wb-mrm2-mini_73/Curtain 1 Open";
-var TOILET_CLOSE = "wb-mrm2-mini_73/Curtain 1 Close";
-var ATTIC_OPEN   = "wb-mrm2-mini_70/Curtain 1 Open";
-var ATTIC_CLOSE  = "wb-mrm2-mini_70/Curtain 1 Close";
+var TOILET_TAIL_MIN     = 5;
+var TOILET_TAIL_MS      = TOILET_TAIL_MIN * 60 * 1000;
+var TOILET_MAX_ON_MS    = 30 * 60 * 1000;
 
-// ── Топики датчиков положения WBIO-DI-HVD-16 ─────────────────────────────────
+var FLOW_STOP_MS        = 5 * 1000;
+var FLOW_OPEN_PULSES    = 3;
 
-var POS_DRYER  = "wb-mio-gpio_21:1/IN1";
-var POS_BATH   = "wb-mio-gpio_21:1/IN2";
-var POS_TOILET = "wb-mio-gpio_21:1/IN3";
-var POS_ATTIC  = "wb-mio-gpio_21:1/IN4";
+var VOC_HIGH            = 150;
+var VOC_LOW             = 100;
+var VOC_MIN_ON_MS       = 5 * 60 * 1000;
+
+var ATTIC_LEAD_MS       = 2500;
+var ATTIC_TRAIL_MS      = 2500;
+
+// ══════════════════════════════════════════════════════════════════
+// КОНФИГ ЗАСЛОНОК
+// ══════════════════════════════════════════════════════════════════
+
+var D = {
+  dryer: {
+    label: "СУШИЛКА",
+    topics: {
+      open:  "wb-mrm2-mini_50/Curtain 1 Open",
+      close: "wb-mrm2-mini_50/Curtain 1 Close",
+      pos:   "wb-mio-gpio_21:1/IN1",
+    },
+    state: { lastCmd: "close", busyUntil: 0 },
+  },
+  bath: {
+    label: "ВАННАЯ",
+    topics: {
+      open:  "wb-mrm2-mini_64/Curtain 1 Open",
+      close: "wb-mrm2-mini_64/Curtain 1 Close",
+      pos:   "wb-mio-gpio_21:1/IN2",
+    },
+    state: { open: false, openAt: 0, maxTimer: null, lastCmd: "close", busyUntil: 0 },
+  },
+  toilet: {
+    label: "УНИТАЗ",
+    topics: {
+      open:  "wb-mrm2-mini_73/Curtain 1 Open",
+      close: "wb-mrm2-mini_73/Curtain 1 Close",
+      pos:   "wb-mio-gpio_21:1/IN3",
+    },
+    state: { open: false, maxTimer: null, lastCmd: "close", busyUntil: 0 },
+  },
+  attic: {
+    label: "ЧЕРДАК",
+    topics: {
+      open:  "wb-mrm2-mini_70/Curtain 1 Open",
+      close: "wb-mrm2-mini_70/Curtain 1 Close",
+      pos:   "wb-mio-gpio_21:1/IN4",
+    },
+    state: { open: false, lastCmd: "close", busyUntil: 0, closeTimer: null },
+  },
+};
 
 var VDEV = "vent_bath1";
 
-// ── Предвычисленные топики vdev ───────────────────────────────────────────────
+var V = {
+  present:        VDEV + "/present",
+  bath_cmd:       VDEV + "/bath_open",
+  bath_pos:       VDEV + "/bath_confirmed",
+  bath_reason:    VDEV + "/bath_reason",
+  toilet_cmd:     VDEV + "/toilet_open",
+  toilet_pos:     VDEV + "/toilet_confirmed",
+  toilet_reason:  VDEV + "/toilet_reason",
+  attic_cmd:      VDEV + "/attic_open",
+  attic_pos:      VDEV + "/attic_confirmed",
+  dryer_pos:      VDEV + "/dryer_confirmed",
+  humidity:       VDEV + "/humidity",
+  humidity_ok:    VDEV + "/humidity_ok",
+  voc:            VDEV + "/voc",
+  voc_ok:         VDEV + "/voc_ok",
+};
 
-var V_PRESENT       = VDEV + "/present";
-var V_BATH_CMD      = VDEV + "/bath_open";
-var V_BATH_POS      = VDEV + "/bath_confirmed";
-var V_TOILET_CMD    = VDEV + "/toilet_open";
-var V_TOILET_POS    = VDEV + "/toilet_confirmed";
-var V_ATTIC_CMD     = VDEV + "/attic_open";
-var V_ATTIC_POS     = VDEV + "/attic_confirmed";
-var V_DRYER_POS     = VDEV + "/dryer_confirmed";
-var V_HUMIDITY      = VDEV + "/humidity";
-var V_VOC           = VDEV + "/voc";
-var V_BATH_REASON   = VDEV + "/bath_reason";
-var V_TOILET_REASON = VDEV + "/toilet_reason";
+// ══════════════════════════════════════════════════════════════════
+// СОСТОЯНИЕ (всё, что не привязано к одной заслонке)
+// ══════════════════════════════════════════════════════════════════
 
-// ── Состояние ────────────────────────────────────────────────────────────────
+var state = {
+  flowStopped:        false,
+  flowStopTimer:      null,
+  flowPulseCount:     0,
+  flowPulseTimer:     null,
+  toiletTailTimer:    null,
+  vocHigh:            false,
+  vocOpenAt:          0,
+  prevHum:            -1,
+  prevVoc:            -1,
+  humidityStaleTimer: null,
+  vocStaleTimer:      null,
+  initialized:        false,
+};
 
-var bathIsOpen      = false;
-var bathOpenAt      = 0;
-var toiletIsOpen    = false;
-var flowStopped     = false;
-var bathMaxTimer    = null;
-var toiletMaxTimer  = null;
-var toiletTimer     = null;
-var flowStopTimer   = null;
-var atticCmdOpen    = false;  // команда открытия чердака отправлена
-var atticCloseTimer = null;   // таймер отложенного закрытия чердака
-var prevHum         = -1;     // последнее опубликованное значение влажности
-var flowPulseCount  = 0;      // накопленные импульсы до открытия заслонки
-var flowPulseTimer  = null;   // таймер сброса счётчика при ложном срабатывании
-var vocHigh         = false;  // VOC выше порога — держим унитаз открытым
-var vocOpenAt       = 0;      // когда VOC открыл заслонку унитаза
-var prevVoc         = -1;     // последнее опубликованное значение VOC
+// ══════════════════════════════════════════════════════════════════
+// СЕКРЕТЫ / TELEGRAM
+// ══════════════════════════════════════════════════════════════════
 
-// Последняя команда на каждый привод — для определения позиции по HVD-16
-var lastCmd = { dryer: "close", bath: "close", toilet: "close", attic: "close" };
-
-// ── Управление чердаком ───────────────────────────────────────────────────────
-
-function sendAtticOpen() {
-  if (atticCloseTimer) { clearTimeout(atticCloseTimer); atticCloseTimer = null; }
-  if (atticCmdOpen) return;
-  atticCmdOpen = true;
-  lastCmd.attic = "open";
-  dev[ATTIC_OPEN] = true;
-  dev[V_ATTIC_CMD] = "Открыта";
-  log.info("[Вент1] ЧЕРДАК открыть");
+var TG_SCRIPT = "/usr/local/bin/t34_send_tg.sh";
+var TG_TOKEN  = "";
+var TG_CHAT   = "";
+try {
+  var _s = require("garage_secrets");
+  if (_s) { TG_TOKEN = _s.tgToken || ""; TG_CHAT = _s.tgChat || ""; }
+} catch (e) {
+  log.warning("[Вент1] garage_secrets не найден — Telegram отключён");
 }
 
-function sendAtticClose() {
-  if (!atticCmdOpen) return;
-  if (bathIsOpen || toiletIsOpen) return;
-  atticCmdOpen = false;
-  lastCmd.attic = "close";
-  dev[ATTIC_CLOSE] = true;
-  dev[V_ATTIC_CMD] = "Закрыта";
-  log.info("[Вент1] ЧЕРДАК закрыть");
+// ══════════════════════════════════════════════════════════════════
+// УТИЛИТЫ
+// ══════════════════════════════════════════════════════════════════
+
+function ts() {
+  var d = new Date(Date.now() + TZ_OFFSET_HOURS * 3600000);
+  return d.toISOString().replace("T", " ").slice(0, 19);
 }
 
-function scheduleAtticClose() {
-  if (atticCloseTimer) return;
-  atticCloseTimer = setTimeout(function() {
-    atticCloseTimer = null;
-    sendAtticClose();
-  }, ATTIC_TRAIL_MS);
+function shellQuote(s) {
+  return "'" + String(s).replace(/'/g, "'\\''") + "'";
 }
 
-// ── Управление ванной ─────────────────────────────────────────────────────────
-
-function openBath(reason) {
-  if (bathIsOpen) return;
-  bathIsOpen = true;
-  bathOpenAt = Date.now();
-  dev[V_BATH_CMD]    = "Открыта";
-  dev[V_BATH_REASON] = reason;
-  sendAtticOpen();
-  setTimeout(function() {
-    if (!bathIsOpen) return;
-    lastCmd.bath = "open";
-    dev[BATH_OPEN] = true;
-    log.info("[Вент1] ВАННАЯ открыта (" + reason + ")");
-  }, ATTIC_LEAD_MS);
-  if (bathMaxTimer) clearTimeout(bathMaxTimer);
-  bathMaxTimer = setTimeout(function() {
-    bathMaxTimer = null;
-    closeBath("таймер 60 мин");
-  }, BATH_MAX_ON_MS);
+function tgSend(text) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  var cmd = "MSG=$(cat); bash " + shellQuote(TG_SCRIPT)
+          + " " + shellQuote(TG_TOKEN)
+          + " " + shellQuote(TG_CHAT)
+          + " \"$MSG\" >/dev/null 2>&1";
+  runShellCommand(cmd, { input: text, captureOutput: false });
 }
-
-function closeBath(reason) {
-  if (!bathIsOpen) return;
-  bathIsOpen = false;
-  lastCmd.bath = "close";
-  if (bathMaxTimer) { clearTimeout(bathMaxTimer); bathMaxTimer = null; }
-  dev[BATH_CLOSE]    = true;
-  dev[V_BATH_CMD]    = "Закрыта";
-  dev[V_BATH_REASON] = "";
-  log.info("[Вент1] ВАННАЯ закрыта (" + reason + ")");
-  scheduleAtticClose();
-}
-
-// ── Управление унитазом ───────────────────────────────────────────────────────
-
-function openToilet(reason) {
-  if (toiletIsOpen) return;
-  toiletIsOpen = true;
-  dev[V_TOILET_CMD]    = "Открыта";
-  dev[V_TOILET_REASON] = reason;
-  sendAtticOpen();
-  setTimeout(function() {
-    if (!toiletIsOpen) return;
-    lastCmd.toilet = "open";
-    dev[TOILET_OPEN] = true;
-    log.info("[Вент1] УНИТАЗ открыт (" + reason + ")");
-  }, ATTIC_LEAD_MS);
-  if (toiletMaxTimer) clearTimeout(toiletMaxTimer);
-  toiletMaxTimer = setTimeout(function() {
-    toiletMaxTimer = null;
-    closeToilet("таймер 30 мин");
-  }, TOILET_MAX_ON_MS);
-}
-
-function closeToilet(reason) {
-  if (!toiletIsOpen) return;
-  toiletIsOpen   = false;
-  flowStopped    = false;
-  flowPulseCount = 0;
-  if (flowPulseTimer)  { clearTimeout(flowPulseTimer);  flowPulseTimer  = null; }
-  if (toiletMaxTimer)  { clearTimeout(toiletMaxTimer);  toiletMaxTimer  = null; }
-  lastCmd.toilet = "close";
-  if (toiletTimer) { clearTimeout(toiletTimer); toiletTimer = null; }
-  dev[TOILET_CLOSE]    = true;
-  dev[V_TOILET_CMD]    = "Закрыта";
-  dev[V_TOILET_REASON] = "";
-  log.info("[Вент1] УНИТАЗ закрыт (" + reason + ")");
-  scheduleAtticClose();
-}
-
-function startToiletTail(reason) {
-  flowStopped = false;
-  if (toiletTimer) return;
-  if (vocHigh) {
-    // VOC ещё высок — не закрываем; период доп.работы запустится когда VOC упадёт
-    log.info("[Вент1] Период доп.работы унитаза отложен — VOC высок (" + reason + ")");
-    return;
-  }
-  log.info("[Вент1] Период доп.работы унитаза " + (TOILET_TAIL_MS / 60000) + " мин (" + reason + ")");
-  dev[V_TOILET_REASON] = "доп.работа " + (TOILET_TAIL_MS / 60000) + " мин";
-  toiletTimer = setTimeout(function() {
-    toiletTimer = null;
-    if (vocHigh) {
-      log.info("[Вент1] УНИТАЗ не закрыт: VOC ещё высок, заслонка остаётся открытой");
-      return;
-    }
-    closeToilet("период доп.работы завершён");
-  }, TOILET_TAIL_MS);
-}
-
-// ── Ручное управление ─────────────────────────────────────────────────────────
-
-function closeAll(reason) {
-  bathIsOpen   = false;
-  toiletIsOpen = false;
-  flowStopped  = false;
-  atticCmdOpen = false;
-  if (bathMaxTimer)    { clearTimeout(bathMaxTimer);    bathMaxTimer    = null; }
-  if (toiletMaxTimer)  { clearTimeout(toiletMaxTimer);  toiletMaxTimer  = null; }
-  if (toiletTimer)     { clearTimeout(toiletTimer);     toiletTimer     = null; }
-  if (flowStopTimer)   { clearTimeout(flowStopTimer);   flowStopTimer   = null; }
-  if (flowPulseTimer)  { clearTimeout(flowPulseTimer);  flowPulseTimer  = null; }
-  if (atticCloseTimer) { clearTimeout(atticCloseTimer); atticCloseTimer = null; }
-  flowPulseCount = 0;
-  vocHigh        = false;
-  lastCmd.bath   = "close";
-  lastCmd.toilet = "close";
-  lastCmd.attic  = "close";
-  dev[BATH_CLOSE]      = true;
-  dev[TOILET_CLOSE]    = true;
-  dev[ATTIC_CLOSE]     = true;
-  dev[V_BATH_CMD]      = "Закрыта";
-  dev[V_TOILET_CMD]    = "Закрыта";
-  dev[V_ATTIC_CMD]     = "Закрыта";
-  dev[V_BATH_REASON]   = "";
-  dev[V_TOILET_REASON] = "";
-  log.info("[Вент1] " + reason + ": принудительное закрытие всех заслонок");
-}
-
-function openAll(reason) {
-  if (bathMaxTimer)   { clearTimeout(bathMaxTimer);   bathMaxTimer   = null; }
-  if (toiletMaxTimer) { clearTimeout(toiletMaxTimer); toiletMaxTimer = null; }
-  if (toiletTimer)    { clearTimeout(toiletTimer);    toiletTimer    = null; }
-  if (flowStopTimer)  { clearTimeout(flowStopTimer);  flowStopTimer  = null; }
-  bathIsOpen   = true;
-  bathOpenAt   = Date.now();
-  toiletIsOpen = true;
-  flowStopped  = false;
-  vocHigh      = false;
-  sendAtticOpen();
-  setTimeout(function() {
-    lastCmd.bath   = "open";
-    lastCmd.toilet = "open";
-    dev[BATH_OPEN]       = true;
-    dev[TOILET_OPEN]     = true;
-    dev[V_BATH_CMD]      = "Открыта";
-    dev[V_TOILET_CMD]    = "Открыта";
-    dev[V_BATH_REASON]   = reason;
-    dev[V_TOILET_REASON] = reason;
-  }, ATTIC_LEAD_MS);
-  log.info("[Вент1] " + reason + ": принудительное открытие всех заслонок");
-}
-
-// ── Вспомогательные функции ──────────────────────────────────────────────────
 
 function isPresent() {
   var v = dev[PRESENCE_TOPIC];
   return v === true || v === 1;
 }
 
-function onPositionReached(name, cmd) {
-  var text = (cmd === "open") ? "Открыта" : "Закрыта";
-  log.info("[Вент1] " + name + ": позиция — " + text);
+function publishIfChanged(cell, value, refKey) {
+  if (state[refKey] === value) return;
+  state[refKey] = value;
+  dev[cell] = value;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// НИЗКОУРОВНЕВОЕ УПРАВЛЕНИЕ ЗАСЛОНКАМИ
+// ══════════════════════════════════════════════════════════════════
+
+function pulseRelay(d, dir) {
+  var primary   = d.topics[dir];
+  var secondary = d.topics[dir === "open" ? "close" : "open"];
+  // Сначала гасим противоположную обмотку, затем импульс — true→false
+  dev[secondary] = false;
+  dev[primary]   = true;
+  setTimeout(function() { dev[primary] = false; }, PULSE_RELAY_MS);
+}
+
+function damperCmd(name, dir, reason) {
+  var d   = D[name];
+  var now = Date.now();
+  if (now < d.state.busyUntil && d.state.lastCmd === dir) {
+    log.info("[Вент1] " + d.label + ": " + dir + " проигнорирована (cooldown), " + reason);
+    return false;
+  }
+  d.state.busyUntil = now + PULSE_RELAY_MS + DAMPER_COOLDOWN_MS;
+  d.state.lastCmd   = dir;
+  pulseRelay(d, dir);
+  log.info("[Вент1] " + d.label + ": " + (dir === "open" ? "открыть" : "закрыть") + " (" + reason + ")");
+  return true;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ЧЕРДАК
+// ══════════════════════════════════════════════════════════════════
+
+function openAttic(reason) {
+  if (D.attic.state.closeTimer) {
+    clearTimeout(D.attic.state.closeTimer);
+    D.attic.state.closeTimer = null;
+  }
+  if (D.attic.state.open) return;
+  D.attic.state.open = true;
+  damperCmd("attic", "open", reason);
+  dev[V.attic_cmd] = "Открыта";
+}
+
+function closeAtticImmediate() {
+  if (!D.attic.state.open) return;
+  if (D.bath.state.open || D.toilet.state.open) return;
+  D.attic.state.open = false;
+  damperCmd("attic", "close", "ванная и унитаз закрыты");
+  dev[V.attic_cmd] = "Закрыта";
+}
+
+function scheduleAtticClose() {
+  if (D.attic.state.closeTimer) return;
+  D.attic.state.closeTimer = setTimeout(function() {
+    D.attic.state.closeTimer = null;
+    closeAtticImmediate();
+  }, ATTIC_TRAIL_MS);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ВАННАЯ
+// ══════════════════════════════════════════════════════════════════
+
+function canCloseBath() {
+  if (!D.bath.state.open) return false;
+  if (Date.now() - D.bath.state.openAt < BATH_MIN_ON_MS) return false;
+  var hum = Number(dev[HUMIDITY_TOPIC]);
+  return isNaN(hum) || hum < HUMIDITY_HIGH;
+}
+
+function bathMaxTimerFired() {
+  D.bath.state.maxTimer = null;
+  if (!D.bath.state.open) return;
+  var hum    = Number(dev[HUMIDITY_TOPIC]);
+  var humStr = isNaN(hum) ? "n/a" : hum.toFixed(1) + "%";
+  if (!isNaN(hum) && hum >= HUMIDITY_HIGH) {
+    log.warning("[Вент1] Аварийный таймер ванной 60 мин: влажность " + humStr + " — продление");
+    tgSend("[Вент1] Ванная: продление 60 мин (влажн. " + humStr + ")\nВремя: " + ts());
+    D.bath.state.maxTimer = setTimeout(bathMaxTimerFired, BATH_MAX_ON_MS);
+    return;
+  }
+  closeBath("аварийный таймер 60 мин");
+  tgSend("[Вент1] Ванная закрыта аварийным таймером\nВремя: " + ts());
+}
+
+function openBath(reason) {
+  if (D.bath.state.open) return;
+  D.bath.state.open    = true;
+  D.bath.state.openAt  = Date.now();
+  dev[V.bath_cmd]      = "Открыта";
+  dev[V.bath_reason]   = reason;
+  openAttic(reason);
+  setTimeout(function() {
+    if (!D.bath.state.open) return;
+    damperCmd("bath", "open", reason);
+  }, ATTIC_LEAD_MS);
+  if (D.bath.state.maxTimer) clearTimeout(D.bath.state.maxTimer);
+  D.bath.state.maxTimer = setTimeout(bathMaxTimerFired, BATH_MAX_ON_MS);
+}
+
+function closeBath(reason) {
+  if (!D.bath.state.open) return;
+  D.bath.state.open = false;
+  if (D.bath.state.maxTimer) {
+    clearTimeout(D.bath.state.maxTimer);
+    D.bath.state.maxTimer = null;
+  }
+  damperCmd("bath", "close", reason);
+  dev[V.bath_cmd]    = "Закрыта";
+  dev[V.bath_reason] = "";
+  scheduleAtticClose();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// УНИТАЗ
+// ══════════════════════════════════════════════════════════════════
+
+function canCloseToilet() {
+  return D.toilet.state.open && !state.vocHigh;
+}
+
+function toiletMaxTimerFired() {
+  D.toilet.state.maxTimer = null;
+  if (!D.toilet.state.open) return;
+  if (state.vocHigh) {
+    log.warning("[Вент1] Аварийный таймер унитаза 30 мин: VOC " + state.prevVoc + " — продление");
+    tgSend("[Вент1] Унитаз: продление 30 мин (VOC " + state.prevVoc + ")\nВремя: " + ts());
+    D.toilet.state.maxTimer = setTimeout(toiletMaxTimerFired, TOILET_MAX_ON_MS);
+    return;
+  }
+  closeToilet("аварийный таймер 30 мин");
+  tgSend("[Вент1] Унитаз закрыт аварийным таймером\nВремя: " + ts());
+}
+
+function openToilet(reason) {
+  if (D.toilet.state.open) return;
+  D.toilet.state.open  = true;
+  dev[V.toilet_cmd]    = "Открыта";
+  dev[V.toilet_reason] = reason;
+  openAttic(reason);
+  setTimeout(function() {
+    if (!D.toilet.state.open) return;
+    damperCmd("toilet", "open", reason);
+  }, ATTIC_LEAD_MS);
+  if (D.toilet.state.maxTimer) clearTimeout(D.toilet.state.maxTimer);
+  D.toilet.state.maxTimer = setTimeout(toiletMaxTimerFired, TOILET_MAX_ON_MS);
+}
+
+function closeToilet(reason) {
+  if (!D.toilet.state.open) return;
+  D.toilet.state.open = false;
+  state.flowStopped     = false;
+  state.flowPulseCount  = 0;
+  if (state.flowPulseTimer)  { clearTimeout(state.flowPulseTimer);  state.flowPulseTimer  = null; }
+  if (state.flowStopTimer)   { clearTimeout(state.flowStopTimer);   state.flowStopTimer   = null; }
+  if (state.toiletTailTimer) { clearTimeout(state.toiletTailTimer); state.toiletTailTimer = null; }
+  if (D.toilet.state.maxTimer) {
+    clearTimeout(D.toilet.state.maxTimer);
+    D.toilet.state.maxTimer = null;
+  }
+  damperCmd("toilet", "close", reason);
+  dev[V.toilet_cmd]    = "Закрыта";
+  dev[V.toilet_reason] = "";
+  scheduleAtticClose();
+}
+
+function startToiletTail(reason) {
+  state.flowStopped = false;
+  if (state.toiletTailTimer) return;
+  if (!canCloseToilet()) {
+    log.info("[Вент1] Период доп.работы унитаза отложен — VOC высок (" + reason + ")");
+    return;
+  }
+  log.info("[Вент1] Период доп.работы унитаза " + TOILET_TAIL_MIN + " мин (" + reason + ")");
+  dev[V.toilet_reason] = "доп.работа " + TOILET_TAIL_MIN + " мин";
+  state.toiletTailTimer = setTimeout(function() {
+    state.toiletTailTimer = null;
+    if (!canCloseToilet()) {
+      log.info("[Вент1] УНИТАЗ не закрыт: VOC всё ещё высок");
+      return;
+    }
+    closeToilet("период доп.работы завершён");
+  }, TOILET_TAIL_MS);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ГРУППОВЫЕ ОПЕРАЦИИ
+// ══════════════════════════════════════════════════════════════════
+
+function cancelAllTimers() {
+  if (D.bath.state.maxTimer)    { clearTimeout(D.bath.state.maxTimer);    D.bath.state.maxTimer    = null; }
+  if (D.toilet.state.maxTimer)  { clearTimeout(D.toilet.state.maxTimer);  D.toilet.state.maxTimer  = null; }
+  if (D.attic.state.closeTimer) { clearTimeout(D.attic.state.closeTimer); D.attic.state.closeTimer = null; }
+  if (state.flowStopTimer)      { clearTimeout(state.flowStopTimer);      state.flowStopTimer      = null; }
+  if (state.flowPulseTimer)     { clearTimeout(state.flowPulseTimer);     state.flowPulseTimer     = null; }
+  if (state.toiletTailTimer)    { clearTimeout(state.toiletTailTimer);    state.toiletTailTimer    = null; }
+}
+
+function closeAll(reason) {
+  cancelAllTimers();
+  D.bath.state.open    = false;
+  D.toilet.state.open  = false;
+  D.attic.state.open   = false;
+  state.flowStopped    = false;
+  state.flowPulseCount = 0;
+  state.vocHigh        = false;
+  ["dryer", "bath", "toilet", "attic"].forEach(function(name) {
+    damperCmd(name, "close", reason);
+  });
+  dev[V.bath_cmd]      = "Закрыта";
+  dev[V.toilet_cmd]    = "Закрыта";
+  dev[V.attic_cmd]     = "Закрыта";
+  dev[V.bath_reason]   = "";
+  dev[V.toilet_reason] = "";
+  log.info("[Вент1] " + reason + ": принудительное закрытие всех заслонок");
+}
+
+function openAll(reason) {
+  cancelAllTimers();
+  D.bath.state.open    = true;
+  D.bath.state.openAt  = Date.now();
+  D.toilet.state.open  = true;
+  state.flowStopped    = false;
+  state.vocHigh        = false;
+  openAttic(reason);
+  setTimeout(function() {
+    damperCmd("bath",   "open", reason);
+    damperCmd("toilet", "open", reason);
+    dev[V.bath_cmd]      = "Открыта";
+    dev[V.toilet_cmd]    = "Открыта";
+    dev[V.bath_reason]   = reason;
+    dev[V.toilet_reason] = reason;
+  }, ATTIC_LEAD_MS);
+  log.info("[Вент1] " + reason + ": принудительное открытие всех заслонок");
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ПОЗИЦИЯ HVD-16
+// ══════════════════════════════════════════════════════════════════
+
+var posToName = {};
+["dryer", "bath", "toilet", "attic"].forEach(function(name) {
+  posToName[D[name].topics.pos] = name;
+});
+
+function onPositionReached(name) {
+  if (!state.initialized) return;
+  var d    = D[name];
+  var text = d.state.lastCmd === "open" ? "Открыта" : "Закрыта";
+  log.info("[Вент1] " + d.label + ": позиция — " + text);
   dev[VDEV + "/" + name + "_confirmed"] = text;
 }
 
-// ── Виртуальное устройство ────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// СВЕЖЕСТЬ ДАТЧИКОВ
+// ══════════════════════════════════════════════════════════════════
 
-defineVirtualDevice(VDEV, {
-  title: "Вентиляция — Ванная 1 эт.",
-  cells: {
-    present:          { type: "switch", value: false,     title: "Присутствие"             },
-    bath_open:        { type: "text",   value: "Закрыта", title: "Ванная: команда"         },
-    bath_confirmed:   { type: "text",   value: "Закрыта", title: "Ванная: позиция (факт)"  },
-    toilet_open:      { type: "text",   value: "Закрыта", title: "Унитаз: команда"         },
-    toilet_confirmed: { type: "text",   value: "Закрыта", title: "Унитаз: позиция (факт)" },
-    attic_open:       { type: "text",   value: "Закрыта", title: "Чердак: команда"         },
-    attic_confirmed:  { type: "text",   value: "Закрыта", title: "Чердак: позиция (факт)" },
-    dryer_confirmed:  { type: "text",   value: "Закрыта", title: "Сушилка: позиция (факт)"},
-    bath_reason:      { type: "text",   value: "",        title: "Ванная: причина"         },
-    toilet_reason:    { type: "text",   value: "",        title: "Унитаз: причина"         },
-    humidity:         { type: "value",  value: 0,         title: "Влажность, %"           },
-    voc:              { type: "value",  value: 0,         title: "VOC Index"               },
-    cmd_close_all:    { type: "pushbutton",               title: "Закрыть все (калибровка)"},
-    cmd_open_all:     { type: "pushbutton",               title: "Открыть все"             },
-  },
-});
-
-// Начальное состояние при загрузке скрипта
-dev[DRYER_CLOSE]  = true;
-dev[BATH_CLOSE]   = true;
-dev[TOILET_CLOSE] = true;
-dev[ATTIC_CLOSE]  = true;
-
-// ── Правила ──────────────────────────────────────────────────────────────────
-
-defineRule("vent1_bath_humidity", {
-  whenChanged: HUMIDITY_TOPIC,
-  then: function(v) {
-    var hum = Number(v);
-    if (isNaN(hum)) return;
-    var rounded = Math.round(hum * 10) / 10;
-    if (rounded !== prevHum) {
-      prevHum = rounded;
-      dev[V_HUMIDITY] = rounded;
+function markHumidityFresh() {
+  if (state.humidityStaleTimer) clearTimeout(state.humidityStaleTimer);
+  if (dev[V.humidity_ok] !== true) {
+    dev[V.humidity_ok] = true;
+    log.info("[Вент1] Датчик влажности — данные поступают");
+  }
+  state.humidityStaleTimer = setTimeout(function() {
+    state.humidityStaleTimer = null;
+    if (dev[V.humidity_ok] !== false) {
+      dev[V.humidity_ok] = false;
+      log.warning("[Вент1] Датчик влажности молчит > " + (SENSOR_STALE_MS / 60000) + " мин");
     }
-    if (!bathIsOpen && hum >= HUMIDITY_HIGH) {
-      openBath("влажность " + hum.toFixed(1) + "% ≥ " + HUMIDITY_HIGH + "%");
-    } else if (bathIsOpen && hum < HUMIDITY_LOW) {
-      var elapsed = Date.now() - bathOpenAt;
-      if (elapsed >= BATH_MIN_ON_MS) {
-        closeBath("влажность " + hum.toFixed(1) + "% < " + HUMIDITY_LOW + "%");
+  }, SENSOR_STALE_MS);
+}
+
+function markVocFresh() {
+  if (state.vocStaleTimer) clearTimeout(state.vocStaleTimer);
+  if (dev[V.voc_ok] !== true) {
+    dev[V.voc_ok] = true;
+    log.info("[Вент1] Датчик VOC — данные поступают");
+  }
+  state.vocStaleTimer = setTimeout(function() {
+    state.vocStaleTimer = null;
+    if (dev[V.voc_ok] !== false) {
+      dev[V.voc_ok] = false;
+      log.warning("[Вент1] Датчик VOC молчит > " + (SENSOR_STALE_MS / 60000) + " мин");
+    }
+  }, SENSOR_STALE_MS);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ОБРАБОТЧИКИ ДАТЧИКОВ
+// ══════════════════════════════════════════════════════════════════
+
+function onHumidity(hum) {
+  if (isNaN(hum)) return;
+  markHumidityFresh();
+  publishIfChanged(V.humidity, Math.round(hum * 10) / 10, "prevHum");
+  if (!D.bath.state.open && hum >= HUMIDITY_HIGH) {
+    openBath("влажность " + hum.toFixed(1) + "% ≥ " + HUMIDITY_HIGH + "%");
+  } else if (D.bath.state.open && hum < HUMIDITY_LOW && canCloseBath()) {
+    closeBath("влажность " + hum.toFixed(1) + "% < " + HUMIDITY_LOW + "%");
+  }
+}
+
+function onVoc(voc) {
+  if (isNaN(voc)) return;
+  markVocFresh();
+  var vocInt = Math.round(voc);
+  publishIfChanged(V.voc, vocInt, "prevVoc");
+  if (!state.vocHigh && voc >= VOC_HIGH) {
+    state.vocHigh   = true;
+    state.vocOpenAt = Date.now();
+    openToilet("VOC " + vocInt + " ≥ " + VOC_HIGH);
+  } else if (state.vocHigh && voc < VOC_LOW) {
+    state.vocHigh = false;
+    if (D.toilet.state.open && !state.toiletTailTimer) {
+      var elapsed = Date.now() - state.vocOpenAt;
+      if (elapsed >= VOC_MIN_ON_MS) {
+        startToiletTail("VOC " + vocInt + " < " + VOC_LOW);
+      } else {
+        setTimeout(function() {
+          if (D.toilet.state.open && !state.toiletTailTimer && !state.vocHigh) {
+            startToiletTail("VOC min-on истёк");
+          }
+        }, VOC_MIN_ON_MS - elapsed);
       }
     }
-  },
-});
+  }
+}
 
-// Колбэк вынесен чтобы не создавать новую функцию на каждый импульс счётчика
 function flowStopCallback() {
-  flowStopTimer = null;
+  state.flowStopTimer = null;
   if (!isPresent()) {
     startToiletTail("проток прекратился, помещение пусто");
   } else {
-    flowStopped = true;
+    state.flowStopped = true;
     log.info("[Вент1] Проток прекратился, ожидаем ухода из помещения");
   }
 }
 
-defineRule("vent1_toilet_flow", {
-  whenChanged: FLOW_COUNTER,
-  then: function() {
-    if (toiletIsOpen) {
-      // Проток продолжается (или начался при уже открытой заслонке): сдвигаем/запускаем таймер остановки
-      if (flowStopTimer) clearTimeout(flowStopTimer);
-      flowStopTimer = setTimeout(flowStopCallback, FLOW_STOP_MS);
-      return;
-    }
+function onFlowPulse() {
+  if (D.toilet.state.open) {
+    if (state.flowStopTimer) clearTimeout(state.flowStopTimer);
+    state.flowStopTimer = setTimeout(flowStopCallback, FLOW_STOP_MS);
+    return;
+  }
+  state.flowPulseCount++;
+  if (state.flowPulseTimer) clearTimeout(state.flowPulseTimer);
+  if (state.flowPulseCount < FLOW_OPEN_PULSES) {
+    state.flowPulseTimer = setTimeout(function() {
+      state.flowPulseTimer = null;
+      state.flowPulseCount = 0;
+    }, FLOW_STOP_MS);
+    return;
+  }
+  state.flowPulseTimer = null;
+  state.flowPulseCount = 0;
+  state.flowStopped    = false;
+  if (state.toiletTailTimer) { clearTimeout(state.toiletTailTimer); state.toiletTailTimer = null; }
+  openToilet("проток воды (YF-B1)");
+  state.flowStopTimer = setTimeout(flowStopCallback, FLOW_STOP_MS);
+}
 
-    // Туалет закрыт: накапливаем импульсы до порога FLOW_OPEN_PULSES
-    flowPulseCount++;
-    if (flowPulseTimer) clearTimeout(flowPulseTimer);
+// ══════════════════════════════════════════════════════════════════
+// НОЧНАЯ КАЛИБРОВКА (событийная, без cron)
+// ══════════════════════════════════════════════════════════════════
 
-    if (flowPulseCount < FLOW_OPEN_PULSES) {
-      // Порог не достигнут — ждём следующих импульсов.
-      // Если пауза FLOW_STOP_MS — считаем ложным срабатыванием (обратный ход) и сбрасываем.
-      flowPulseTimer = setTimeout(function() {
-        flowPulseTimer = null;
-        flowPulseCount = 0;
-      }, FLOW_STOP_MS);
-      return;
-    }
+function scheduleNightlyCalibrate() {
+  // Asia/Vladivostok = UTC+10. Считаем следующий 03:00 Vlat в UTC-ms.
+  var now      = Date.now();
+  var nowVlat  = new Date(now + TZ_OFFSET_HOURS * 3600000);
+  var year     = nowVlat.getUTCFullYear();
+  var month    = nowVlat.getUTCMonth();
+  var day      = nowVlat.getUTCDate();
+  if (nowVlat.getUTCHours() >= NIGHT_CALIB_HOUR) day += 1;
+  var targetMs = Date.UTC(year, month, day, NIGHT_CALIB_HOUR, 0, 0) - TZ_OFFSET_HOURS * 3600000;
+  setTimeout(function() {
+    closeAll("ночная калибровка " + NIGHT_CALIB_HOUR + ":00 Vlat");
+    scheduleNightlyCalibrate();
+  }, targetMs - now);
+}
 
-    // Порог достигнут — реальный проток, открываем заслонку
-    flowPulseTimer = null;
-    flowPulseCount = 0;
-    flowStopped = false;
-    if (flowStopTimer) { clearTimeout(flowStopTimer); flowStopTimer = null; }
-    if (toiletTimer)   { clearTimeout(toiletTimer);   toiletTimer   = null; }
-    openToilet("проток воды (YF-B1)");
-    flowStopTimer = setTimeout(flowStopCallback, FLOW_STOP_MS);
+// ══════════════════════════════════════════════════════════════════
+// ВИРТУАЛЬНОЕ УСТРОЙСТВО
+// ══════════════════════════════════════════════════════════════════
+
+defineVirtualDevice(VDEV, {
+  title: "Вентиляция — Ванная 1 эт.",
+  cells: {
+    present:          { type: "switch",     value: false,     title: "Присутствие"             },
+    bath_open:        { type: "text",       value: "Закрыта", title: "Ванная: команда"         },
+    bath_confirmed:   { type: "text",       value: "Закрыта", title: "Ванная: позиция (факт)"  },
+    bath_reason:      { type: "text",       value: "",        title: "Ванная: причина"         },
+    toilet_open:      { type: "text",       value: "Закрыта", title: "Унитаз: команда"         },
+    toilet_confirmed: { type: "text",       value: "Закрыта", title: "Унитаз: позиция (факт)"  },
+    toilet_reason:    { type: "text",       value: "",        title: "Унитаз: причина"         },
+    attic_open:       { type: "text",       value: "Закрыта", title: "Чердак: команда"         },
+    attic_confirmed:  { type: "text",       value: "Закрыта", title: "Чердак: позиция (факт)"  },
+    dryer_confirmed:  { type: "text",       value: "Закрыта", title: "Сушилка: позиция (факт)" },
+    humidity:         { type: "value",      value: 0,         title: "Влажность, %"            },
+    humidity_ok:      { type: "switch",     value: false, readonly: true, title: "Датчик влажн.: ОК" },
+    voc:              { type: "value",      value: 0,         title: "VOC Index"               },
+    voc_ok:           { type: "switch",     value: false, readonly: true, title: "Датчик VOC: ОК"     },
+    cmd_close_all:    { type: "pushbutton",                   title: "Закрыть все (калибровка)" },
+    cmd_open_all:     { type: "pushbutton",                   title: "Открыть все"              },
   },
 });
 
-defineRule("vent1_toilet_voc", {
-  whenChanged: VOC_TOPIC,
-  then: function(v) {
-    var voc = Number(v);
-    if (isNaN(voc)) return;
-    var vocInt = Math.round(voc);
-    if (vocInt !== prevVoc) {
-      prevVoc = vocInt;
-      dev[V_VOC] = vocInt;
-    }
+// ══════════════════════════════════════════════════════════════════
+// ИНИЦИАЛИЗАЦИЯ
+// ══════════════════════════════════════════════════════════════════
 
-    if (!vocHigh && voc >= VOC_HIGH) {
-      vocHigh   = true;
-      vocOpenAt = Date.now();
-      openToilet("VOC " + vocInt + " ≥ " + VOC_HIGH);
-    } else if (vocHigh && voc < VOC_LOW) {
-      vocHigh = false;
-      // Если заслонка открыта и таймер периода доп.работы не запущен — запускаем его
-      if (toiletIsOpen && !toiletTimer) {
-        var elapsed = Date.now() - vocOpenAt;
-        if (elapsed >= VOC_MIN_ON_MS) {
-          startToiletTail("VOC " + vocInt + " < " + VOC_LOW);
-        } else {
-          var remaining = VOC_MIN_ON_MS - elapsed;
-          setTimeout(function() {
-            if (toiletIsOpen && !toiletTimer && !vocHigh) {
-              startToiletTail("VOC min-on истёк");
-            }
-          }, remaining);
-        }
-      }
-    }
+// Стартовое закрытие всех заслонок (и сброс реле в нулевое положение)
+["dryer", "bath", "toilet", "attic"].forEach(function(name) {
+  damperCmd(name, "close", "запуск скрипта");
+});
+
+// Подавление ложных «достигнута позиция» от retained MQTT-значений
+setTimeout(function() { state.initialized = true; }, INIT_GUARD_MS);
+
+scheduleNightlyCalibrate();
+
+if (HUMIDITY_TOPIC.indexOf("XXX") >= 0) {
+  log.warning("[Вент1] HUMIDITY_TOPIC всё ещё placeholder — установите датчик WB-MSW");
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ПРАВИЛА
+// ══════════════════════════════════════════════════════════════════
+
+defineRule("vent1_air", {
+  whenChanged: [HUMIDITY_TOPIC, VOC_TOPIC],
+  then: function(v, devName, cellName) {
+    var fullPath = devName + "/" + cellName;
+    if (fullPath === HUMIDITY_TOPIC) onHumidity(Number(v));
+    else if (fullPath === VOC_TOPIC) onVoc(Number(v));
   },
+});
+
+defineRule("vent1_flow", {
+  whenChanged: FLOW_COUNTER,
+  then: onFlowPulse,
 });
 
 defineRule("vent1_presence", {
   whenChanged: PRESENCE_TOPIC,
   then: function(v) {
     var present = (v === true || v === 1);
-    dev[V_PRESENT] = present;
+    dev[V.present] = present;
     if (present) return;
-    if (flowStopped) {
+    if (state.flowStopped) {
       startToiletTail("человек вышел");
     }
-    if (bathIsOpen) {
-      var hum = Number(dev[HUMIDITY_TOPIC]);
-      var elapsed = Date.now() - bathOpenAt;
-      if (!isNaN(hum) && hum < HUMIDITY_LOW && elapsed >= BATH_MIN_ON_MS) {
-        closeBath("человек вышел, влажность " + hum.toFixed(1) + "%");
+    if (D.bath.state.open && canCloseBath()) {
+      var hum    = Number(dev[HUMIDITY_TOPIC]);
+      var humStr = isNaN(hum) ? "n/a" : hum.toFixed(1) + "%";
+      if (!isNaN(hum) && hum < HUMIDITY_LOW) {
+        closeBath("человек вышел, влажность " + humStr);
       }
     }
   },
 });
 
-var posByCell = { "IN1": "dryer", "IN2": "bath", "IN3": "toilet", "IN4": "attic" };
-
 defineRule("vent1_pos", {
-  whenChanged: [POS_DRYER, POS_BATH, POS_TOILET, POS_ATTIC],
+  whenChanged: [D.dryer.topics.pos, D.bath.topics.pos, D.toilet.topics.pos, D.attic.topics.pos],
   then: function(v, devName, cellName) {
     if (v === true || v === 1) return;
-    var name = posByCell[cellName];
-    if (name) onPositionReached(name, lastCmd[name]);
+    var name = posToName[devName + "/" + cellName];
+    if (name) onPositionReached(name);
   },
-});
-
-defineRule("vent1_nightly_calibrate", {
-  when: function() { return cron("0 3 * * *"); },
-  then: function() { closeAll("ночная калибровка 03:00"); },
 });
 
 defineRule("vent1_cmd_close_all", {
@@ -462,3 +664,5 @@ defineRule("vent1_cmd_open_all", {
 });
 
 log.info("[Вент1] Загружен — Ванная 1 эт. Заслонки: N1(сушилка)=ЗАКРЫТА N2(ванная) N6(унитаз) N7(чердак)");
+
+})();
