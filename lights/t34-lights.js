@@ -71,7 +71,7 @@ maketoggle("2С-B4-2", "wb-mr6cv3_32/K5", "wb-mr6cu_54/K3");
 maketoggle("1П-B4-1", "wb-gpio/EXT2_IN6",  "wb-mr6cu_43/K1"); // 1ая клавиша — свет2 в прихожей
 maketoggle("1П-B4-2", "wb-gpio/EXT2_IN11", "wb-mr6cu_21/K5"); // 2ая клавиша — свет1 в прихожей
 maketoggle("Д-B3-1",  "wb-gpio/EXT4_IN3",  "wb-mr6cu_43/K2"); // 3ая клавиша — свет на крыльце
-maketoggle("Д-B3-2",  "wb-gpio/EXT4_IN4",  "wb-mr6cu_21/K5"); // 4ая клавиша — мастер-выключатель
+// maketoggle("Д-B3-2", "wb-gpio/EXT4_IN4", "wb-mr6cu_21/K5"); // 4ая клавиша — мастер-выключатель: см. lights/master-switch.js
 
 // 1 этаж — Выключатель справа от входа в гостевую
 maketoggle("1ГС-B1", "wb-gpio/EXT1_IN1", "wb-mr6cu_26/K1"); // 1ая клавиша — свет1 в гостевой
