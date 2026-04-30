@@ -28,6 +28,12 @@
 //   — COMPRESSOR_COOLDOWN_MS (5 мин) между сменами команды
 //   — При молчании датчика > SENSOR_STALE_MS — принудительный OFF
 //
+// Учёт присутствия (опционально, переключается ячейкой presence_aware):
+//   На WB-MSW v3 настоящего radar-presence нет — используем motion с
+//   grace-таймером (удерживаем «есть человек» grace_min минут после
+//   последнего движения). Если presence_aware=ON и человек не обнаружен —
+//   AC принудительно выключается, даже если температура вне зоны комфорта.
+//
 // Обучение:
 //   Кнопка "learn_*" в vdev переводит соответствующий слот ROM в режим
 //   обучения на LEARN_TIMEOUT_MS секунд. В это время нажмите нужную
@@ -40,9 +46,15 @@
 // АППАРАТНЫЕ ТОПИКИ
 // ══════════════════════════════════════════════════════════════════
 
-var MSW        = "wb-msw-v3_151";
-var TEMP_TOPIC = MSW + "/Temperature";
-var HUM_TOPIC  = MSW + "/Humidity";
+var MSW          = "wb-msw-v3_151";
+var TEMP_TOPIC   = MSW + "/Temperature";
+var HUM_TOPIC    = MSW + "/Humidity";
+var MOTION_TOPIC = MSW + "/Current Motion";
+
+// Радар присутствия MTD-262 #24, физически подключён ко второму
+// контроллеру 192.168.0.189; топик доступен на главном через MQTT-bridge
+// (см. mosquitto/bridge-189.conf).
+var PRESENCE_TOPIC = "mtdx62-mb_24/presence_status";
 
 var ROM_OFF  = 1;
 var ROM_COOL = 2;
@@ -58,8 +70,10 @@ function learnTopic(rom) { return MSW + "/Learn to ROM"  + rom; }
 var TZ_OFFSET_HOURS        = 10;             // Asia/Vladivostok = UTC+10
 var DEFAULT_TARGET         = 23;             // °C
 var DEFAULT_HYST           = 1;              // °C
+var DEFAULT_GRACE_MIN      = 5;              // мин задержка «нет человека» после радар=false
 var COMPRESSOR_COOLDOWN_MS = 5 * 60 * 1000;  // не чаще раз в 5 мин менять направление
-var SENSOR_STALE_MS        = 10 * 60 * 1000; // молчание датчика → safety off
+var SENSOR_STALE_MS        = 10 * 60 * 1000; // молчание датчика темп. → safety off
+var PRESENCE_STALE_MS      = 10 * 60 * 1000; // молчание радара → presence=false (safe)
 var LEARN_TIMEOUT_MS       = 30 * 1000;      // окно обучения, сек × 1000
 var TEMP_PUBLISH_DELTA     = 0.1;            // публиковать temp при ∆ ≥ 0.1°C
 var HUM_PUBLISH_DELTA      = 1;              // публиковать hum при ∆ ≥ 1%
@@ -92,13 +106,17 @@ var ROM_LABELS = {
 // ══════════════════════════════════════════════════════════════════
 
 var state = {
-  acCmd:       "off",   // последняя посланная команда: off|cool|heat
-  lastSentAt:  0,
-  lastTemp:    null,
-  prevTempPub: null,
-  prevHumPub:  null,
-  staleTimer:  null,
-  learnTimers: { 1:null, 2:null, 3:null, 4:null, 5:null, 6:null, 7:null },
+  acCmd:               "off",   // последняя посланная команда: off|cool|heat
+  lastSentAt:          0,
+  lastTemp:            null,
+  prevTempPub:         null,
+  prevHumPub:          null,
+  prevMotionPub:       null,
+  staleTimer:          null,
+  learnTimers:         { 1:null, 2:null, 3:null, 4:null, 5:null, 6:null, 7:null },
+  presence:            false, // основной источник — радар MTD-262, с grace-задержкой на ВЫКЛ
+  graceTimer:          null,
+  presenceStaleTimer:  null,
 };
 
 // ══════════════════════════════════════════════════════════════════
@@ -141,6 +159,16 @@ function getTarget() {
 function getHyst() {
   var h = Number(dev[VDEV + "/hyst"]);
   return (isNaN(h) || h < 1) ? DEFAULT_HYST : h;
+}
+
+function getGraceMin() {
+  var g = Number(dev[VDEV + "/grace_min"]);
+  return (isNaN(g) || g < 1) ? DEFAULT_GRACE_MIN : g;
+}
+
+function isPresenceAware() {
+  var v = dev[VDEV + "/presence_aware"];
+  return v === true || v === 1;
 }
 
 function setMode(newMode) {
@@ -198,6 +226,12 @@ function evaluate() {
     return;
   }
 
+  // Учёт присутствия: если включён и в комнате никого нет — выкл AC
+  if (isPresenceAware() && !state.presence) {
+    if (state.acCmd !== "off") sendCmd("off", "никого нет в комнате");
+    return;
+  }
+
   var hot  = temp > target + hyst;
   var cold = temp < target - hyst;
 
@@ -246,6 +280,68 @@ function markTempFresh() {
 }
 
 // ══════════════════════════════════════════════════════════════════
+// ПРИСУТСТВИЕ
+// ══════════════════════════════════════════════════════════════════
+// Основной источник — радар MTD-262 (mtdx62-mb_24/presence_status),
+// проксируется с .189 через MQTT-bridge. Радар выдаёт булево «есть/нет».
+//
+// Логика:
+//   радар=true  → presence сразу true, grace-таймер сбрасывается
+//   радар=false → запускается grace-таймер на grace_min мин;
+//                 если за это время радар снова true — отмена;
+//                 иначе — presence=false
+//
+// Motion с WB-MSW v3 — отдельный источник, идёт ТОЛЬКО на индикацию
+// (motion_value), на принятие решений не влияет (радар надёжнее).
+
+function setPresence(present, reason) {
+  if (state.presence === present) return;
+  state.presence = present;
+  dev[VDEV + "/presence"] = present;
+  logEvent("Присутствие: " + (present ? "ОБНАРУЖЕНО" : "НЕТ") + " (" + reason + ")");
+  evaluate();
+}
+
+function markPresenceFresh() {
+  if (state.presenceStaleTimer) clearTimeout(state.presenceStaleTimer);
+  state.presenceStaleTimer = setTimeout(function () {
+    state.presenceStaleTimer = null;
+    log.warning("[AC-Гост] Радар присутствия молчит > " + (PRESENCE_STALE_MS/60000) + " мин — считаем «нет»");
+    if (state.presence) setPresence(false, "радар молчит");
+  }, PRESENCE_STALE_MS);
+}
+
+function onPresenceRadar(rawValue) {
+  var present = (rawValue === true || rawValue === 1);
+  markPresenceFresh();
+
+  if (present) {
+    if (state.graceTimer) { clearTimeout(state.graceTimer); state.graceTimer = null; }
+    if (!state.presence) setPresence(true, "радар");
+    return;
+  }
+
+  // Радар сообщил «нет» — не торопимся, ждём grace_min для устойчивости
+  if (!state.presence) return;        // уже считаем что нет — нечего обновлять
+  if (state.graceTimer) return;       // grace уже идёт
+  var graceMs = getGraceMin() * 60 * 1000;
+  state.graceTimer = setTimeout(function () {
+    state.graceTimer = null;
+    setPresence(false, "радар: тишина " + getGraceMin() + " мин");
+  }, graceMs);
+}
+
+function onMotion(rawValue) {
+  // Motion идёт только на индикацию: presence управляется радаром.
+  var m = Number(rawValue);
+  if (isNaN(m)) return;
+  if (state.prevMotionPub === null || m !== state.prevMotionPub) {
+    state.prevMotionPub = m;
+    dev[VDEV + "/motion_value"] = m;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
 // ОБУЧЕНИЕ
 // ══════════════════════════════════════════════════════════════════
 
@@ -271,18 +367,23 @@ defineVirtualDevice(VDEV, {
   title: "Гостевая — Кондиционер",
   cells: {
     // ── Состояние (read-only) ─────────────────────────────────────
-    room_temp:   { type: "value",      value: 0,     readonly: true, units: "°C", title: "Температура в комнате" },
-    room_hum:    { type: "value",      value: 0,     readonly: true, units: "%",  title: "Влажность"             },
-    temp_ok:     { type: "switch",     value: false, readonly: true,              title: "Датчик: ОК"            },
-    ac_state:    { type: "text",       value: "off", readonly: true,              title: "AC: текущая команда"   },
-    last_action: { type: "text",       value: "—",   readonly: true,              title: "Последнее действие"    },
+    room_temp:       { type: "value",      value: 0,     readonly: true, units: "°C", title: "Температура в комнате" },
+    room_hum:        { type: "value",      value: 0,     readonly: true, units: "%",  title: "Влажность"             },
+    temp_ok:         { type: "switch",     value: false, readonly: true,              title: "Датчик: ОК"            },
+    presence:        { type: "switch",     value: false, readonly: true,              title: "Присутствие (soft)"    },
+    motion_value:    { type: "value",      value: 0,     readonly: true,              title: "Текущее движение"      },
+    ac_state:        { type: "text",       value: "off", readonly: true,              title: "AC: текущая команда"   },
+    last_action:     { type: "text",       value: "—",   readonly: true,              title: "Последнее действие"    },
 
     // ── Настройки ───────────────────────────────────────────────────
-    mode:        { type: "text",       value: "off",                  title: "Режим (off / cool / heat / auto)" },
-    target:      { type: "range",      value: DEFAULT_TARGET,
-                   min: 16, max: 30,                                  title: "Целевая температура, °C"          },
-    hyst:        { type: "range",      value: DEFAULT_HYST,
-                   min: 1,  max: 5,                                   title: "Гистерезис, °C"                   },
+    mode:            { type: "text",       value: "off",                  title: "Режим (off / cool / heat / auto)" },
+    target:          { type: "range",      value: DEFAULT_TARGET,
+                       min: 16, max: 30,                                  title: "Целевая температура, °C"          },
+    hyst:            { type: "range",      value: DEFAULT_HYST,
+                       min: 1,  max: 5,                                   title: "Гистерезис, °C"                   },
+    presence_aware:  { type: "switch",     value: false,                  title: "Учитывать присутствие"            },
+    grace_min:       { type: "range",      value: DEFAULT_GRACE_MIN,
+                       min: 1,  max: 60,                                  title: "Удерживать «есть человек», мин"   },
 
     // ── Кнопки выбора режима ────────────────────────────────────────
     set_off:     { type: "pushbutton",                                 title: "Режим: OFF"                 },
@@ -339,13 +440,43 @@ defineRule("ac_guest_hum", {
   },
 });
 
+defineRule("ac_guest_motion", {
+  whenChanged: MOTION_TOPIC,
+  then: onMotion,
+});
+
+defineRule("ac_guest_presence_radar", {
+  whenChanged: PRESENCE_TOPIC,
+  then: onPresenceRadar,
+});
+
 // ══════════════════════════════════════════════════════════════════
 // ПРАВИЛА: ИЗМЕНЕНИЕ ПОЛЬЗОВАТЕЛЬСКИХ НАСТРОЕК
 // ══════════════════════════════════════════════════════════════════
 
-defineRule("ac_guest_mode_change", { whenChanged: VDEV + "/mode",   then: evaluate });
-defineRule("ac_guest_target",      { whenChanged: VDEV + "/target", then: evaluate });
-defineRule("ac_guest_hyst",        { whenChanged: VDEV + "/hyst",   then: evaluate });
+defineRule("ac_guest_mode_change",    { whenChanged: VDEV + "/mode",            then: evaluate });
+defineRule("ac_guest_target",         { whenChanged: VDEV + "/target",          then: evaluate });
+defineRule("ac_guest_hyst",           { whenChanged: VDEV + "/hyst",            then: evaluate });
+defineRule("ac_guest_presence_aware", { whenChanged: VDEV + "/presence_aware",  then: evaluate });
+defineRule("ac_guest_grace_min",      { whenChanged: VDEV + "/grace_min",       then: function () {
+  // Если grace уменьшился и сейчас активен таймер, перезапустим с новым значением
+  // относительно последнего движения, чтобы не было «зависших» долгих ожиданий.
+  if (state.graceTimer && state.lastMotionAt > 0) {
+    clearTimeout(state.graceTimer);
+    var newMs   = getGraceMin() * 60 * 1000;
+    var elapsed = Date.now() - state.lastMotionAt;
+    var leftMs  = Math.max(0, newMs - elapsed);
+    if (leftMs === 0) {
+      state.graceTimer = null;
+      setPresence(false, "обновлён grace, тишина " + getGraceMin() + " мин");
+    } else {
+      state.graceTimer = setTimeout(function () {
+        state.graceTimer = null;
+        setPresence(false, "тишина " + getGraceMin() + " мин");
+      }, leftMs);
+    }
+  }
+}});
 
 defineRule("ac_guest_set_off",  { whenChanged: VDEV + "/set_off",  then: function () { setMode("off");  } });
 defineRule("ac_guest_set_cool", { whenChanged: VDEV + "/set_cool", then: function () { setMode("cool"); } });
@@ -373,6 +504,8 @@ defineRule("ac_guest_learn_rom6", { whenChanged: VDEV + "/learn_rom6", then: fun
 defineRule("ac_guest_learn_rom7", { whenChanged: VDEV + "/learn_rom7", then: function () { startLearn(7); } });
 
 log.info("[AC-Гост] Скрипт загружен. Режим=" + getMode() +
-         " target=" + getTarget() + "°C hyst=" + getHyst() + "°C");
+         " target=" + getTarget() + "°C hyst=" + getHyst() + "°C" +
+         " presence-aware=" + (isPresenceAware() ? "ON" : "OFF") +
+         " grace=" + getGraceMin() + "мин");
 
 })();
