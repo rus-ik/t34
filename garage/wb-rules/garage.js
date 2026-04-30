@@ -314,7 +314,7 @@ function isDark(lux, zone, idx) {
 
 // ── Telegram notifications ─────────────────────────────────────────  [17]
 //
-// tgSend(text) – passes an arbitrary multi-line message to send_tg.py via
+// tgSend(text) – passes an arbitrary multi-line message to send_tg.sh via
 // $'...' ANSI-C quoting so that newlines survive the sh boundary cleanly.
 // The function is a no-op when TG config is absent or botToken is empty.
 //

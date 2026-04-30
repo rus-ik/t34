@@ -40,13 +40,12 @@ mosquitto и MCP-агента для двухконтроллерной сист
 | `climate/guest-ac.js`                        | `.200` `/etc/wb-rules/`                              | Кондиционер Centek CT-65K07 в Гостевой через ИК WB-MSW (см. `climate/README.md`) |
 | `doors/wb-rules/doors_telegram.js`           | `.200` `/etc/wb-rules/`                              | Виртуальное устройство `doors` + Telegram-уведомления + лог |
 | `doors/wb-rules-modules/doors.conf`          | `.200` `/etc/wb-rules-modules/`                      | Список герконов, токены TG, права на оповещения |
-| `doors/send_tg.sh`                           | `.200` `/etc/wb-rules/`                              | curl-обёртка для Telegram Bot API |
+| `bin/send_tg.sh`                             | `.200` `/usr/local/bin/t34_send_tg.sh`               | Единая curl-обёртка для Telegram Bot API (используется doors, garage, gate-control, climate, ventilation) |
 | `garage/wb-rules/garage.js`                  | `.200` `/etc/wb-rules/`                              | Гараж: автосвет, two-slot car detection (CO₂ + LiDAR), наружные светильники по астрономическим часам |
 | `garage/wb-rules/gate-control.js`            | `.200` `/etc/wb-rules/`                              | Управление двумя гаражными воротами + светильниками над ними, авто-закрытие, TG-уведомления |
 | `garage/wb-rules-modules/devices.conf`       | `.200` `/etc/wb-rules-modules/`                      | Аппаратная карта гаража + глобальные таймеры/пороги |
 | `garage/wb-rules-modules/garage_secrets.js`  | `.200` `/etc/wb-rules-modules/`                      | TG-токен/chat для `gate-control.js` (gitignored) |
 | `garage/engine_start/engine_detector.js`     | `.200` `/etc/wb-rules/`                              | Детектор запуска двигателя (CDS: CO₂+VOC+Sound+Temp + быстрый цикл MDT/Sound) |
-| `garage/telegram/send_tg.sh`                 | `.200` `/usr/local/bin/t34_send_tg.sh`               | Та же curl-обёртка, путь зашит в `gate-control.js` |
 | `ventilation/bath1-dampers.js`               | `.200` `/etc/wb-rules/`                              | Заслонки санузла 1 эт. (4× WB-MRM2-mini): влажность, проток, VOC; синхронизация чердачной заслонки |
 | `ventilation/history-log.js`                 | `.200` `/etc/wb-rules/`                              | Логирование изменений топиков заслонок и HVD-16 для отладки |
 | `mosquitto/bridge-189.conf`                  | `.200` `/etc/mosquitto/conf.d/`                      | См. раздел про bridge выше |
@@ -96,10 +95,12 @@ mosquitto и MCP-агента для двухконтроллерной сист
   `BATH_MAX_ON_MS`) на случай зависших датчиков.
 
 ### Telegram
-Один и тот же скрипт `send_tg.sh` (curl POST `sendMessage`) деплоится в двух
-местах под разными именами:
-- `/etc/wb-rules/send_tg.sh` — для `doors_telegram.js` и `garage.js`
-- `/usr/local/bin/t34_send_tg.sh` — для `gate-control.js`
+Один скрипт `bin/send_tg.sh` (curl POST `sendMessage`) деплоится на WB как
+`/usr/local/bin/t34_send_tg.sh` и используется всеми wb-rules скриптами,
+шлющими TG: `doors_telegram.js`, `garage.js`, `gate-control.js`,
+`climate/guest-ac.js`, `ventilation/bath1-dampers.js`. Путь зашит в
+`devices.conf` (`telegram.scriptPath`), `doors.conf` (`telegram.send_script`)
+и константой `TG_SCRIPT` в JS-скриптах.
 
 Секреты держать в `garage_secrets.js` (gitignored) или в `doors.conf`.
 
