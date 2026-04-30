@@ -2,6 +2,9 @@
 //
 // Аппаратура:
 //   WB-MSW v3 #151 (Гостевая) — датчик температуры/влажности и ИК-приёмник/передатчик.
+//   MTD-262 #24 (Гостевая) — радарный датчик присутствия, физически подключён
+//     ко второму контроллеру 192.168.0.189; топик прокидывается на главный
+//     контроллер через MQTT-bridge (см. mosquitto/bridge-189.conf).
 //   Кондиционер Centek CT-65K07 (сплит, штатный пульт).
 //
 // ИК-команды (слоты ROM1..ROM7 в WB-MSW; обучаются с пульта):
@@ -29,10 +32,15 @@
 //   — При молчании датчика > SENSOR_STALE_MS — принудительный OFF
 //
 // Учёт присутствия (опционально, переключается ячейкой presence_aware):
-//   На WB-MSW v3 настоящего radar-presence нет — используем motion с
-//   grace-таймером (удерживаем «есть человек» grace_min минут после
-//   последнего движения). Если presence_aware=ON и человек не обнаружен —
-//   AC принудительно выключается, даже если температура вне зоны комфорта.
+//   Основной источник — радар MTD-262 #24 (булево presence_status).
+//   Радар=true → presence сразу true (отмена grace-таймера).
+//   Радар=false → запускается grace-таймер на grace_min мин: даём шанс
+//     радарy «передумать» (исключаем кратковременные провалы). Если за
+//     это время не пришло true — presence=false.
+//   Если presence_aware=ON и человек не обнаружен — AC принудительно
+//   выключается, даже если температура вне зоны комфорта.
+//   Motion с WB-MSW идёт только на индикацию (motion_value), на принятие
+//   решений не влияет — радар надёжнее.
 //
 // Обучение:
 //   Кнопка "learn_*" в vdev переводит соответствующий слот ROM в режим
@@ -116,6 +124,7 @@ var state = {
   learnTimers:         { 1:null, 2:null, 3:null, 4:null, 5:null, 6:null, 7:null },
   presence:            false, // основной источник — радар MTD-262, с grace-задержкой на ВЫКЛ
   graceTimer:          null,
+  graceStartedAt:      0,     // ms timestamp когда стартовал текущий grace-таймер
   presenceStaleTimer:  null,
 };
 
@@ -317,6 +326,7 @@ function onPresenceRadar(rawValue) {
 
   if (present) {
     if (state.graceTimer) { clearTimeout(state.graceTimer); state.graceTimer = null; }
+    state.graceStartedAt = 0;
     if (!state.presence) setPresence(true, "радар");
     return;
   }
@@ -324,9 +334,11 @@ function onPresenceRadar(rawValue) {
   // Радар сообщил «нет» — не торопимся, ждём grace_min для устойчивости
   if (!state.presence) return;        // уже считаем что нет — нечего обновлять
   if (state.graceTimer) return;       // grace уже идёт
+  state.graceStartedAt = Date.now();
   var graceMs = getGraceMin() * 60 * 1000;
   state.graceTimer = setTimeout(function () {
     state.graceTimer = null;
+    state.graceStartedAt = 0;
     setPresence(false, "радар: тишина " + getGraceMin() + " мин");
   }, graceMs);
 }
@@ -458,23 +470,23 @@ defineRule("ac_guest_mode_change",    { whenChanged: VDEV + "/mode",            
 defineRule("ac_guest_target",         { whenChanged: VDEV + "/target",          then: evaluate });
 defineRule("ac_guest_hyst",           { whenChanged: VDEV + "/hyst",            then: evaluate });
 defineRule("ac_guest_presence_aware", { whenChanged: VDEV + "/presence_aware",  then: evaluate });
-defineRule("ac_guest_grace_min",      { whenChanged: VDEV + "/grace_min",       then: function () {
-  // Если grace уменьшился и сейчас активен таймер, перезапустим с новым значением
-  // относительно последнего движения, чтобы не было «зависших» долгих ожиданий.
-  if (state.graceTimer && state.lastMotionAt > 0) {
-    clearTimeout(state.graceTimer);
-    var newMs   = getGraceMin() * 60 * 1000;
-    var elapsed = Date.now() - state.lastMotionAt;
-    var leftMs  = Math.max(0, newMs - elapsed);
-    if (leftMs === 0) {
-      state.graceTimer = null;
-      setPresence(false, "обновлён grace, тишина " + getGraceMin() + " мин");
-    } else {
-      state.graceTimer = setTimeout(function () {
-        state.graceTimer = null;
-        setPresence(false, "тишина " + getGraceMin() + " мин");
-      }, leftMs);
-    }
+defineRule("ac_guest_grace_min", { whenChanged: VDEV + "/grace_min", then: function () {
+  // Если grace-таймер активен — пересчитаем его относительно момента старта.
+  if (!state.graceTimer || !state.graceStartedAt) return;
+  clearTimeout(state.graceTimer);
+  var newMs   = getGraceMin() * 60 * 1000;
+  var elapsed = Date.now() - state.graceStartedAt;
+  var leftMs  = Math.max(0, newMs - elapsed);
+  if (leftMs === 0) {
+    state.graceTimer     = null;
+    state.graceStartedAt = 0;
+    setPresence(false, "обновлён grace, истёк (" + getGraceMin() + " мин)");
+  } else {
+    state.graceTimer = setTimeout(function () {
+      state.graceTimer     = null;
+      state.graceStartedAt = 0;
+      setPresence(false, "радар: тишина " + getGraceMin() + " мин");
+    }, leftMs);
   }
 }});
 
