@@ -24,7 +24,8 @@
 //   [16] Astronomical night clock  – external gate lights on only between sunset/sunrise
 //          (Khabarovsk coords from devices.conf); isNight initialised on startup
 //   [17] Telegram notifications   – gate auto-open (pulseGate) + gate close (reed switch)
-//          with live CO2/LiDAR snapshot; bot token/chatId in devices.conf
+//          with live CO2/LiDAR snapshot; bot token/chatId in telegram.conf,
+//          scriptPath in devices.conf
 // ================================================================
 
 (function () { // [3] IIFE
@@ -39,7 +40,16 @@ try {
 }
 
 var GCFG = hw.config;
-var TG   = hw.telegram || null; // [17] Telegram bot config (optional)
+var TG   = hw.telegram || null; // [17] Telegram script path (scriptPath only)
+// Секреты бота — общий /etc/wb-rules-modules/telegram.conf (игнорируется git).
+var TG_TOKEN = "";
+var TG_CHAT  = "";
+try {
+  var _s = readConfig("/etc/wb-rules-modules/telegram.conf");
+  if (_s) { TG_TOKEN = _s.tgToken || ""; TG_CHAT = _s.tgChat || ""; }
+} catch (e) {
+  log.warning("[GARAGE] telegram.conf не найден — Telegram отключён");
+}
 
 // ── Config resolver ────────────────────────────────────────────────
 // Local key → global fallback; used for both zones [11] and slots [15]
@@ -322,15 +332,15 @@ function isDark(lux, zone, idx) {
 // so the only chars that need escaping are \, ' and actual newline.
 
 function tgSend(text) {
-  if (!TG || !TG.botToken || !TG.chatId || !TG.scriptPath) return;
+  if (!TG || !TG.scriptPath || !TG_TOKEN || !TG_CHAT) return;
   var escaped = text
     .replace(/\\/g, "\\\\")
     .replace(/'/g, "\\'")
     .replace(/\n/g, "\\n");
   runShellCommand(
     "bash '" + TG.scriptPath + "'" +
-    " '" + TG.botToken + "'" +
-    " '" + TG.chatId   + "'" +
+    " '" + TG_TOKEN + "'" +
+    " '" + TG_CHAT  + "'" +
     " $'" + escaped + "'" +
     " > /dev/null 2>&1 &"
   );

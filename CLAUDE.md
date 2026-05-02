@@ -30,7 +30,7 @@ mosquitto и MCP-агента для двухконтроллерной сист
 
 | Файл в репо                                  | Деплой на контроллере                                | Назначение |
 |----------------------------------------------|------------------------------------------------------|------------|
-| `lights/auto-lights-lib.js`                  | `.200` `/etc/wb-rules/`                              | Общая фабрика автосвета (фактор зависимостей PIR/радар/lux/звук) |
+| `lights/auto-lights-lib.js`                  | `.200` и `.189` `/etc/wb-rules-modules/`             | Общая фабрика автосвета — **только** в `wb-rules-modules/`, в `wb-rules/` копии быть не должно (`require()` ищет именно там) |
 | `lights/auto-lights-ctrl1.js`                | `.200` `/etc/wb-rules/`                              | Автосвет 2 эт. + лестница (использует lib) |
 | `lights/auto-lights-ctrl2.js`                | `.189` `/etc/wb-rules/`                              | Автосвет 1 эт. (использует lib) |
 | `lights/master-switch.js`                    | `.200` `/etc/wb-rules/`                              | Мастер-выключатель: гасит реле `.200`, инкрементит `t34-master/last_off` |
@@ -44,7 +44,7 @@ mosquitto и MCP-агента для двухконтроллерной сист
 | `garage/wb-rules/garage.js`                  | `.200` `/etc/wb-rules/`                              | Гараж: автосвет, two-slot car detection (CO₂ + LiDAR), наружные светильники по астрономическим часам |
 | `garage/wb-rules/gate-control.js`            | `.200` `/etc/wb-rules/`                              | Управление двумя гаражными воротами + светильниками над ними, авто-закрытие, TG-уведомления |
 | `garage/wb-rules-modules/devices.conf`       | `.200` `/etc/wb-rules-modules/`                      | Аппаратная карта гаража + глобальные таймеры/пороги |
-| `garage/wb-rules-modules/garage_secrets.js`  | `.200` `/etc/wb-rules-modules/`                      | TG-токен/chat для `gate-control.js` (gitignored) |
+| `telegram.conf`                             | `.200` `/etc/wb-rules-modules/`                      | Общие TG-токен/chat для всех скриптов (JSON с `//` коммент., gitignored) |
 | `garage/engine_start/engine_detector.js`     | `.200` `/etc/wb-rules/`                              | Детектор запуска двигателя (CDS: CO₂+VOC+Sound+Temp + быстрый цикл MDT/Sound) |
 | `ventilation/bath1-dampers.js`               | `.200` `/etc/wb-rules/`                              | Заслонки санузла 1 эт. (4× WB-MRM2-mini): влажность, проток, VOC; синхронизация чердачной заслонки |
 | `ventilation/history-log.js`                 | `.200` `/etc/wb-rules/`                              | Логирование изменений топиков заслонок и HVD-16 для отладки |
@@ -64,6 +64,14 @@ mosquitto и MCP-агента для двухконтроллерной сист
   отказе.
 - ES5 only (Duktape). Нет `let/const`, стрелочных функций, `Object.assign`.
 
+### Модули (`require`)
+`require('foo')` ищет файл в `/etc/wb-rules-modules/foo.js` — **не** в
+`/etc/wb-rules/`. Файлы из `wb-rules/` автозагружаются wb-rules как скрипты,
+но `require` их не видит. Поэтому общие библиотеки (сейчас: `auto-lights-lib.js`)
+деплоятся в `wb-rules-modules/` на каждый контроллер, где они используются.
+После обновления модуля нужен `service wb-rules restart` — hot-reload файла
+в `wb-rules-modules/` не применяется без перезапуска.
+
 ### Топики
 - Реле: `wb-mr6cu_<id>/K<n>` или `wb-mr6cv3_<id>/K<n>`.
 - Дискретные входы: `wb-mcm8_<id>/Input <n>` (с пробелом!), `wb-gpio/EXT<n>_IN<m>`,
@@ -79,7 +87,7 @@ mosquitto и MCP-агента для двухконтроллерной сист
 ### Идентификаторы зон
 Кириллические сокращения по этажу+функции: `1П` прихожая, `1К` кухня,
 `1КБ` большой коридор, `1КМ` малый коридор, `1Г` гостиная, `1ГС` гостевая,
-`1ГД` гардероб 1 эт., `1Т` техкомната, `1СА` санузел 1 эт., `1ГР` гараж,
+`1ГД` гардероб 1 эт., `1Т` техкомната, `1С` санузел 1 эт., `1ГР` гараж,
 `2С` спальня, `2ДБ`/`2ДМ` детские, `2СД`/`2СБ` санузлы 2 эт., `Л` лестница.
 
 ### Защиты
@@ -102,7 +110,11 @@ mosquitto и MCP-агента для двухконтроллерной сист
 `devices.conf` (`telegram.scriptPath`), `doors.conf` (`telegram.send_script`)
 и константой `TG_SCRIPT` в JS-скриптах.
 
-Секреты держать в `garage_secrets.js` (gitignored) или в `doors.conf`.
+TG-секреты (token, chat_id) — единый источник `telegram.conf` (JSON,
+gitignored, деплоится в `/etc/wb-rules-modules/telegram.conf`). Подключается
+через `readConfig("/etc/wb-rules-modules/telegram.conf")` из всех TG-скриптов.
+В `devices.conf` / `doors.conf` секретов быть не должно — там остаётся только
+`scriptPath` / `send_script`.
 
 ## Что НЕ автоматизировано
 

@@ -145,10 +145,10 @@ var TG_SCRIPT = "/usr/local/bin/t34_send_tg.sh";
 var TG_TOKEN  = "";
 var TG_CHAT   = "";
 try {
-  var _s = require("garage_secrets");
+  var _s = readConfig("/etc/wb-rules-modules/telegram.conf");
   if (_s) { TG_TOKEN = _s.tgToken || ""; TG_CHAT = _s.tgChat || ""; }
 } catch (e) {
-  log.warning("[Вент1] garage_secrets не найден — Telegram отключён");
+  log.warning("[Вент1] telegram.conf не найден — Telegram отключён");
 }
 
 // ══════════════════════════════════════════════════════════════════

@@ -448,8 +448,8 @@ Cooldown НЕ блокирует **повторную отправку** той 
 
 ## Telegram-уведомления
 
-Используется тот же модуль секретов, что и в скриптах гаража —
-`/etc/wb-rules-modules/garage_secrets.js`. Если модуль отсутствует или не
+Используется общий модуль секретов всех wb-rules скриптов —
+`/etc/wb-rules-modules/telegram.conf`. Если конфиг отсутствует или не
 содержит `tgToken / tgChat` — Telegram просто отключается, скрипт продолжает
 работать.
 
@@ -534,5 +534,5 @@ climate/
 └── README.md     — этот файл
 ```
 
-В `/etc/wb-rules-modules/garage_secrets.js` (вне репозитория, см. главный
-`.gitignore`) — токены Telegram, общие для нескольких скриптов.
+В `/etc/wb-rules-modules/telegram.conf` (вне репозитория, см. главный
+`.gitignore`) — токены Telegram, общие для всех wb-rules скриптов.

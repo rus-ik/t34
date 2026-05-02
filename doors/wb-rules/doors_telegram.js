@@ -6,6 +6,16 @@ var TG       = cfg.telegram;
 var LOG_FILE = cfg.log_file;
 var DOORS    = cfg.doors;
 
+// Секреты бота — общий /etc/wb-rules-modules/telegram.conf (игнорируется git).
+var TG_TOKEN = "";
+var TG_CHAT  = "";
+try {
+  var _s = readConfig("/etc/wb-rules-modules/telegram.conf");
+  if (_s) { TG_TOKEN = _s.tgToken || ""; TG_CHAT = _s.tgChat || ""; }
+} catch (e) {
+  log("[doors] telegram.conf не найден — Telegram отключён");
+}
+
 // ── Logging ───────────────────────────────────────────────────────────────
 
 function logDoor(doorName, state) {
@@ -19,7 +29,8 @@ function logDoor(doorName, state) {
 // ── Telegram ──────────────────────────────────────────────────────────────
 
 function sendTelegram(text) {
-  spawn(TG.send_script, [TG.token, TG.chat_id, text], function(exitCode) {
+  if (!TG_TOKEN || !TG_CHAT) return;
+  spawn(TG.send_script, [TG_TOKEN, TG_CHAT, text], function(exitCode) {
     if (exitCode !== 0) {
       log("Telegram send error, exit: " + exitCode);
     }

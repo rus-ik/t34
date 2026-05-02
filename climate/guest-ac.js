@@ -86,15 +86,15 @@ var LEARN_TIMEOUT_MS       = 30 * 1000;      // окно обучения, се�
 var TEMP_PUBLISH_DELTA     = 0.1;            // публиковать temp при ∆ ≥ 0.1°C
 var HUM_PUBLISH_DELTA      = 1;              // публиковать hum при ∆ ≥ 1%
 
-// ── Telegram (опционально, через тот же модуль секретов что в gate-control)
+// ── Telegram (опционально, общий конфиг /etc/wb-rules-modules/telegram.conf)
 var TG_SCRIPT = "/usr/local/bin/t34_send_tg.sh";
 var TG_TOKEN  = "";
 var TG_CHAT   = "";
 try {
-  var _s = require("garage_secrets");
+  var _s = readConfig("/etc/wb-rules-modules/telegram.conf");
   if (_s) { TG_TOKEN = _s.tgToken || ""; TG_CHAT = _s.tgChat || ""; }
 } catch (e) {
-  log.info("[AC-Гост] garage_secrets не найден — Telegram отключён");
+  log.info("[AC-Гост] telegram.conf не найден — Telegram отключён");
 }
 
 var VDEV = "guest_ac";

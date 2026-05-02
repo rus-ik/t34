@@ -52,15 +52,15 @@ var LUX_THRESHOLD_DEF       = 50;
 var LUX_MIN_DELTA           = 0.5;      // публиковать lux только при дельте ≥ 0.5
 
 var TG_SCRIPT = "/usr/local/bin/t34_send_tg.sh";
-// Секреты загружаются из /etc/wb-rules-modules/garage_secrets.js (игнорируется git).
+// Секреты загружаются из /etc/wb-rules-modules/telegram.conf (игнорируется git).
 var TG_TOKEN = "";
 var TG_CHAT  = "";
 try {
-  var _s = require("garage_secrets");
+  var _s = readConfig("/etc/wb-rules-modules/telegram.conf");
   if (_s && _s.tgToken) TG_TOKEN = _s.tgToken;
   if (_s && _s.tgChat)  TG_CHAT  = _s.tgChat;
 } catch (e) {
-  log.warning("[ВОРОТА] garage_secrets не найден — Telegram отключён");
+  log.warning("[ВОРОТА] telegram.conf не найден — Telegram отключён");
 }
 
 var VDEV = "garage_gates";

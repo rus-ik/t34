@@ -33,15 +33,24 @@ function createController(opts) {
   var CH_LUX    = "Illuminance";
   var TEST_MODE = VDEV + "/test_mode";
 
-  var NIGHT_START = 22, NIGHT_END = 7;
-  var isNight     = false;
-  var nightHour   = -1;  // кешированный час последней проверки ночного режима
+  var NIGHT_START      = 22, NIGHT_END = 7;
+  var TZ_OFFSET_HOURS  = 10;     // Asia/Vladivostok = UTC+10 (без DST)
+  var isNight          = false;
+  var nightHour        = -1;     // кешированный час локального времени
+
+  // Стартовая блокировка: после reload wb-rules немедленно выдаст
+  // retained-значения по всем подпискам (Current Motion, presence_status и т.д.)
+  // — без guard это интерпретируется как новое движение и зажигает свет.
+  var INIT_GUARD_MS    = 2000;
+  var loadedAt         = Date.now();
+  function inInitGuard() { return (Date.now() - loadedAt) < INIT_GUARD_MS; }
 
   function checkNight() {
-    var h = new Date().getHours();
+    var h = (new Date().getUTCHours() + TZ_OFFSET_HOURS) % 24;
     if (h === nightHour) return isNight;
     nightHour = h;
-    return h >= NIGHT_START || h < NIGHT_END;
+    isNight   = h >= NIGHT_START || h < NIGHT_END;
+    return isNight;
   }
 
   // ── Индекс комнат по slug ──────────────────────────────────────────
@@ -86,6 +95,13 @@ function createController(opts) {
       mtdLuxTopics.push(mtdArr[mi] + "/" + CH_MTD_LUX);
     }
 
+    // temporarilyOff: список реле, исключённых из автоматики (управляются вручную)
+    var tmpOff = room.temporarilyOff || [];
+    var activeLights = [];
+    for (var ali = 0; ali < room.lights.length; ali++) {
+      if (tmpOff.indexOf(room.lights[ali]) < 0) activeLights.push(room.lights[ali]);
+    }
+
     rst.push({
       // Предвычисленные строки — нет конкатенации на горячих путях
       pfx:          PFX + "[" + room.id + "]",
@@ -101,6 +117,7 @@ function createController(opts) {
       pirLastSeen: pirLastSeen, pirTimers: pirTimers, pirIds: pirIds,
       motionTopics: motionTopics, occupancyTopics: occupancyTopics,
       soundTopics: soundTopics, mswLuxTopics: mswLuxTopics, mtdLuxTopics: mtdLuxTopics,
+      activeLights: activeLights,
       cfg: cfg,
     });
   }
@@ -126,9 +143,9 @@ function createController(opts) {
   if (isNight) log.info(PFX + " Старт в ночном режиме");
 
   for (var ssi = 0; ssi < ROOMS.length; ssi++) {
-    var ssRoom = ROOMS[ssi], ssRst = rst[ssi], anyOn = false;
-    for (var li = 0; li < ssRoom.lights.length; li++) {
-      var lv = dev[ssRoom.lights[li]];
+    var ssRst = rst[ssi], anyOn = false;
+    for (var li = 0; li < ssRst.activeLights.length; li++) {
+      var lv = dev[ssRst.activeLights[li]];
       if (lv === true || lv === 1) { anyOn = true; break; }
     }
     ssRst.lightsOn = anyOn;
@@ -243,7 +260,7 @@ function createController(opts) {
     if (st.lightsOn === on) return;
     st.lightsOn   = on;
     st.lightsOnAt = on ? now : 0;
-    for (i = 0; i < room.lights.length; i++) dev[room.lights[i]] = on;
+    for (i = 0; i < st.activeLights.length; i++) dev[st.activeLights[i]] = on;
     dev[st.vdevLights]   = on;
     dev[st.vdevTrigger]  = trigger;
     var luxVal = (lux !== undefined) ? lux : st.cachedLux;
@@ -257,6 +274,11 @@ function createController(opts) {
       var st = rst[idx];
       st.maxOnTimer = null;
       var now = Date.now(), lux = st.cachedLux;
+      if (isActiveForOff(idx)) {
+        log.info(st.pfx + " maxOn: присутствие подтверждено — продлеваем | " + snapshot(st, lux, now));
+        armMaxOnTimer(room, idx);
+        return;
+      }
       log.info(st.pfx + " ВЫКЛ по потолку времени (maxOnMinutes) | " + snapshot(st, lux, now));
       cancelAllTimers(idx);
       setLights(room, idx, false, "max-on-cap", lux, now);
@@ -383,6 +405,7 @@ function createController(opts) {
         defineRule(RULE_PFX + "_motion_" + idx, {
           whenChanged: st.motionTopics,
           then: function (v, devName, cellName) {
+            if (inInitGuard()) return;
             if (v === true || v === 1 || Number(v) > 0) {
               var now   = Date.now();
               var topic = devName + "/" + cellName;
@@ -399,7 +422,8 @@ function createController(opts) {
       if (st.occupancyTopics.length > 0) {
         defineRule(RULE_PFX + "_occ_" + idx, {
           whenChanged: st.occupancyTopics,
-          then: function (v, devName, cellName) {
+          then: function (v, devName) {
+            if (inInitGuard()) return;
             var now = Date.now();
             tlog(idx, rst[idx].pfx + " Присутствие: " + devName + " " + v);
             evaluate(room, idx, "occupancy:" + devName, now);
@@ -412,6 +436,7 @@ function createController(opts) {
         defineRule(RULE_PFX + "_sound_" + idx, {
           whenChanged: st.soundTopics,
           then: function (v) {
+            if (inInitGuard()) return;
             if (v !== undefined && v !== null && Number(v) > st.cfg.soundThresholdDb) {
               tlog(idx, rst[idx].pfx + " Звук: " +
                 Number(v).toFixed(0) + "дБ > " + st.cfg.soundThresholdDb + "дБ");
@@ -438,11 +463,11 @@ function createController(opts) {
       }
 
       defineRule(RULE_PFX + "_relay_" + idx, {
-        whenChanged: room.lights,
+        whenChanged: st.activeLights,
         then: function (v, devName, cellName) {
           var anyOn = false;
-          for (var rci = 0; rci < room.lights.length; rci++) {
-            var rv = dev[room.lights[rci]];
+          for (var rci = 0; rci < st.activeLights.length; rci++) {
+            var rv = dev[st.activeLights[rci]];
             if (rv === true || rv === 1) { anyOn = true; break; }
           }
           var st2 = rst[idx];
