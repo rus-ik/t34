@@ -36,6 +36,7 @@ var DAMPER_COOLDOWN_MS  = 1500;          // защита от повторной
 var INIT_GUARD_MS       = 2000;          // подавление позиций HVD-16 при запуске
 var SENSOR_STALE_MS     = 5 * 60 * 1000; // срок «свежести» датчика
 var NIGHT_CALIB_HOUR    = 3;             // 03:00 Vlat
+var STARTUP_DELAY_MS    = 5000;          // ожидание публикации устройств wb-mqtt-serial
 
 var HUMIDITY_HIGH       = 65;
 var HUMIDITY_LOW        = 55;
@@ -593,13 +594,14 @@ defineVirtualDevice(VDEV, {
 // ИНИЦИАЛИЗАЦИЯ
 // ══════════════════════════════════════════════════════════════════
 
-// Стартовое закрытие всех заслонок (и сброс реле в нулевое положение)
-["dryer", "bath", "toilet", "attic"].forEach(function(name) {
-  damperCmd(name, "close", "запуск скрипта");
-});
-
-// Подавление ложных «достигнута позиция» от retained MQTT-значений
-setTimeout(function() { state.initialized = true; }, INIT_GUARD_MS);
+// Стартовое закрытие через STARTUP_DELAY_MS — даём wb-mqtt-serial время
+// опубликовать устройства в MQTT, иначе SetValue падает с "unexisting control".
+setTimeout(function() {
+  ["dryer", "bath", "toilet", "attic"].forEach(function(name) {
+    damperCmd(name, "close", "запуск скрипта");
+  });
+  setTimeout(function() { state.initialized = true; }, INIT_GUARD_MS);
+}, STARTUP_DELAY_MS);
 
 scheduleNightlyCalibrate();
 
