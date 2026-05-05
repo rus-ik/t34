@@ -148,7 +148,8 @@ function createController(opts) {
       var lv = dev[ssRst.activeLights[li]];
       if (lv === true || lv === 1) { anyOn = true; break; }
     }
-    ssRst.lightsOn = anyOn;
+    ssRst.lightsOn  = anyOn;
+    ssRst.manualOff = !anyOn;  // блокируем включение выключенных комнат при рестарте
     dev[ssRst.vdevLights] = anyOn;
     if (anyOn) log.info(ssRst.pfx + " Реле ON при старте — синхронизировано");
   }

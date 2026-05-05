@@ -26,7 +26,7 @@ lib.createController({
       lights: ["wb-mr6cu_43/K1", "wb-mr6cu_21/K5"],
       linkedRooms: [],
       pirWindowSec: 60, presenceDelaySec: 90, autoOffMin: 15,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1КБТемная", slug: "r_1kb_t", name: "Большой коридор (тёмная)",
@@ -35,7 +35,7 @@ lib.createController({
       lights: ["wb-mr6cu_26/K5"],
       linkedRooms: ["r_1p"],
       pirWindowSec: 60, presenceDelaySec: 90, autoOffMin: 20,
-      luxOn: 30, luxOff: 50,
+      luxOn: 10, luxOff: 50,
     },
     {
       id: "1КБСветлая", slug: "r_1kb_s", name: "Большой коридор (светлая)",
@@ -44,7 +44,7 @@ lib.createController({
       lights: ["wb-mr6cu_26/K6"],
       linkedRooms: [],
       pirWindowSec: 60, presenceDelaySec: 90, autoOffMin: 20,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1КМ", slug: "r_1km", name: "Малый коридор",
@@ -53,7 +53,7 @@ lib.createController({
       lights: ["wb-mr6cu_26/K4"],
       linkedRooms: [],
       pirWindowSec: 60, presenceDelaySec: 180, autoOffMin: 15,
-      luxOn: 30, luxOff: 50,
+      luxOn: 10, luxOff: 50,
     },
     {
       id: "1Г", slug: "r_1g", name: "Гостиная",
@@ -62,7 +62,7 @@ lib.createController({
       lights: ["wb-mr6cu_21/K1"],
       linkedRooms: [],
       pirWindowSec: 180, presenceDelaySec: 300, autoOffMin: 60,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1ГД", slug: "r_1gd", name: "Гардероб 1 эт.",
@@ -71,7 +71,7 @@ lib.createController({
       lights: ["wb-mr6cu_44/K2"],
       linkedRooms: [],
       pirWindowSec: 90, presenceDelaySec: 120, autoOffMin: 20,
-      luxOn: 50, luxOff: 80,     // гардероб без окон — всегда тёмно
+      luxOn: 15, luxOff: 80,     // гардероб без окон — всегда тёмно
     },
     {
       id: "1ГС", slug: "r_1gs", name: "Гостевая",
@@ -80,7 +80,7 @@ lib.createController({
       lights: ["wb-mr6cu_26/K1", "wb-mr6cu_26/K2"],
       linkedRooms: [],
       pirWindowSec: 180, presenceDelaySec: 300, autoOffMin: 60,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1Т", slug: "r_1t", name: "Техническая комната",
@@ -89,7 +89,7 @@ lib.createController({
       lights: ["wb-mr6cu_26/K3"],
       linkedRooms: [],
       pirWindowSec: 120, presenceDelaySec: 180, autoOffMin: 30,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1К", slug: "r_1k", name: "Кухня",
@@ -98,7 +98,7 @@ lib.createController({
       lights: ["wb-mr6cu_86/K1", "wb-mr6cu_86/K2"],
       linkedRooms: [],
       pirWindowSec: 120, presenceDelaySec: 180, autoOffMin: 30,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
     {
       id: "1СА", slug: "r_1sa", name: "Санузел 1 эт.",
@@ -108,7 +108,7 @@ lib.createController({
       temporarilyOff: ["wb-mr6cu_16/K2"],
       linkedRooms: [],
       pirWindowSec: 90, presenceDelaySec: 180, autoOffMin: 30,
-      luxOn: 30, luxOff: 50,
+      luxOn: 15, luxOff: 50,
     },
   ],
 });
